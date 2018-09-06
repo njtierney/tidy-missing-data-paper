@@ -180,7 +180,7 @@ MissingDataGUI provides a user interface for exploring missing data structure bo
 
 VIM (visualizing and Imputing Missing Data) provides visualization methods that identify observed, imputed, and missing values. These include spinograms, spinoplots, missingness matrices, plotting missingness in the margins of other plots, and other summaries. These help explore missingness, however these visualizations do not map variables to graphical aesthetics, creating friction moving across workflows, making them difficult to extend to new circumstances. Additionally, data used to create the visualizations cannot be accessed, posing a barrier to further explorations.
 
-`ggplot2` incorporates missingness into visualizations only when mapping a discrete variable to a graph aesthetic. This has some limitations. For example, for data with school grades and test scores, a boxplot visualization could have school grade mapped to the x axis, and test score to the y axis (See \@ref(fig:gg-box-na)). If there are missings in a continuous variable like test score, `ggplot2` omits the missing values and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, and the scores are placed into this.
+`ggplot2` incorporates missingness into visualizations only when mapping a discrete variable to a graph aesthetic. This has some limitations. For example, for data with school grades and test scores, a boxplot visualization could have school grade mapped to the x axis, and test score to the y axis (See Figure \@ref(fig:gg-box-na)). If there are missings in a continuous variable like test score, `ggplot2` omits the missing values and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, and the scores are placed into this.
 
 Figure \@ref(fig:gg-box-na), shows four scenarios of missingness for test scores across school year - the first contains no missingness, the second contains missingness for school year, the third contains missingness in scores, and the fourth contains missingness in both.
 
@@ -341,7 +341,7 @@ Other statistical programs represent missingness values as a full-stop, `.`, and
 
 ## Visual summaries {#vis-summaries}
 
-Visualizing missingness in a dataset is essential to understand its structure. This section discusses visualizations that are easy to remember and compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews \@ref(overview-plots); univariate \@ref(univariate-plots), bivariate \@ref(bivariate-plots), and multivariate \@ref(multivariate-plots). All plots are created using `ggplot2`, giving users clearer control over the plot appearance, and customizability.
+Visualizing missingness in a dataset is essential to understand its structure. This section discusses visualizations that are easy to remember and compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews (Section \@ref(overview-plots)); univariate (Section \@ref(univariate-plots)), bivariate (Section \@ref(bivariate-plots)), and multivariate (Section \@ref(multivariate-plots)). All plots are created using `ggplot2`, giving users clearer control over the plot appearance, and customizability.
 
 ### Overview plots {#overview-plots}
 
@@ -510,7 +510,7 @@ ggplot(dat_paral,
 
 ## Numerical summaries {#num-sum}
 
-There are different ways to summarize the amount of missing and complete values in a dataset. This section describes approaches to summarizing missingness, implemented in the `naniar` package. The functions are easy to remember as they follow consistent naming, and their output is consistent, and returns a single number or dataframe. This means they integrate well with plotting and modelling tools. Section \@ref(single-num-sum) discusses single number summaries for all data and for cases and variables ; Section \@ref(sum-tab-missings) discusses variable- and case-wise summaries; and section \@ref(num-sum-w-group) shows how the design of these tools works with other tools in an analysis pipeline. 
+There are different ways to summarize the amount of missing and complete values in a dataset. This section describes approaches to summarizing missingness, implemented in the `naniar` package. The functions are easy to remember as they follow consistent naming, and their output is consistent, and returns a single number or dataframe. This means they integrate well with plotting and modelling tools. Section \@ref(single-num-sum) discusses single number summaries for all data and for cases and variables ; Section \@ref(sum-tab-missings) discusses variable- and case-wise summaries; and Section \@ref(num-sum-w-group) shows how the design of these tools works with other tools in an analysis pipeline. 
 
 ### Single number summaries {#single-num-sum}
 
@@ -744,7 +744,7 @@ aq_imputed <- airquality %>%
 
 ```
 
-Missing values can then be shown in a scatterplot by setting the `color` aesthetic in ggplot to `any_missing` (Figure \@ref(fig:track-impute-example)A), or in a density plot looking at one variable, using the `fill = any_missing`, (Figure \@ref(fig:track-impute-example)B) and \@ref(fig:track-impute-example)C).   
+Missing values can then be shown in a scatterplot by setting the `color` aesthetic in ggplot to `any_missing` (Figure \@ref(fig:track-impute-example)A), or in a density plot looking at one variable, using the `fill = any_missing`, (Figures \@ref(fig:track-impute-example)B) and \@ref(fig:track-impute-example)C).   
 ```r
 ggplot(aq_imputed,
        aes(x = Ozone,
