@@ -56,7 +56,7 @@ facilitate the process of converting raw data into a clean, analysis-ready
 format that works efficiently in a data analysis pipeline. In tidy data, missing
 values can be handled implicitly or explicitly, at the analyst's discretion.
 However, when making a plot, missing values are simply dropped, albeit with a
-warning (see Figure \@ref(fig:warning))). Most other analysis software will
+warning (see Figure \@ref(fig:warning)). Most other analysis software will
 simply drop cases with missings without warning.
 
 ```{r warning, fig.cap = "How ggplot behaves when displaying missing values:  Warning message (Left) is thrown prior to plot (Right); ggplot2 does not display missing values in the plot, but at least throws a warning message to the user, which is better than many statistical models.", fig.height = 4, fig.width = 4, out.width = "100%", warning = FALSE, fig.show = 'hold'}
