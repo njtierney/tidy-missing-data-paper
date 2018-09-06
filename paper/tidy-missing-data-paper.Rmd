@@ -29,8 +29,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE, 
                       warning = FALSE, 
                       fig.align = "center",
-                      # dev = c("png"), 
-                      # dpi = 300,
                       fig.width = 4, 
                       fig.height = 4, 
                       cache = TRUE)
@@ -41,7 +39,10 @@ library(ggthemes)
 library(png)
 library(scales)
 library(simputation)
-library(naniar)
+# if paper doesn't compile, use development version of naniar
+# install.packages("remotes")
+# remotes::install_github("njtierney/naniar")
+library(naniar) 
 library(knitr)
 library(lubridate)
 library(magick)
