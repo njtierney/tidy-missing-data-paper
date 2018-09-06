@@ -1,25 +1,11 @@
 ---
 title: "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations"
-author:
-- familyname: Tierney
-  othernames: Nicholas
-  address: Monash University
-  email: nicholas.tierney@gmail.com
-  correspondingauthor: true
-- familyname: Cook
-  othernames: Dianne
-  address: Monash University
-abstract: "Despite the large body of research on missing value distributions and imputation, there is comparatively little literature on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with a goal to integrating missing value handling as an integral part of data analysis workflows. New data structures are defined along with new functions (verbs) to perform common operations. Together these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package `naniar`."
-keywords: "workflow, statistical computing, data science, data visualization, tidyverse, data pipeline"
-wpnumber: 1/2018
-jelcodes: C10,C14,C22
-blind: false
-cover: true
+author: "Nicholas Tierney, Department of Econometrics and Business Statistics, Monash University, **Corresponding author (nicholas.tierney@gmail.com)** \\newline Dianne Cook, Department of Econometrics and Business Statistics, Monash University"
+date: "September 6, 2018"
 toc: false
 bibliography: tidy-missing-data-paper.bib
-biblio-style: authoryear-comp
 output:
-  MonashEBSTemplates::workingpaper:
+  bookdown::pdf_document2:
     fig_caption: yes
     fig_height: 5
     fig_width: 8
@@ -27,8 +13,16 @@ output:
       in_header: preamble.tex
     keep_tex: yes
     number_sections: yes
-    citation_package: biblatex
+csl: jcgs.csl
 ---
+
+**Abstract**: 
+
+Despite the large body of research on missing value distributions and imputation, there is comparatively little literature on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with a goal to integrating missing value handling as an integral part of data analysis workflows. New data structures are defined along with new functions (verbs) to perform common operations. Together these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package `naniar`.
+
+_Keywords:_ workflow, statistical computing, data science, data visualization, tidyverse, data pipeline
+
+\newpage
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = FALSE, 
@@ -179,7 +173,7 @@ Texts that do cover exploration of missing data have the same problem as with mo
 
 Missing values in a dataset can be represented as a binary matrix where 0 is present and 1 is missing [@Rubin1976; @Schafer2002]. This is often referred to as a matrix $R$, which can be used to assess missing data dependence. This idea of a matrix of missing values has also been used in interactive graphics, dubbed a "shadow matrix", to link missing and imputed values to the data, facilitating their display in graphics [@Swayne1998]. This work also focuses heavily on multivariate numeric data. This is an idea upon which this new work builds.
 
-The approach of @Unwin1996 focussed on multivariate categorical data, where missingness is explicitly added as an additional category. MANET also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The approach of @Swayne1990 in the software XGobi, further developed in ggobi [@Cook2007], focussed more on multivariate quantitative data. Missingness is incorporated into plots in ggobi by setting them to be 10% below the minimum value. 
+The approach of @Unwin1996 focussed on multivariate categorical data, where missingness is explicitly added as an additional category. MANET also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The approach of @Swayne1998 in the software XGobi, further developed in ggobi [@Cook2007], focussed more on multivariate quantitative data. Missingness is incorporated into plots in ggobi by setting them to be 10% below the minimum value. 
 
 MissingDataGUI provides a user interface for exploring missing data structure both numerically and visually. Using a GUI to explore missing data may make it easier to glean valuable insight into important structures for missingness. However, these insights are typically not captured or recorded, so it is difficult to incorporate them into reproducible analyses. This distracts and breaks analysis workflow, inviting mistakes.
 
@@ -1007,7 +1001,7 @@ miss_cls_fit_rpart <- rpart(factor(miss_cluster) ~ .,
 
 ```
 
-```{r rpart-plot, fig.height = 2, fig.width = 4, out.width = "100%", fig.align = "center", fig.cap = "Decision tree output predicting the clusters of missingness. Type of house, the year quarter, and year were important for predicting missingness cluster. The cluster with the most missingness was for quarters 1 and 4, for 2017 and 2018. Type of house, year, and year quarter are important features related to the missingness structure."}
+```{r rpart-plot, fig.height = 4, fig.width = 8, out.width = "100%", fig.align = "center", fig.cap = "Decision tree output predicting the clusters of missingness. Type of house, the year quarter, and year were important for predicting missingness cluster. The cluster with the most missingness was for quarters 1 and 4, for 2017 and 2018. Type of house, year, and year quarter are important features related to the missingness structure."}
 
 rpart.plot::prp(miss_cls_fit_rpart,
                 type = 4,
