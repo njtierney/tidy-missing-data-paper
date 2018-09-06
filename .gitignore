@@ -1,6 +1,6 @@
 *_cache
 tidy-missing-data-paper.tex
-paper/tmp-pdfcrop-44371.tex
+tmp-pdfcrop-44731.tex
 *.pdf
 .DS_Store
 .Rhistory
