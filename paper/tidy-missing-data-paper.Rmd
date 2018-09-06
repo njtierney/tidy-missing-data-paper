@@ -361,7 +361,7 @@ cowplot::plot_grid(p1,
 
 All missings in a dataset can be displayed using a heatmap style visualization. This is achieved using `vis_miss()` from the `visdat` package [@visdat], which also provides summaries of missingness overall in the legend, and for each column (see Figure \@ref(fig:vis-miss)). The user can also apply clustering to the rows, and arrange columns by missingness (Figure \@ref(fig:vis-miss)B). Similar visualizations are available in other missing data packages such as `VIM`, `mi`, `Amelia`, and `MissingDataGUI`. A key improvement is that `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns in the visualization and are named at the top, and each row is an observation. Using `ggplot2` means the plot can be customized and combined with other ggplot graphics.
 
-```{r vis-miss, fig.height = 4, fig.width = 6, out.width = "95%", fig.show = 'hold', echo = FALSE, fig.cap = "Heatmap visualizations of missing data for the airquality dataset. (A) The default output and (B) ordered by clustering on rows and columns. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness."}
+```{r vis-miss, fig.height = 4, fig.width = 6, out.width = "95%", fig.show = 'hold', echo = FALSE, dev = "png", dpi = 300, fig.cap = "Heatmap visualizations of missing data for the airquality dataset. (A) The default output and (B) ordered by clustering on rows and columns. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness."}
 
 library(visdat)
 
@@ -920,7 +920,7 @@ gridExtra::grid.arrange(q1, q2, ncol = 2)
 
 Possible missingness structures are revealed by visualizing missingness in the whole dataset, clustering and arranging the rows and columns of the data (Figure \@ref(fig:applic-vis-miss)). There are three main clusters of missing data: at the top there are many variables missing together; in the middle, building price and year built missing together, at the bottom, building area, year built, and land size are missing. 
 
-```{r applic-vis-miss, fig.height = 5, fig.width = 6.25, out.width = "85%", fig.show='hold', fig.cap = "Heatmap of clustered missingness for the housing data. Three groups of missingness are apparent, at the top for building area to longitude, the middle for building area and year built, at the end for building area, year built, and landsize. There is some structure in the missings."}
+```{r applic-vis-miss, fig.height = 5, fig.width = 6.25, out.width = "85%", fig.show='hold', fig.cap = "Heatmap of clustered missingness for the housing data. Three groups of missingness are apparent, at the top for building area to longitude, the middle for building area and year built, at the end for building area, year built, and landsize. There is some structure in the missings.", dev = "png", dpi = 300}
 
 housing %>%
   # sample_frac(0.25) %>%
