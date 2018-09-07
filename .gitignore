@@ -1,7 +1,8 @@
 *_cache
 tidy-missing-data-paper.tex
 tmp-pdfcrop-44731.tex
-*.pdf
+cover-letter/*.pdf
+paper/*_files/figure-latex/*.pdf
 .DS_Store
 .Rhistory
 .RData
