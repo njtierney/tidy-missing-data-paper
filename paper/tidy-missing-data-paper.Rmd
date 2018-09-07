@@ -1194,7 +1194,6 @@ bound_models_gather %>%
 
 ```
 
-
 ## Assess model predictions {#case-study-assess-model}
 
 ```{r fit-each-model}
