@@ -1,6 +1,9 @@
 *_cache
-*.tex
-*.pdf
+*_files
+tidy-missing-data-paper.tex
+tidy-missing-data-paper.pdf
+cover-letter.pdf
+cover-letter/MBSportrait.pdf
 .DS_Store
 .Rhistory
 .RData
