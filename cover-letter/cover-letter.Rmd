@@ -9,7 +9,7 @@ fromsignature: sigfile.png
 toname: Dr. Tyler McCormick
 toaddress: JCGS
 opening: Dear Dr. McCormick
-closing: Regards
+closing: Regards, \newline Dr. Nicholas Tierney \newline Reseach Fellow
 spacing: 1.4
 output: MonashEBSTemplates::letter
 ---
