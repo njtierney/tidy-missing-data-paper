@@ -35,8 +35,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE, 
                       warning = FALSE, 
                       fig.align = "center",
-                      # dev = c("png"), 
-                      # dpi = 300,
                       fig.width = 4, 
                       fig.height = 4, 
                       cache = TRUE)
@@ -47,7 +45,10 @@ library(ggthemes)
 library(png)
 library(scales)
 library(simputation)
-library(naniar)
+# if paper doesn't compile, use development version of naniar
+# install.packages("remotes")
+# remotes::install_github("njtierney/naniar")
+library(naniar) 
 library(knitr)
 library(lubridate)
 library(magick)
@@ -61,7 +62,7 @@ facilitate the process of converting raw data into a clean, analysis-ready
 format that works efficiently in a data analysis pipeline. In tidy data, missing
 values can be handled implicitly or explicitly, at the analyst's discretion.
 However, when making a plot, missing values are simply dropped, albeit with a
-warning (see Figure \@ref(fig:warning))). Most other analysis software will
+warning (see Figure \@ref(fig:warning)). Most other analysis software will
 simply drop cases with missings without warning.
 
 ```{r warning, fig.cap = "How ggplot behaves when displaying missing values:  Warning message (Left) is thrown prior to plot (Right); ggplot2 does not display missing values in the plot, but at least throws a warning message to the user, which is better than many statistical models.", fig.height = 4, fig.width = 4, out.width = "100%", warning = FALSE, fig.show = 'hold'}
@@ -179,13 +180,13 @@ Texts that do cover exploration of missing data have the same problem as with mo
 
 Missing values in a dataset can be represented as a binary matrix where 0 is present and 1 is missing [@Rubin1976; @Schafer2002]. This is often referred to as a matrix $R$, which can be used to assess missing data dependence. This idea of a matrix of missing values has also been used in interactive graphics, dubbed a "shadow matrix", to link missing and imputed values to the data, facilitating their display in graphics [@Swayne1998]. This work also focuses heavily on multivariate numeric data. This is an idea upon which this new work builds.
 
-The approach of @Unwin1996 focussed on multivariate categorical data, where missingness is explicitly added as an additional category. MANET also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The approach of @Swayne1990 in the software XGobi, further developed in ggobi [@Cook2007], focussed more on multivariate quantitative data. Missingness is incorporated into plots in ggobi by setting them to be 10% below the minimum value. 
+The approach of @Unwin1996 focussed on multivariate categorical data, where missingness is explicitly added as an additional category. MANET also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The approach of @Swayne1998 in the software XGobi, further developed in ggobi [@Cook2007], focussed more on multivariate quantitative data. Missingness is incorporated into plots in ggobi by setting them to be 10% below the minimum value. 
 
 MissingDataGUI provides a user interface for exploring missing data structure both numerically and visually. Using a GUI to explore missing data may make it easier to glean valuable insight into important structures for missingness. However, these insights are typically not captured or recorded, so it is difficult to incorporate them into reproducible analyses. This distracts and breaks analysis workflow, inviting mistakes.
 
 VIM (visualizing and Imputing Missing Data) provides visualization methods that identify observed, imputed, and missing values. These include spinograms, spinoplots, missingness matrices, plotting missingness in the margins of other plots, and other summaries. These help explore missingness, however these visualizations do not map variables to graphical aesthetics, creating friction moving across workflows, making them difficult to extend to new circumstances. Additionally, data used to create the visualizations cannot be accessed, posing a barrier to further explorations.
 
-`ggplot2` incorporates missingness into visualizations only when mapping a discrete variable to a graph aesthetic. This has some limitations. For example, for data with school grades and test scores, a boxplot visualization could have school grade mapped to the x axis, and test score to the y axis (See \@ref(fig:gg-box-na)). If there are missings in a continuous variable like test score, `ggplot2` omits the missing values and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, and the scores are placed into this.
+`ggplot2` incorporates missingness into visualizations only when mapping a discrete variable to a graph aesthetic. This has some limitations. For example, for data with school grades and test scores, a boxplot visualization could have school grade mapped to the x axis, and test score to the y axis (See Figure \@ref(fig:gg-box-na)). If there are missings in a continuous variable like test score, `ggplot2` omits the missing values and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, and the scores are placed into this.
 
 Figure \@ref(fig:gg-box-na), shows four scenarios of missingness for test scores across school year - the first contains no missingness, the second contains missingness for school year, the third contains missingness in scores, and the fourth contains missingness in both.
 
@@ -346,7 +347,7 @@ Other statistical programs represent missingness values as a full-stop, `.`, and
 
 ## Visual summaries {#vis-summaries}
 
-Visualizing missingness in a dataset is essential to understand its structure. This section discusses visualizations that are easy to remember and compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews \@ref(overview-plots); univariate \@ref(univariate-plots), bivariate \@ref(bivariate-plots), and multivariate \@ref(multivariate-plots). All plots are created using `ggplot2`, giving users clearer control over the plot appearance, and customizability.
+Visualizing missingness in a dataset is essential to understand its structure. This section discusses visualizations that are easy to remember and compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews (Section \@ref(overview-plots)); univariate (Section \@ref(univariate-plots)), bivariate (Section \@ref(bivariate-plots)), and multivariate (Section \@ref(multivariate-plots)). All plots are created using `ggplot2`, giving users clearer control over the plot appearance, and customizability.
 
 ### Overview plots {#overview-plots}
 
@@ -366,7 +367,7 @@ cowplot::plot_grid(p1,
 
 All missings in a dataset can be displayed using a heatmap style visualization. This is achieved using `vis_miss()` from the `visdat` package [@visdat], which also provides summaries of missingness overall in the legend, and for each column (see Figure \@ref(fig:vis-miss)). The user can also apply clustering to the rows, and arrange columns by missingness (Figure \@ref(fig:vis-miss)B). Similar visualizations are available in other missing data packages such as `VIM`, `mi`, `Amelia`, and `MissingDataGUI`. A key improvement is that `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns in the visualization and are named at the top, and each row is an observation. Using `ggplot2` means the plot can be customized and combined with other ggplot graphics.
 
-```{r vis-miss, fig.height = 4, fig.width = 6, out.width = "95%", fig.show = 'hold', echo = FALSE, fig.cap = "Heatmap visualizations of missing data for the airquality dataset. (A) The default output and (B) ordered by clustering on rows and columns. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness."}
+```{r vis-miss, fig.height = 4, fig.width = 6, out.width = "95%", fig.show = 'hold', echo = FALSE, dev = "png", dpi = 300, fig.cap = "Heatmap visualizations of missing data for the airquality dataset. (A) The default output and (B) ordered by clustering on rows and columns. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness."}
 
 library(visdat)
 
@@ -515,7 +516,7 @@ ggplot(dat_paral,
 
 ## Numerical summaries {#num-sum}
 
-There are different ways to summarize the amount of missing and complete values in a dataset. This section describes approaches to summarizing missingness, implemented in the `naniar` package. The functions are easy to remember as they follow consistent naming, and their output is consistent, and returns a single number or dataframe. This means they integrate well with plotting and modelling tools. Section \@ref(single-num-sum) discusses single number summaries for all data and for cases and variables ; Section \@ref(sum-tab-missings) discusses variable- and case-wise summaries; and section \@ref(num-sum-w-group) shows how the design of these tools works with other tools in an analysis pipeline. 
+There are different ways to summarize the amount of missing and complete values in a dataset. This section describes approaches to summarizing missingness, implemented in the `naniar` package. The functions are easy to remember as they follow consistent naming, and their output is consistent, and returns a single number or dataframe. This means they integrate well with plotting and modelling tools. Section \@ref(single-num-sum) discusses single number summaries for all data and for cases and variables ; Section \@ref(sum-tab-missings) discusses variable- and case-wise summaries; and Section \@ref(num-sum-w-group) shows how the design of these tools works with other tools in an analysis pipeline. 
 
 ### Single number summaries {#single-num-sum}
 
@@ -749,7 +750,7 @@ aq_imputed <- airquality %>%
 
 ```
 
-Missing values can then be shown in a scatterplot by setting the `color` aesthetic in ggplot to `any_missing` (Figure \@ref(fig:track-impute-example)A), or in a density plot looking at one variable, using the `fill = any_missing`, (Figure \@ref(fig:track-impute-example)B) and \@ref(fig:track-impute-example)C).   
+Missing values can then be shown in a scatterplot by setting the `color` aesthetic in ggplot to `any_missing` (Figure \@ref(fig:track-impute-example)A), or in a density plot looking at one variable, using the `fill = any_missing`, (Figures \@ref(fig:track-impute-example)B) and \@ref(fig:track-impute-example)C).   
 ```r
 ggplot(aq_imputed,
        aes(x = Ozone,
@@ -925,7 +926,7 @@ gridExtra::grid.arrange(q1, q2, ncol = 2)
 
 Possible missingness structures are revealed by visualizing missingness in the whole dataset, clustering and arranging the rows and columns of the data (Figure \@ref(fig:applic-vis-miss)). There are three main clusters of missing data: at the top there are many variables missing together; in the middle, building price and year built missing together, at the bottom, building area, year built, and land size are missing. 
 
-```{r applic-vis-miss, fig.height = 5, fig.width = 6.25, out.width = "85%", fig.show='hold', fig.cap = "Heatmap of clustered missingness for the housing data. Three groups of missingness are apparent, at the top for building area to longitude, the middle for building area and year built, at the end for building area, year built, and landsize. There is some structure in the missings."}
+```{r applic-vis-miss, fig.height = 5, fig.width = 6.25, out.width = "85%", fig.show='hold', fig.cap = "Heatmap of clustered missingness for the housing data. Three groups of missingness are apparent, at the top for building area to longitude, the middle for building area and year built, at the end for building area, year built, and landsize. There is some structure in the missings.", dev = "png", dpi = 300}
 
 housing %>%
   # sample_frac(0.25) %>%
@@ -1007,7 +1008,7 @@ miss_cls_fit_rpart <- rpart(factor(miss_cluster) ~ .,
 
 ```
 
-```{r rpart-plot, fig.height = 2, fig.width = 4, out.width = "100%", fig.align = "center", fig.cap = "Decision tree output predicting the clusters of missingness. Type of house, the year quarter, and year were important for predicting missingness cluster. The cluster with the most missingness was for quarters 1 and 4, for 2017 and 2018. Type of house, year, and year quarter are important features related to the missingness structure."}
+```{r rpart-plot, fig.height = 4, fig.width = 8, out.width = "100%", fig.align = "center", fig.cap = "Decision tree output predicting the clusters of missingness. Type of house, the year quarter, and year were important for predicting missingness cluster. The cluster with the most missingness was for quarters 1 and 4, for 2017 and 2018. Type of house, year, and year quarter are important features related to the missingness structure."}
 
 rpart.plot::prp(miss_cls_fit_rpart,
                 type = 4,
