@@ -900,7 +900,7 @@ housing <- housing_raw %>%
 
 ```
 
-To illustrate the methods, data on housing for the city of Melbourne from January 28, 2016 to March 17, 2018 is used. The data was compiled by scraping weekly property clearance data [@kaggle2018]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include the type of real estate (town house, unit, house), suburb, method of selling, number of rooms, price, real estate agent, date of sale, and the distance from the Central Business District (CBD).
+To illustrate the methods, data on housing for the city of Melbourne from January 28, 2016 to March 17, 2018 is used. The data was compiled by scraping weekly property clearance data [@Kaggle-2018-data]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include the type of real estate (town house, unit, house), suburb, method of selling, number of rooms, price, real estate agent, date of sale, and the distance from the Central Business District (CBD).
 
 The goal in analyzing this data is to accurately predict Melbourne housing prices. The data contains many missing values. As a precursor to building a predictive model, this analysis focusses on understanding the patterns of missingness. This section shows how the methods from previous sections are used together in a data analysis workflow.
 
