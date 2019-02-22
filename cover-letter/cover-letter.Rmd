@@ -6,16 +6,16 @@ fromWWW: njtierney.com
 fromemail: nicholas.tierney@gmail.com
 fromphone: +61 3 9905 9352
 fromsignature: sigfile.png
-toname: Dr. Tyler McCormick
-toaddress: JCGS
-opening: Dear Dr. McCormick
+toname: Dr. B.U. Park
+toaddress: CSDA
+opening: Dear Dr. D.U. Park
 closing: Regards, \newline Dr. Nicholas Tierney \newline Reseach Fellow
 spacing: 1.4
 output: MonashEBSTemplates::letter
 ---
 
-Please consider my article "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations" for possible publication in JCGS. This article describes new work on handling missing values from a data centric approach. The methodology is implemented in the R package, `naniar`, which is available on CRAN, https://cran.r-project.org/web/packages/naniar, with the development version on github https://github.com/njtierney/naniar.
+Please consider my article "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations" for possible publication in CSDA. This article describes new work on handling missing values from a data centric approach. The methodology is implemented in the R package, `naniar`, which is available on CRAN, https://cran.r-project.org/web/packages/naniar, with the development version on github https://github.com/njtierney/naniar.
 
-Along with the PDF is an accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This is the first time that this article has been submitted to a journal, and is not under consideration elsewhere. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print at Monash University.
+Along with the PDF is an accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This article is not under consideration elsewhere. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print at Monash University.
 
-We hope that you find this paper of interest to the readers of JCGS,
+We hope that you find this paper of interest to the readers of CSDA,
