@@ -1,7 +1,7 @@
 ---
 title: "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations"
 author: "Nicholas Tierney, Department of Econometrics and Business Statistics, Monash University, E774, Menzies Building Monash University, Clayton, 3168, Victoria, Australia **Corresponding author (nicholas.tierney@gmail.com)** \\newline Dianne Cook, Department of Econometrics and Business Statistics, Monash University"
-date: "September 6, 2018"
+date: "February 23, 2019"
 toc: false
 bibliography: tidy-missing-data-paper.bib
 output:
