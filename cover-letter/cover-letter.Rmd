@@ -16,6 +16,6 @@ output: MonashEBSTemplates::letter
 
 Please consider my article "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations" for possible publication in CSDA. This article describes new work on handling missing values from a data centric approach. The methodology is implemented in the R package, `naniar`, which is available on CRAN, https://cran.r-project.org/web/packages/naniar, with the development version on github https://github.com/njtierney/naniar.
 
-Along with the PDF is an accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This article is not under consideration elsewhere. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print at Monash University.
+If you would like, we can provide accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This article is not under consideration elsewhere. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print at Monash University.
 
 We hope that you find this paper of interest to the readers of CSDA,
