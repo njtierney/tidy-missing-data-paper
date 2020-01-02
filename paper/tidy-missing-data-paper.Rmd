@@ -28,13 +28,9 @@ preamble: >
   \usepackage[english]{babel}
 output: 
   rticles::jss_article:
-    fig_caption: yes
-    fig_height: 5
-    fig_width: 8
     includes:
       in_header: header.tex
     keep_tex: yes
-    number_sections: yes
     citation_package: 'natbib'
 bibliography: tidy-missing-data-paper.bib
 # csl: jcgs.csl
@@ -48,10 +44,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.width = 4, 
                       fig.height = 4, 
                       cache = TRUE)
-```
 
-
-```{r setup2, include=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(gridExtra)
 # options(kableExtra.latex.load_packages = FALSE)
@@ -68,12 +61,6 @@ library(knitr)
 library(lubridate)
 library(magick)
 options(tinytex.verbose = TRUE)
-# knit_hooks$set(
-#   document = function(x) {
-#     sub('\\usepackage[]{color}', '\\usepackage{xcolor}', x, fixed = TRUE)
-#   }
-# )
-
 ```
 
 # Introduction {#intro}
