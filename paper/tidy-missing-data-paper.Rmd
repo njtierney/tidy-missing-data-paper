@@ -1,28 +1,44 @@
 ---
-title: "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations"
-author: "Nicholas Tierney, Department of Econometrics and Business Statistics, Monash University, **Corresponding author (nicholas.tierney@gmail.com)** \\newline Dianne Cook, Department of Econometrics and Business Statistics, Monash University"
-date: "September 6, 2018"
-toc: false
-bibliography: tidy-missing-data-paper.bib
-output:
-  bookdown::pdf_document2:
+documentclass: jss
+author:
+  - name: Nicholas Tierney
+    affiliation: Monash University
+    address: >
+      Department of Econometrics and Business Statistics
+      E774, Menzies Building
+      Monash University, Clayton
+    email: \email{nicholas.tierney@gmail.com}
+    url: http://www.njtierney.com
+  - name: Dianne Cook
+    affiliation: Monsh University
+title:
+  formatted: "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations with the Package \\pkg{naniar}"
+  # If you use tex in the formatted title, also supply version without
+  plain:     "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations with the Package naniar"
+  # For running headers, if needed
+  short:     "\\pkg{naniar}: Explore missing data"
+abstract: >
+  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with a goal to integrating missing value handling as an integral part of data analysis workflows. New data structures are defined along with new functions (verbs) to perform common operations. Together these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package `naniar`.
+keywords:
+  # at least one keyword must be supplied
+  formatted: [workflow, statistical computing, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
+  plain:     [kworkflow, statistical computing, data science, data visualization, tidyverse, data pipeline, R]
+preamble: >
+  \usepackage{amsmath}
+  \usepackage[english]{babel}
+output: 
+  rticles::jss_article:
     fig_caption: yes
     fig_height: 5
     fig_width: 8
     includes:
-      in_header: preamble.tex
+      in_header: header.tex
     keep_tex: yes
     number_sections: yes
-csl: jcgs.csl
+    citation_package: 'natbib'
+bibliography: tidy-missing-data-paper.bib
+# csl: jcgs.csl
 ---
-
-**Abstract**: 
-
-Despite the large body of research on missing value distributions and imputation, there is comparatively little literature on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with a goal to integrating missing value handling as an integral part of data analysis workflows. New data structures are defined along with new functions (verbs) to perform common operations. Together these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package `naniar`.
-
-_Keywords:_ workflow, statistical computing, data science, data visualization, tidyverse, data pipeline
-
-\newpage
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = FALSE, 
@@ -32,9 +48,14 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.width = 4, 
                       fig.height = 4, 
                       cache = TRUE)
+```
+
+
+```{r setup2, include=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(gridExtra)
-library(kableExtra)
+# options(kableExtra.latex.load_packages = FALSE)
+# library(kableExtra)
 library(ggthemes)
 library(png)
 library(scales)
@@ -46,6 +67,12 @@ library(naniar)
 library(knitr)
 library(lubridate)
 library(magick)
+options(tinytex.verbose = TRUE)
+# knit_hooks$set(
+#   document = function(x) {
+#     sub('\\usepackage[]{color}', '\\usepackage{xcolor}', x, fixed = TRUE)
+#   }
+# )
 
 ```
 
@@ -118,23 +145,23 @@ Tidy tools fall into three broad categories: data manipulation, visualization, a
 
 ### Data manipulation {#tidy-data-manip}
 
-Data manipulation is made input and output tidy with R packages `dplyr` and `tidyr` [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. **Data reshaping** goes from long to wide formats; **sorting** arranges rows in a specific order; **filtering** removes rows based on a condition; **transforming** changes existing variables or adding new ones; **aggregating** creates a single value from many values, say for example by computing the minimum, maximum, and mean.
+Data manipulation is made input and output tidy with R packages \pkg{dplyr} and \pkg{tidyr} [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. **Data reshaping** goes from long to wide formats; **sorting** arranges rows in a specific order; **filtering** removes rows based on a condition; **transforming** changes existing variables or adding new ones; **aggregating** creates a single value from many values, say for example by computing the minimum, maximum, and mean.
 
 ### Visualizations {#tidy-vis}
 
-Visualization tools only have tidy data as their input, as the output is a graphic. The popular domain specific language `ggplot2` maps variables in a dataset to features (referred to as aesthetics) of a graphic [@ggplot2]. For example, a scatterplot can be created by mapping two variables to the x and y axes, and specifying a point geometry. The graph can then be changed to map a third variable to color of the points, and a fourth variable to size.
+Visualization tools only have tidy data as their input, as the output is a graphic. The popular domain specific language \pkg{ggplot2} maps variables in a dataset to features (referred to as aesthetics) of a graphic [@ggplot2]. For example, a scatterplot can be created by mapping two variables to the x and y axes, and specifying a point geometry. The graph can then be changed to map a third variable to color of the points, and a fourth variable to size.
 
 ### Modelling {#tidy-model}
 
-Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: `lm(y ~ x + z)`. Modelling tools are input tidy, but their output is always messy. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. The `recipes` package is a tidy tool under development to help make modelling input and output tidy [@recipes].
+Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. The \pkg{recipes} package is a tidy tool under development to help make modelling input and output tidy [@recipes].
 
 ### The tidyverse {#the-tidyverse}
 
-Defining tidy data and tidy tools has resulted in the growth of a set of packages known collectively as the "tidyverse" [@Ross2017]. These are designed to share similar principles in their design and behavior, and cover the breadth of an analysis - going from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @Ross2017; @Tidyverse-Manifesto]. This has led to a growth of tools for specific parts of analysis - from reading in data with `readr`, `readxl`, and `haven`, to handling character strings with `stringr`, dates with `lubridate`, and performing functional programming with `purrr` [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to the growth of new packages for other fields that follow similar design principles and create fluid workflows for new domains. For example, the `tidytext` package for text analysis, the `tsibble` package for time series data, and `tidycensus` for working with US census and boundary data [@tidytext; @tsibble; @tidycensus].
+Defining tidy data and tidy tools has resulted in the growth of a set of packages known collectively as the "tidyverse" [@Ross2017]. These are designed to share similar principles in their design and behavior, and cover the breadth of an analysis - going from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @Ross2017; @Tidyverse-Manifesto]. This has led to a growth of tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to the growth of new packages for other fields that follow similar design principles and create fluid workflows for new domains. For example, the \pkg{tidytext} package for text analysis, the \pkg{tsibble} package for time series data, and \pkg{tidycensus} for working with US census and boundary data [@tidytext; @tsibble; @tidycensus].
 
 ### Tidy formats for missing data {#tidy-formats-missing-data}
 
-Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools are primarily _messy_, and suffer the same problems as modelling for imputation: They use tidy input, but produce messy output. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in `ggplot2`, limiting expressive exploration.
+Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools are primarily _messy_, and suffer the same problems as modelling for imputation: They use tidy input, but produce messy output. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
 
 Past graphics research on missing data has not yet been framed in a tidy way.
 The graphics literature has explored methods for missing value exploration and imputation. Translating and expanding these to fit within tidy data and tidy tools would create more efficient workflows.
@@ -160,11 +187,11 @@ Imputation methods are more accessible than they have ever been, and the number 
 
 ### Single imputation {#single-imputation}
 
-`VIM` [@VIM] efficiently implements well-used imputation methods k-nearest neighbor, regression, hot-deck, and iterative robust model-based imputation. This diversity of approaches allow the package to deal semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix `_imp`. So `Var1` would have a sibling indicator column, `Var1_imp`, with TRUE or FALSE values to indicate imputed value. `VIM` also has a variety of visualization methods, discussed in section \@ref(exploration). The `simputation` package includes imputation methods for linear regression, decision trees, K nearest neighbors, hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. A key feature of its design is that it returns a regular dataframe. This approach contrasts from other imputation software, which may provide custom classes of data or additional objects, which require additional work to prepare for subsequent analysis. Providing a dataframe with imputed values included in the data reduces the friction of working with other tools, but comes at the cost identifying imputed values. Other software for imputation includes `Hmisc` [@Hmisc], which provide predictive mean matching, `imputeTS` [@imputeTS], which provide time series imputation methods, and `missMDA` [@missMDA], which imputes data using principal components analysis.
+\pkg{VIM} [@VIM] efficiently implements well-used imputation methods k-nearest neighbor, regression, hot-deck, and iterative robust model-based imputation. This diversity of approaches allow the package to deal semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix `_imp`. So `Var1` would have a sibling indicator column, `Var1_imp`, with TRUE or FALSE values to indicate imputed value. \pkg{VIM} also has a variety of visualization methods, discussed in section \@ref(exploration). The \pkg{simputation} package includes imputation methods for linear regression, decision trees, K nearest neighbors, hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. A key feature of its design is that it returns a regular dataframe. This approach contrasts from other imputation software, which may provide custom classes of data or additional objects, which require additional work to prepare for subsequent analysis. Providing a dataframe with imputed values included in the data reduces the friction of working with other tools, but comes at the cost identifying imputed values. Other software for imputation includes \pkg{Hmisc} [@Hmisc], which provide predictive mean matching, \pkg{imputeTS} [@imputeTS], which provide time series imputation methods, and \pkg{missMDA} [@missMDA], which imputes data using principal components analysis.
 
 ### Multiple imputation {#multiple-imputation}
 
-Multiple imputation is often regarded as best practice for imputing values [@Schafer2002], as long as appropriate caution is taken [@Sterne2009]. Popular and robust methods for multiple imputation include the `mice`, `Amelia`, and `mi` packages [@mice; @amelia; @mi]. The `mice` package implements the method of chained equations, using a variable-wise algorithm to calculate the posterior distribution of parameters, from which uses to generate imputed values. The suggested workflow in `mice` revolves around imputing data, returning completed data, and fitting a model and pooling the results. The `Amelia` package [@amelia] assumes data are multivariate normal, and samples from the posterior using the computationally efficient (and parallelizable) Expectation-Maximization Bootstrap (EMB) algorithm [@Honaker2010] and allows for incorporation of information on the values in a prior. The `mi` package [@mi] also uses Bayesian models for imputation, providing better handling of semi-continuous values, and data with structural or perfect correlation. A collection of analysis models are also provided in `mi`, which work with the specially multiply imputed data, including linear models, generalized linear models, and their corresponding Bayesian components. This approach promotes fluid workflow, with a similar penalty to tidying up model output, which is still messy.  Another software for performing multiple imputation is `norm` [@norm; @schafer-norm], which uses methods from the NORM software from @schafer-norm, such as multiple imputations using EM for multivariate normal data. The `norm` package does not provide a framework for tracking missing values, but instead provides tools for making inference from multiple imputation. Each of these multiple imputation methods provide practical methods, but do not have consistent interfaces across their methods or implementation, which makes then inherently messy, as their output is always different. A consistent data structure that tracks missing values by default would make the data outputs tidy, streamlining subsequent analysis.
+Multiple imputation is often regarded as best practice for imputing values [@Schafer2002], as long as appropriate caution is taken [@Sterne2009]. Popular and robust methods for multiple imputation include the \pkg{mice}, \pkg{Amelia}, and \pkg{mi} packages [@mice; @amelia; @mi]. The \pkg{mice} package implements the method of chained equations, using a variable-wise algorithm to calculate the posterior distribution of parameters, from which uses to generate imputed values. The suggested workflow in \pkg{mice} revolves around imputing data, returning completed data, and fitting a model and pooling the results. The \pkg{Amelia} package [@amelia] assumes data are multivariate normal, and samples from the posterior using the computationally efficient (and parallelizable) Expectation-Maximization Bootstrap (EMB) algorithm [@Honaker2010] and allows for incorporation of information on the values in a prior. The \pkg{mi} package [@mi] also uses Bayesian models for imputation, providing better handling of semi-continuous values, and data with structural or perfect correlation. A collection of analysis models are also provided in \pkg{mi}, which work with the specially multiply imputed data, including linear models, generalized linear models, and their corresponding Bayesian components. This approach promotes fluid workflow, with a similar penalty to tidying up model output, which is still messy.  Another software for performing multiple imputation is \pkg{norm} [@norm; @schafer-norm], which uses methods from the NORM software from @schafer-norm, such as multiple imputations using EM for multivariate normal data. The \pkg{norm} package does not provide a framework for tracking missing values, but instead provides tools for making inference from multiple imputation. Each of these multiple imputation methods provide practical methods, but do not have consistent interfaces across their methods or implementation, which makes then inherently messy, as their output is always different. A consistent data structure that tracks missing values by default would make the data outputs tidy, streamlining subsequent analysis.
 
 ## Exploration {#exploration}
 
@@ -180,7 +207,7 @@ MissingDataGUI provides a user interface for exploring missing data structure bo
 
 VIM (visualizing and Imputing Missing Data) provides visualization methods that identify observed, imputed, and missing values. These include spinograms, spinoplots, missingness matrices, plotting missingness in the margins of other plots, and other summaries. These help explore missingness, however these visualizations do not map variables to graphical aesthetics, creating friction moving across workflows, making them difficult to extend to new circumstances. Additionally, data used to create the visualizations cannot be accessed, posing a barrier to further explorations.
 
-`ggplot2` incorporates missingness into visualizations only when mapping a discrete variable to a graph aesthetic. This has some limitations. For example, for data with school grades and test scores, a boxplot visualization could have school grade mapped to the x axis, and test score to the y axis (See Figure \@ref(fig:gg-box-na)). If there are missings in a continuous variable like test score, `ggplot2` omits the missing values and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, and the scores are placed into this.
+\pkg{ggplot2} incorporates missingness into visualizations only when mapping a discrete variable to a graph aesthetic. This has some limitations. For example, for data with school grades and test scores, a boxplot visualization could have school grade mapped to the x axis, and test score to the y axis (See Figure \@ref(fig:gg-box-na)). If there are missings in a continuous variable like test score, \pkg{ggplot2} omits the missing values and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, and the scores are placed into this.
 
 Figure \@ref(fig:gg-box-na), shows four scenarios of missingness for test scores across school year - the first contains no missingness, the second contains missingness for school year, the third contains missingness in scores, and the fourth contains missingness in both.
 
@@ -306,7 +333,7 @@ A consistent short suffix "`_NA`" for each variable keeps names coordinated thro
 
 ### Special missings {#special-missings}
 
-Values in the shadow matrix are "factor" type values, with text values "NA" and "!NA" and underlying number values 1 and 0, for missing and not missing. Extending these to include "special" missing values labelled as "NA_\<suffix\>" allows for representing additional features such as instrument failure and drop-out as "NA_instr_fail", and "NA_drop_out". The underlying number representation changes from binary to integer. For example, instrument failure and drop out would be represented as 2 and 3, see Table \@ref(tab:shadow-encoding) for an example. Encoding these special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in `naniar`, shown in Section \@ref(verbs-recode).
+Values in the shadow matrix are "factor" type values, with text values "NA" and "!NA" and underlying number values 1 and 0, for missing and not missing. Extending these to include "special" missing values labelled as "NA_\<suffix\>" allows for representing additional features such as instrument failure and drop-out as "NA_instr_fail", and "NA_drop_out". The underlying number representation changes from binary to integer. For example, instrument failure and drop out would be represented as 2 and 3, see Table \@ref(tab:shadow-encoding) for an example. Encoding these special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in \pkg{naniar}, shown in Section \@ref(verbs-recode).
 
 ```{r shadow-encoding}
 
@@ -315,9 +342,9 @@ fig_shadow_code <- tibble::tibble(temp = c(-99, NA, -1, 106),
                                   NA_value = c(2, 1, 3, 0))
 
 knitr::kable(fig_shadow_code,
-             caption = "Example data of temperature, and its observed value, shadow representation, and underlying value. The temperature value of -99 is represented in the shadow column as 'NA\\_instr', which in turn has the underlying numeric value of 2. This captures additional information about the data that is otherwise difficult to record.",
-             booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+             caption = "Example data of temperature, and its observed value, shadow representation, and underlying value. The temperature value of -99 is represented in the shadow column as 'NA\\_instr', which in turn has the underlying numeric value of 2. This captures additional information about the data that is otherwise difficult to record.")
+             # booktabs = TRUE) 
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
@@ -341,7 +368,7 @@ Other statistical programs represent missingness values as a full-stop, `.`, and
 
 ## Visual summaries {#vis-summaries}
 
-Visualizing missingness in a dataset is essential to understand its structure. This section discusses visualizations that are easy to remember and compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews (Section \@ref(overview-plots)); univariate (Section \@ref(univariate-plots)), bivariate (Section \@ref(bivariate-plots)), and multivariate (Section \@ref(multivariate-plots)). All plots are created using `ggplot2`, giving users clearer control over the plot appearance, and customizability.
+Visualizing missingness in a dataset is essential to understand its structure. This section discusses visualizations that are easy to remember and compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews (Section \@ref(overview-plots)); univariate (Section \@ref(univariate-plots)), bivariate (Section \@ref(bivariate-plots)), and multivariate (Section \@ref(multivariate-plots)). All plots are created using \pkg{ggplot2}, giving users clearer control over the plot appearance, and customizability.
 
 ### Overview plots {#overview-plots}
 
@@ -359,7 +386,7 @@ cowplot::plot_grid(p1,
                    labels = "AUTO")
 ```
 
-All missings in a dataset can be displayed using a heatmap style visualization. This is achieved using `vis_miss()` from the `visdat` package [@visdat], which also provides summaries of missingness overall in the legend, and for each column (see Figure \@ref(fig:vis-miss)). The user can also apply clustering to the rows, and arrange columns by missingness (Figure \@ref(fig:vis-miss)B). Similar visualizations are available in other missing data packages such as `VIM`, `mi`, `Amelia`, and `MissingDataGUI`. A key improvement is that `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns in the visualization and are named at the top, and each row is an observation. Using `ggplot2` means the plot can be customized and combined with other ggplot graphics.
+All missings in a dataset can be displayed using a heatmap style visualization. This is achieved using `vis_miss()` from the \pkg{visdat} package [@visdat], which also provides summaries of missingness overall in the legend, and for each column (see Figure \@ref(fig:vis-miss)). The user can also apply clustering to the rows, and arrange columns by missingness (Figure \@ref(fig:vis-miss)B). Similar visualizations are available in other missing data packages such as \pkg{VIM}, \pkg{mi}, \pkg{Amelia}, and \pkg{MissingDataGUI}. A key improvement is that `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns in the visualization and are named at the top, and each row is an observation. Using \pkg{ggplot2} means the plot can be customized and combined with other ggplot graphics.
 
 ```{r vis-miss, fig.height = 4, fig.width = 6, out.width = "95%", fig.show = 'hold', echo = FALSE, dev = "png", dpi = 300, fig.cap = "Heatmap visualizations of missing data for the airquality dataset. (A) The default output and (B) ordered by clustering on rows and columns. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness."}
 
@@ -433,7 +460,7 @@ ggplot(aes(x = Temp,
 
 ### Bivariate plots {#bivariate-plots}
 
-To visualize missing values in two dimensions the missing values can be placed in the plot margins. This is achieved by imputing values below the range of the data. As in Section \@ref(imp-below-range), using _nabular_ data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring have been been combined into `geom_miss_point()` from the `naniar` package (Figure \@ref(fig:geom-miss)), where there is a mostly uniform spread of missing values for Solar.R and Ozone.
+To visualize missing values in two dimensions the missing values can be placed in the plot margins. This is achieved by imputing values below the range of the data. As in Section \@ref(imp-below-range), using _nabular_ data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring have been been combined into `geom_miss_point()` from the \pkg{naniar} package (Figure \@ref(fig:geom-miss)), where there is a mostly uniform spread of missing values for Solar.R and Ozone.
 
 ```{r geom-miss, fig.height = 3, fig.width = 6, fig.cap = "Scatterplots with missings displayed at 10 percent below for the airquality dataset. Scatterplots of ozone and solar radiation (A), and ozone and temperature (B). There are missings in ozone and solar radiation, but not temperature."}
 
@@ -459,7 +486,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 ```
 
-As `geom_miss_point` is a defined geometry for `ggplot2`, it provides features such as faceting and mapping other variables to aesthetics such as color, shape, or size. The shadow format by itself can also be used to visually explore some patterns of missingness. 
+As `geom_miss_point` is a defined geometry for \pkg{ggplot2}, it provides features such as faceting and mapping other variables to aesthetics such as color, shape, or size. The shadow format by itself can also be used to visually explore some patterns of missingness. 
 
 ```{r geom-miss-point-impute-shift-long, include = FALSE, out.width = "70%"}
 airquality %>%
@@ -477,7 +504,7 @@ airquality %>%
 
 ### Multivariate plots {#multivariate-plots}
 
-Parallel coordinate plots can visualize missingness beyond two dimensions. They transform variables to the same scale, and typically make the data values range between 0 and 1. To showcase this visualization, the dataset `oceanbuoys` from `naniar` is used, which contains measurements of moored ocean buoys to understand and predict El Niño and El Niña. The data were collected in 1993 and 1997, and contains information on the sea and air temperature, humidity, and east west and north south wind directions. 
+Parallel coordinate plots can visualize missingness beyond two dimensions. They transform variables to the same scale, and typically make the data values range between 0 and 1. To showcase this visualization, the dataset `oceanbuoys` from \pkg{naniary} is used, which contains measurements of moored ocean buoys to understand and predict El Niño and El Niña. The data were collected in 1993 and 1997, and contains information on the sea and air temperature, humidity, and east west and north south wind directions. 
 
 Figure \@ref(fig:parallel-cord-plot) shows a parallel coordinate plot of the `oceanbuoys` data, with missing values imputed to be 10% below the range, and values colored according to whether humidity contained missing values. Although a 10% below imputation is not the most ideal way to display missing values in a parallel coordinate plot, it shows that humidity is missing at low air and sea temperatures, and that humidity is missing in one year, and one location. 
 
@@ -510,7 +537,7 @@ ggplot(dat_paral,
 
 ## Numerical summaries {#num-sum}
 
-There are different ways to summarize the amount of missing and complete values in a dataset. This section describes approaches to summarizing missingness, implemented in the `naniar` package. The functions are easy to remember as they follow consistent naming, and their output is consistent, and returns a single number or dataframe. This means they integrate well with plotting and modelling tools. Section \@ref(single-num-sum) discusses single number summaries for all data and for cases and variables ; Section \@ref(sum-tab-missings) discusses variable- and case-wise summaries; and Section \@ref(num-sum-w-group) shows how the design of these tools works with other tools in an analysis pipeline. 
+There are different ways to summarize the amount of missing and complete values in a dataset. This section describes approaches to summarizing missingness, implemented in the \pkg{naniar} package. The functions are easy to remember as they follow consistent naming, and their output is consistent, and returns a single number or dataframe. This means they integrate well with plotting and modelling tools. Section \@ref(single-num-sum) discusses single number summaries for all data and for cases and variables ; Section \@ref(sum-tab-missings) discusses variable- and case-wise summaries; and Section \@ref(num-sum-w-group) shows how the design of these tools works with other tools in an analysis pipeline. 
 
 ### Single number summaries {#single-num-sum}
 
@@ -545,25 +572,25 @@ table_of_fun <- tibble::tibble(
 knitr::kable(
   table_of_fun, 
   digits = 2,
-  caption = "Single number summaries of missing and complete data, applied to the airquality dataset. These functions follow consistent naming, to make them easy to remember, and to make their use clear.",
-  booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+  caption = "Single number summaries of missing and complete data, applied to the airquality dataset. These functions follow consistent naming, to make them easy to remember, and to make their use clear.")
+  # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
 
 ### Summaries and tabulations of missing data {#sum-tab-missings}
 
-Presenting the number and percent of missing values for each variable, or case, provides a summary that can be used by models to inform imputations or data handling. For example, potentially dropping variables or deciding to include others in an imputation model. Another useful approach is to tabulate the frequency of missing values for each variable or case; that is, the number of times there are zero, one, two, and so on, missing values. These summaries and tabulations are shown for variable in Tables \@ref(tab:miss-var-summary) and \@ref(tab:miss-var-table), using the `miss_var_summary` and `miss_var_table` functions. Functions are also provided for case-wise summaries and tabulations with `miss_case_summary` and `miss_case_table`, which order by `n_miss`, so the most missings are always shown at the top. Other summaries provided in `naniar` include summaries of missingness across a provided repeating span, `miss_var_span`, and finding the streaks or runs of missingness in a given variable in `miss_var_run`.
+Presenting the number and percent of missing values for each variable, or case, provides a summary that can be used by models to inform imputations or data handling. For example, potentially dropping variables or deciding to include others in an imputation model. Another useful approach is to tabulate the frequency of missing values for each variable or case; that is, the number of times there are zero, one, two, and so on, missing values. These summaries and tabulations are shown for variable in Tables \@ref(tab:miss-var-summary) and \@ref(tab:miss-var-table), using the `miss_var_summary` and `miss_var_table` functions. Functions are also provided for case-wise summaries and tabulations with `miss_case_summary` and `miss_case_table`, which order by `n_miss`, so the most missings are always shown at the top. Other summaries provided in \pkg{naniar} include summaries of missingness across a provided repeating span, `miss_var_span`, and finding the streaks or runs of missingness in a given variable in `miss_var_run`.
 
 ```{r miss-var-summary}
 
 miss_var_summary(airquality) %>% 
   knitr::kable(
     caption = "Summary of the number and percent of missings in each variable. Only ozone and solar radiation have missing values.",
-    digits = 1,
-    booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+    digits = 1)
+    # booktabs = TRUE) 
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
@@ -572,9 +599,9 @@ miss_var_summary(airquality) %>%
 miss_var_table(airquality) %>% 
   knitr::kable(
     caption = "Tabulation of the amount of missing data in each variable. This shows the number of variables with no missings, 7 missings, and 37 missings, and the percentage of variables with those amounts of missingness. There are not many patterns of missingness.",
-    digits = 1,
-    booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+    digits = 1)
+    # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 ```
 
 ### Combining numerical summaries with grouping operations {#num-sum-w-group}
@@ -590,9 +617,9 @@ airquality %>%
   ungroup() %>%
   slice(1:10) %>%
   knitr::kable(caption = "A summary of the missingness in each variable, for each Month of the airquality dataset, with only the first 10 rows of output shown. There are more ozone missings in June than May.",
-               digits = 1,
-               booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+               digits = 1)
+               # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
@@ -615,9 +642,9 @@ dat_ms <- tibble::tribble(~x,  ~y,    ~z,
                          -98, "F",   -1)
 
 knitr::kable(dat_ms, 
-             caption = "An example dataset with variables x, y and z containing some common unusual missing values.",
-             booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+             caption = "An example dataset with variables x, y and z containing some common unusual missing values.")
+             # booktabs = TRUE) 
+  # kable_styling(latex_options = c("hold_position"))
 ```
 
 All occurrences of -99 can be searched for using the code:
@@ -632,9 +659,9 @@ This returns a table of the occurrences of that value in each variable (Table \@
 miss_scan_count(data = dat_ms, 
                 search = -99) %>% 
   knitr::kable(
-    caption = "Table of the occurences of the search '-99' in the data, 'dat\\_ms'. There is one occurence if -99 in variables x and z.",
-    booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+    caption = "Table of the occurences of the search '-99' in the data, 'dat\\_ms'. There is one occurence if -99 in variables x and z.")
+    # booktabs = TRUE) 
+  # kable_styling(latex_options = c("hold_position"))
 ```
 
 ### replace: Replacing missing value label with another {#verbs-replace-with}
@@ -679,7 +706,7 @@ add_prop_miss(dat_ms)
 add_miss_cluster(dat_ms)
 ```
 
-### shadow: Creating `nabular` data {#verbs-nabular}
+### shadow: Creating nabular data {#verbs-nabular}
 
 _Nabular_ data has the shadow matrix column-bound to the existing data. This facilitates visualization and summaries, and allows for imputed values to be appropriately tracked. _Nabular_ data can be created with `bind_shadow()` or `nabular()`. The `bind_shadow()` function is so named to borrow from existing functions named `bind` - such as `bind_rows()` and `bind_cols()` from `dplyr`, which bind rows or columns into a dataframe. An example use of `bind_shadow()` on the example data, `dat_ms` is shown below:
 
@@ -805,19 +832,19 @@ Imputed values can also be compared to complete case data by grouping by `any_mi
 aq_imputed %>%
   group_by(any_missing) %>%
   summarise_at(.vars = vars(Ozone),
-               .funs = funs(min, mean, median, max))
+               .funs = list(min, mean, median, max))
 ```
 
 ```{r impute-summary}
 aq_imputed %>%
   group_by(any_missing) %>%
   summarise_at(.vars = vars(Ozone),
-               .funs = funs(min, mean, median, max)) %>%
+               .funs = lst(min, mean, median, max)) %>%
   knitr::kable(
     digits = 1, 
-    caption = "Summary statistics of the previously imputed and complete cases. The mean and median values are similar, but the minimum and maximum values are different. The comparison of imputed values is similar to other dplyr summary workflows.",
-    booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+    caption = "Summary statistics of the previously imputed and complete cases. The mean and median values are similar, but the minimum and maximum values are different. The comparison of imputed values is similar to other dplyr summary workflows.")
+    # booktabs = TRUE) 
+  # kable_styling(latex_options = c("hold_position"))
 ```
 
 # Application {#case-study}
@@ -954,9 +981,9 @@ t2 <- miss_case_table(housing)
 
 knitr::kable(list(t1, t2),
              caption = "Tabulating missingness for variables (left) and cases (right) to understand missingness patterns. 14 variables have between 0 and 3 missings, then 6 variables have 6000 - 9000 missings, and 2 variables have 15 - 16,000 missing values. About 30\\% of cases have no missing values, then 45\\% of cases have between 1 and 6 missing values, and then about 23\\% of cases have 8 or more missings. There are different patterns of missingness in variables and cases, but they can be broken down into smaller groups.",
-             digits = 1,
-             booktabs = TRUE) %>%
-  kable_styling(latex_options = c("hold_position"))
+             digits = 1)
+             # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
