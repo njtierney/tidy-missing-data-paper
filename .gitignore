@@ -7,4 +7,4 @@ tmp-pdfcrop-44731.tex
 .RData
 .Rproj.user
 sigfile.png
-.log
+*.log
