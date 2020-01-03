@@ -26,8 +26,9 @@ keywords:
 preamble: >
   \usepackage{amsmath}
   \usepackage[english]{babel}
-output: 
-  rticles::jss_article:
+output:
+  bookdown::pdf_book:
+    base_format: rticles::jss_article
     includes:
       in_header: header.tex
     keep_tex: yes
@@ -839,7 +840,8 @@ aq_imputed %>%
 ```{r data-setup, include = FALSE}
 
 housing_raw <-
-  readr::read_csv("../data/melbourne_housing_raw.csv") %>%
+  readr::read_csv(here::here("data",
+                             "melbourne_housing_raw.csv")) %>%
   janitor::clean_names() %>%
   dplyr::rename(region_name = regionname,
          property_count = propertycount) %>%
@@ -1315,7 +1317,7 @@ tidy_fits %>%
 
 ```
 
-```{r partial-resid, fig.cap = "Partial residual plot for each data set, complete cases (cc), imputed with KNN (knn), and imputed with a linear model (lm). There is not much variation amongst the different datasets from the different imputation methods.", fig.width = 9, fig.height = 3, out.width = "100%"}
+```{r partial-resid, fig.cap = "Partial residual plot for each data set, complete cases (cc), imputed with KNN (knn), and imputed with a linear model (lm). These are plotted with hex bins, which are coloured according to the number of points in a given hexagon - the brighter the colour the more points. This reveals that the data sets imputed with knn and linear models have more points clustered around zero, whereas complete cases is more flat.", fig.width = 9, fig.height = 3, out.width = "100%"}
 
 aug_fit_cc <-  broom::augment(fit_lm_dat_house_cc) %>% as_tibble()
 aug_fit_knn <- broom::augment(fit_lm_dat_house_knn) %>% as_tibble()
@@ -1329,7 +1331,10 @@ aug_fits <- bind_rows(cc =  aug_fit_cc,
 aug_fits %>%
   ggplot(aes(x = .fitted,
              y = .resid)) + 
-  geom_point(alpha = 0.1) + 
+  # geom_point(alpha = 0.1) + 
+  geom_hex() +
+  labs(fill = "Count") +
+  scale_fill_viridis_c() +
   facet_wrap(~model)
 
 ```
