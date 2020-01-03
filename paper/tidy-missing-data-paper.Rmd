@@ -22,7 +22,7 @@ abstract: >
 keywords:
   # at least one keyword must be supplied
   formatted: [workflow, statistical computing, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
-  plain:     [kworkflow, statistical computing, data science, data visualization, tidyverse, data pipeline, R]
+  plain:     [workflow, statistical computing, data science, data visualization, tidyverse, data pipeline, R]
 preamble: >
   \usepackage{amsmath}
   \usepackage[english]{babel}
@@ -99,19 +99,36 @@ knitr::include_graphics("images/ggplot2-warning-and-plot.png")
 ```
 
 
-The imputation literature does not address how to handle missing data. Producing
-a complete dataset for analysis, whether by case or variable deletion, or with
-imputation, requires knowing something about the structure of the missing
-values. To understand their structure, one needs to generate visualizations,
-calculate summaries, and perform exploratory modelling. The imputation methods
-literature (e.g. @Little1988, @Rubin1976, @Simon1986, @Schafer2002, 
-@VanBuuren2012) focuses on ensuring valid statistical inference is made from
+The imputation literature (e.g. @Little1988, @Rubin1976, @Simon1986,
+@Schafer2002, @VanBuuren2012) does not address how to handle missing data.
+Instead the focus is on ensuring valid statistical inference is made from
 incomplete data. They approach this chiefly through probabilistic modelling, and
-assume the mechanism of missing data is known to the analyst.
+assume the mechanism of missing data is known to the analyst. 
 
-Exploring missing data to find the missingness mechanism is difficult, because it is an iterative process with many dead ends and often no clear answer. There is no silver bullet for missing data that will reveal it's mechanism to the analyst. Despite it being crucial to explore and understand missing data, there is very little research on how to make this process more efficient so that it integrates into analysis pipelines. Although decision tree models or latent group analysis can reveal structures or patterns of missingness [@Tierney2015; @Barnett2017], these are not definitive and usually require discussion with data curators to validate. The analyst must explore missing data using visualizations, summaries, and exploratory analyses, but there is a lack of tools to efficiently explore missing data.
 
-The graphics literature [@Swayne1998; @Unwin1996] provides several solutions for exploring missings visually. These approaches incorporate missings into the plot in some way. For example, imputing values 10% below the range to display all values in a scatter plot. These methods require the data to be linked to the missing or imputed values; this link is typically hidden from the user. The approaches from the graphics literature have not been translated and integrated into tidy data. This limits the analysts capacity to efficiently explore missing values. Extending tidy data and tidy tools to account for missing values would create more efficient and robust workflows and analysis.
+However, something has to be known about the missing value structure to produce
+a complete dataset for analysis. Whether by case or variable deletion, or with
+imputation, it is ideal to know what the mechanism is that generates missing 
+values. To understand their structure, the data must be explored, which means generating visualizations, summaries, and performing exploratory modelling. This process is inherently difficult, as it is iterative, and
+involves many dead ends, and there might not be a clear answer even after much
+exploratory data analysis. 
+
+Although
+decision tree models or latent group analysis can reveal structures or patterns
+of missingness [@Tierney2015; @Barnett2017], these are not definitive and
+usually require discussion with data curators to validate.
+While there might be other times where the data are
+clearly missing completely at random (or missing at random), determining this is not always straightforward. There is no silver bullet for missing data that will reveal
+it's mechanism to the analyst. Missing data must be explored.
+
+While there have been many software tools for exploring missing data (VIM, mi, mice, MissingDataGUI, MANET, ggobi, norm), these tools generate outputs that make them challenging to integrate into analysis pipelines. Despite it being crucial to explore and understand missing data, there is very little research on the concepts that make
+this process more efficient, and integrate well into analysis pipelines.  
+
+The analyst must
+explore missing data using visualizations, summaries, and exploratory analyses,
+but there is a lack of modern tools to efficiently explore missing data.
+
+The graphics literature [@Swayne1998; @Unwin1996; @VIM; @MissingDataGUI; ] provides several solutions for exploring missings visually. These approaches incorporate missings into the plot in some way. For example, imputing values 10% below the range to display all values in a scatter plot. These methods require the data to be linked to the missing or imputed values; this link is typically hidden from the user. The approaches from the graphics literature have not been translated and integrated into tidy data. This limits the analysts capacity to efficiently explore missing values. Extending tidy data and tidy tools to account for missing values would create more efficient and robust workflows and analysis.
 
 The paper is organized in the following way to discuss the problem of missing data. The next section (\@ref(tidy-data-concepts)) is an introduction to tidy data principles and tools. Missing value imputation (\@ref(missing-data-rep-dep) and \@ref(imputation)) and exploration literature (\@ref(exploration)) are then discussed. Section \@ref(extensions) discusses extensions to the tidy methodology that facilitates operations for exploring, visualizing, and imputing missing data. The application of these new methods is illustrated using a case study in section \@ref(case-study). Finally, section \@ref(discussion) discusses strengths, limitations, and future directions.
 
@@ -119,11 +136,11 @@ The paper is organized in the following way to discuss the problem of missing da
 
 ## Tidy data concepts and methods {#tidy-data-concepts}
 
-Features of tidy data were formally discussed in 2014 [@Wickham2014], subsequently generating much discussion (see @Donoho2017 and commentary), and tools for data analysis. Tidy data is defined as:
+Features of tidy data were formally discussed in 2014 [@Wickham2014], subsequently generating much discussion (see @Donoho2017 and commentary, @r4ds), and tools for data analysis. Tidy data is defined as:
 
-> 1. Each variable forms a column.
-> 2. Each observation forms a row.
-> 3. Each type of observational unit forms a table.
+> 1. Each variable must have its own column.
+> 1. Each observation must have its own row.
+> 1. Each value must have its own cell.
 
 Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors.
 
@@ -141,18 +158,18 @@ Visualization tools only have tidy data as their input, as the output is a graph
 
 ### Modelling {#tidy-model}
 
-Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. The \pkg{recipes} package is a tidy tool under development to help make modelling input and output tidy [@recipes].
+Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. The \pkg{recipes} package is a tidy tool under development to help make modelling input and output tidy [@recipes].
 
 ### The tidyverse {#the-tidyverse}
 
-Defining tidy data and tidy tools has resulted in the growth of a set of packages known collectively as the "tidyverse" [@Ross2017]. These are designed to share similar principles in their design and behavior, and cover the breadth of an analysis - going from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @Ross2017; @Tidyverse-Manifesto]. This has led to a growth of tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to the growth of new packages for other fields that follow similar design principles and create fluid workflows for new domains. For example, the \pkg{tidytext} package for text analysis, the \pkg{tsibble} package for time series data, and \pkg{tidycensus} for working with US census and boundary data [@tidytext; @tsibble; @tidycensus].
+Defining tidy data and tidy tools has resulted in the growth of a set of packages known collectively as the "tidyverse" [@tidyverse]. These are designed to share similar principles in their design and behavior, and cover the breadth of an analysis - going from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to a growth of tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to the growth of new packages for other fields that follow similar design principles and create fluid workflows for new domains. For example, the \pkg{tidytext} package for text analysis, the \pkg{tsibble} package for time series data, and \pkg{tidycensus} for working with US census and boundary data [@tidytext; @wang2020tsibble; @tidycensus].
 
 ### Tidy formats for missing data {#tidy-formats-missing-data}
 
-Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools are primarily _messy_, and suffer the same problems as modelling for imputation: They use tidy input, but produce messy output. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
+Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools suffer the same problems as modelling for imputation: They use tidy input, but produce messy output - their output is challenging to integrate with other steps of data analysis. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
 
 Past graphics research on missing data has not yet been framed in a tidy way.
-The graphics literature has explored methods for missing value exploration and imputation. Translating and expanding these to fit within tidy data and tidy tools would create more efficient workflows.
+The graphics literature has explored methods for missing value exploration and imputation. Translating and expanding these to fit within tidy data and tidy tools would create more efficient workflows. By laying down these concepts, it allows for the focus to be more general than just software, but rather, a framework for tidy tools to explore missing data that can be built upon, extended, and implemented in other languages.
 
 ## Missing data representation and dependence {#missing-data-rep-dep}
 
