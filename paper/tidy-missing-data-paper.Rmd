@@ -581,8 +581,8 @@ table_of_fun <- tibble::tibble(
   "Missing Function" = c("n_miss", 
                          "prop_miss", 
                          "pct_miss",
-                         "pct_miss_var",
-                         "pct_miss_case"),
+                         "pct_miss_case",
+                         "pct_miss_var"),
   "missing value" = c(n_miss(airquality),
                       prop_miss(airquality),
                       pct_miss(airquality),
@@ -591,12 +591,12 @@ table_of_fun <- tibble::tibble(
   "Complete function" = c("n_complete",
                           "prop_complete",
                           "pct_complete",
-                          "prop_complete_var",
-                          "pct_complete_case"),
+                          "prop_complete_case",
+                          "pct_complete_var"),
   "complete value" = c(n_complete(airquality), 
                        prop_complete(airquality), 
                        pct_complete(airquality),
-                       prop_complete_case(airquality), 
+                       pct_complete_case(airquality), 
                        pct_complete_var(airquality))
 ) %>%
   mutate_if(is.numeric,round,2)
