@@ -394,9 +394,9 @@ knitr::include_graphics("images/nabular.png")
 
 ```
 
-A data structure for missing data provides key benefits over on-the-fly creating a logical matrix where TRUE means missing, and FALSE means present. Firstly, it can be confusing to users whether TRUE or FALSE means missing or present; `NA` and `!NA` are clearer. Secondly, special missing values cannot be added fluently during analysis with a logical matrix. Finally, the logical matrix cannot capture which values are imputed, if imputation has already taken place. Imputing values on _nabular_ data automatically tracks these value changes.
+The _nabular_ data structure for missing data provides key benefits over on-the-fly creating a logical matrix where TRUE means missing, and FALSE means present. Firstly, it can be confusing to users whether TRUE or FALSE means missing or present; `NA` and `!NA` are clearer. Secondly, special missing values cannot be added fluently during analysis with a logical matrix. Finally, the logical matrix cannot capture which values are imputed, if imputation has already taken place. Imputing values on _nabular_ data automatically tracks these value changes.
 
-Using additional columns to represent missingness information follows recently published best practices for data organization, described in @Ellis2017 and @Broman2017: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information is now represented in the shadow columns as additional integers, along with the other missing information. 
+Using additional columns to represent missingness information follows recently published best practices for data organization, described in @Ellis2017 and @Broman2017: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information can now be represented in the shadow columns as special missings.
 
 Other statistical programs represent missingness values as a full-stop, `.`, and allow for recording special missing values as `.a` through to `.z`. The special values from these languages break the rule of "keeping one thing in a cell", as they record both the value and the multivariate missingness state. 
 
@@ -437,7 +437,7 @@ cowplot::plot_grid(p1,
 
 ```
 
-The number of times certain variables go missing together can be visualized using an "upset plot" [@Conway2017], a visualization technique for showing the size and features of sets in data that is similar to a venn diagram, but scales better with more variables (Figure \@ref(fig:airquality-upset)).
+The number of times certain variables go missing together can be visualized using an "upset plot" [@Conway2017], a visualization technique for showing the size and features of sets in data that is similar to a venn diagram, but scales better with more variables (Figure \@ref(fig:airquality-upset)). Figure \@ref(fig:airquality-upset) shows that only Ozone and Solar.R have missing values. The dots in the bottom right show the combinations of missingness, with the bottom left showing the missingness in each variable, and the top showing the missingness for the combinations. The bottom left shows that Ozone has the most missing values, and the top shows 2 cases where both Solar.R and Ozone have missing values together.
 
 
 ```{r airquality-upset, fig.cap = "The pattern of missingness in the airquality dataset shown in an upset plot. Only Ozone and Solar.R have missing values, and Ozone has the most missing values. There are 2 cases where both Solar.R and Ozone have missing values.", fig.height = 3, fig.width = 4, out.width = "80%"}
@@ -446,15 +446,13 @@ gg_miss_upset(airquality)
 
 ```
 
-Figure \@ref(fig:airquality-upset) shows that only Ozone and Solar.R have missing values. The dots in the bottom right show the combinations of missingness, with the bottom left showing the missingness in each variable, and the top showing the missingness for the combinations. The bottom left shows that Ozone has the most missing values, and the top shows 2 cases where both Solar.R and Ozone have missing values together.
-
 ### Univariate plots {#univariate-plots}
 
 Missing values are by default not shown for univariate visualizations such as histograms or densities. Two ways to use _nabular_ data to present univariate data with missings are discussed. The first imputes values below the range to facilitate visualizations. The second displays two plots of the same variable according to the missingness of a chosen variable.
 
 #### Imputing values below the range {#imp-below-range}
 
-To visualize the amount of missings in each variable, the data is transformed into _nabular_ form, then values are imputed values below the range of data using `impute_below` (by default imputing 10% below the range). Visualizing this as a histogram shows missing values on its left. Ozone is shown in a different color by referring to the variable `Ozone` as `Ozone_NA` in a fill aesthetic in ggplot, shown in Figure \@ref(fig:impute-shift-histogram).
+To visualize the amount of missings in each variable, the data is transformed into _nabular_ form, then values are imputed values below the range of data using `impute_below` (by default imputing 10% below the range). Visualizing this as a histogram shows the number of missing values on its left. Ozone is shown in a different color by referring to the variable `Ozone` as `Ozone_NA` in a fill aesthetic in ggplot, shown in Figure \@ref(fig:impute-shift-histogram).
 
 ```{r impute-shift-histogram, fig.height = 3, fig.width = 5, fig.cap = "A histogram using nabular data to show the values and missings in ozone. Values are imputed below the range to show the number of missings in Ozone and colored according to missingness of ozone (`Ozone\\_NA`). There are about 35 missings in Ozone.", error = FALSE, warning = FALSE, message = FALSE, out.width = "75%"}
   
