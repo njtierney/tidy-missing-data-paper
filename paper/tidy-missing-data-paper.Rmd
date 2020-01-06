@@ -619,7 +619,7 @@ Presenting the number and percent of missing values for each variable, or case, 
 
 miss_var_summary(airquality) %>% 
   knitr::kable(
-    caption = "Summary of the number and percent of missings in each variable. Only ozone and solar radiation have missing values.",
+    caption = "The \\texttt{miss\\char`_var\\char`_summary} function provides a summary of the number and percent of missings in each variable. Only ozone and solar radiation have missing values.",
     digits = 1)
     # booktabs = TRUE) 
   # kable_styling(latex_options = c("hold_position"))
@@ -630,7 +630,7 @@ miss_var_summary(airquality) %>%
 
 miss_var_table(airquality) %>% 
   knitr::kable(
-    caption = "Tabulation of the amount of missing data in each variable. This shows the number of variables with no missings, 7 missings, and 37 missings, and the percentage of variables with those amounts of missingness. There are not many patterns of missingness.",
+    caption = "The \\texttt{miss\\char`_var\\char`_table} function provides a tabulation of the amount of missing data in each variable. This shows the number of variables with no missings, 7 missings, and 37 missings, and the percentage of variables with those amounts of missingness. There are not many patterns of missingness.",
     digits = 1)
     # booktabs = TRUE)
   # kable_styling(latex_options = c("hold_position"))
@@ -648,7 +648,7 @@ airquality %>%
   miss_var_summary() %>%
   ungroup() %>%
   slice(1:10) %>%
-  knitr::kable(caption = "A summary of the missingness in each variable, for each Month of the airquality dataset, with only the first 10 rows of output shown. There are more ozone missings in June than May.",
+  knitr::kable(caption = "The \\texttt{miss\\char`_var\\char`_summary} provides a grouped summary of the missingness in each variable, for each Month of the airquality dataset, with only the first 10 rows of output shown. There are more ozone missings in June than May.",
                digits = 1)
                # booktabs = TRUE)
   # kable_styling(latex_options = c("hold_position"))
