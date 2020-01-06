@@ -341,15 +341,20 @@ knitr::include_graphics("images/full-conversion-to-shadow.png")
 
 ```
 
-Three features are added to the shadow matrix to facilitate analysis:
+Four features are added to the shadow matrix to facilitate analysis:
+
 
 1. Coordinated names: Variables in the shadow matrix gain the same name as in the data, with the suffix "_NA".
 
-2. Special missing values: Values in the shadow matrix can be "special" missing values, indicated as `NA_suffix`, where "suffix" is a very short message of the type of missings.
+1. Missing value label: A simple label to the shadow matrix clear, "NA" and "!NA" for missing and not missing, represented as 0 and 1 (see Figure \@ref(fig:shadow-matrix-progress) parts 2 and 3 below). 
 
-3. Cohesiveness: Binding the shadow matrix column-wise to the original data creates a cohesive _nabular_ data form, useful for visualization and summaries.
+1. Special missing values: Building on 2, the values in the shadow matrix can be "special" missing values, indicated as `NA_suffix`, where "suffix" is a very short label of the type of missings, and the underlying values are >= 2.
+
+1. Cohesiveness: Binding the shadow matrix column-wise to the original data creates a cohesive _nabular_ data form, useful for visualization and summaries.
 
 These additions are now discussed in turn.
+
+(**consider removing these longer expansions of these points?**)
 
 ### Coordinated names {#coordinated-names}
 
