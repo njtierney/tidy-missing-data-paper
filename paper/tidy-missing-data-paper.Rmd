@@ -314,21 +314,26 @@ special missing values. Section \@ref(vis-summaries) covers visualizations to
 understand missingness. Section \@ref(num-sum) discusses data summaries, and
 Section \@ref(verbs) covers the common "verbs" used to solve problems that arise
 when working with missing data. The design and naming of these features is an
-important component that helps the analyst compose them efficiently in data pipelines, and
-is discussed throughout.
+important component that helps the analyst compose them efficiently in data pipelines, and is discussed throughout.
 
 ## Data structure {#data-structure}
 
 To explore missing data there needs to be a good representation of missing
-values that integrate into analysis pipelines. A common representation of
-missing values is a binary matrix the same dimension as the data, where 0 and 1
-indicate not missing and missing. This is typically referred to as a matrix $R$,
-used to describe missingness dependence patterns, (see for example @Rubin1976
-and @Schafer2002). This matrix is used to explore missing values in the
-interactive graphics library XGobi, where it was called a "shadow matrix",
-defined as a copy of the original data with indicator values of missingness:
-"NA" and "!NA" for missing and not missing, represented as 0 and 1 (see Figure
-\@ref(fig:shadow-matrix-progress) parts 2 and 3 below).
+values that integrate into analysis pipelines. The R matrix, where 0 and 1
+indicate not missing and missing provides a template, as it is very common in
+missing data literature.  This matrix has been used to explore missing values in
+the interactive graphics library XGobi, where it was called a "missing value
+shadow", or "shadow matrix", defined as a copy of the original data with
+indicator values of missingness, where 1s represent missing values, and 0
+represents complete values. The values 0 and 1 (or equally, FALSE and TRUE) can
+be confusing, however, as it is not immediately clear what they represent - does
+0 indicate a the absence of observation, or the presence of a missing value? The
+shadow matrix was specially linked to the data, but could not be referred to
+directly, instead they were linked with special window views. This meant that
+the data structure was abstracted from the user to facilitate data exploration.
+This made sense at the time with the state of the art for graphicaly analysis,
+but that data structure needs to be clearly presented to the user so that they
+can more broadly use it in other data analyses.
 
 ```{r shadow-matrix-progress, echo = FALSE, fig.cap = "Progression of creating shadow matrix data. (1-2) Data to a binary representation of missings, (2-3) Binary format converted to a shadow matrix (3-4) New and improved shadow matrix with changed variable names. This clearly links a variable to its state of missingness.", out.width = "100%", fig.align="center"}
 
