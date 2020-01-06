@@ -662,7 +662,7 @@ Common operations on missing data can be considered to be verbs: scan, replace, 
 
 ### scan: Searching for common missing value labels  {#verbs-search}
 
-There are many common values that mean "missing". For example, "N/A" "Not Available", "MISSING", or white space " ". Before replacing these values with missing values (`NA`), it is useful to first _scan_ the data to get a sense of the magnitude of the problem. The  `miss_scan_count()` function finds where specified values occur in data. For example, for the example data, `dat_ms`:
+There are many common values that mean "missing". For example, "N/A" "Not Available", "MISSING", or white space " ". Before replacing these values with missing values (`NA`), it is useful to first _scan_ the data to get a sense of the magnitude of the problem. The  `miss_scan_count()` function finds where specified values occur in data. For example, for the example data, `dat_ms`  Table \@ref(tab:setup-miss-scan-count).
 
 ```{r setup-miss-scan-count}
 
@@ -705,6 +705,8 @@ replace_with_na(dat_ms, replace = list(x = -99))
 
 replace_with_na(dat_ms, replace = list(x = c(-99, -98)))
 ```
+
+(**considering removing these examples**)
 
 For flexibility, there are scoped variants for `replace_with_na`: `_all`, `_if`, and `_at`. This means `replace_with_na` works for **all** variables with `replace_with_na_all`, **at** selected variables with `replace_with_na_at`, and **if** variables that meet some condition with `replace_with_na_if`. The syntax for these is slightly different to `replace_with_na`, but powerful:
 
