@@ -12,11 +12,11 @@ author:
   - name: Dianne Cook
     affiliation: Monsh University
 title:
-  formatted: "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations with the Package \\pkg{naniar}"
+  formatted: "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations"
   # If you use tex in the formatted title, also supply version without
-  plain:     "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations with the Package naniar"
+  plain:     "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations"
   # For running headers, if needed
-  short:     "\\pkg{naniar}: Explore missing data"
+  short:     "Explore missingness with \\pkg{naniar}"
 abstract: >
   Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as an integral part of data analysis workflows. We define both new data structures and new verbs (functions) to perform common operations. Together, these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package `naniar`.
 keywords:
@@ -194,6 +194,8 @@ Finally, **MNAR** refers to the missingness being related to values observed, an
 
 Visualizations can help assess whether data is MCAR, MAR or MNAR. Imputation is recommended in most cases of missingness dependence, where the values are plausible (e.g., imputing a pulse for someone deceased), as this can help re-assess the classification of missingness.
 
+# Existing Software {#existing-software}
+
 ## Imputation {#imputation}
 
 Imputation methods are more accessible than they have ever been, and the number of methods and implementations in software continues to grow. Values can be imputed with one value (single imputation), or multiple values (multiple imputation), creating $m$ datasets. Methods and software for single and multiple imputation are now discussed.
@@ -216,7 +218,7 @@ Another software for performing multiple imputation is \pkg{norm} [@norm; @schaf
 
 Each of these multiple imputation methods provide practical methods, but all have different output structures, and do not have consistent interfaces in their implementation. This makes then inherently messy and challenging to integrate into an analysis pipeline. An ideal approach would have consistent data structures that work with other analysis tools, and track missing values by default. This would make the data outputs tidy, streamlining subsequent analysis.
 
-## Exploration {#exploration}
+### Exploration {#exploration}
 
 The primary focus of most missing data packages is making inferences, and exploring imputed values, not
 on exploring relationships in missing values, and identifying possible patterns.
@@ -312,7 +314,7 @@ facilitates missing data exploration, visualization, and imputation. This sectio
 discusses how these principles are applied, and proceeds in three parts. Section
 \@ref(data-structure) discusses _nabular_ data, a tidy data structure for
 missing values that tracks missings throughout the analysis and allows for
-special missing values. Section \@ref(vis-summaries) covers visualizations to
+special missing values. Section \@ref(graphics) covers visualizations to
 understand missingness. Section \@ref(num-sum) discusses data summaries, and
 Section \@ref(verbs) covers the common "verbs" used to solve problems
 when working with missing data. The design and naming of these features is an
@@ -354,8 +356,6 @@ Four features are added to the shadow matrix to facilitate analysis:
 1. Cohesiveness: Binding the shadow matrix column-wise to the original data creates a cohesive _nabular_ data form, useful for visualization and summaries.
 
 These additions are now discussed in turn.
-
-(**consider removing these longer expansions of these points?**)
 
 ### Coordinated names {#coordinated-names}
 
@@ -401,11 +401,11 @@ Using additional columns to represent missingness information follows recently p
 
 Other statistical programs represent missingness values as a full-stop, `.`, and allow for recording special missing values as `.a` through to `.z`. The special values from these languages break the rule of "keeping one thing in a cell", as they record both the value and the multivariate missingness state. 
 
-## Visual summaries {#vis-summaries}
+# Graphics {#graphics}
 
-Visualizing missingness in a dataset is essential to understand its structure. This section discusses easy to remember visualizations that compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews (Section \@ref(overview-plots)); univariate (Section \@ref(univariate-plots)), bivariate (Section \@ref(bivariate-plots)), and multivariate (Section \@ref(multivariate-plots)). All plots are created using \pkg{ggplot2}, giving users clearer control over the plot appearance, and customizability.
+Visualizing missingness in a dataset is essential to understand its structure. This section discusses easy to remember visualizations that compose with other functions in a pipeline. Four different areas of visualization of missing data are discussed: overviews (Section \@ref(overview-graphics)); univariate (Section \@ref(univariate-graphics)), bivariate (Section \@ref(bivariate-graphics)), and multivariate (Section \@ref(multivariate-graphics)). All plots are created using \pkg{ggplot2}, giving users clearer control over the plot appearance, and customizability.
 
-### Overview plots {#overview-plots}
+## Overview graphics {#overview-graphics}
 
 The number of missings in each variable and case are visualized using `gg_miss_var` and `gg_miss_case` (see Figure \@ref(fig:gg-miss-case-var) below). These are shown using the "airquality" dataset, included in base R, which contains daily air quality measurements in New York, from May to September, 1973. Rather than highlighting the amount of complete data, these visualizations draw attention to the amount of missings, ordering by missingness.
 
@@ -447,11 +447,11 @@ gg_miss_upset(airquality)
 
 ```
 
-### Univariate plots {#univariate-plots}
+## Univariate graphics {#univariate-graphics}
 
 Missing values are by default not shown for univariate visualizations such as histograms or densities. Two ways to use _nabular_ data to present univariate data with missings are discussed. The first imputes values below the range to facilitate visualizations. The second displays two plots of the same variable according to the missingness of a chosen variable.
 
-#### Imputing values below the range {#imp-below-range}
+### Imputing values below the range {#imp-below-range}
 
 To visualize the amount of missings in each variable, the data is transformed into _nabular_ form, then values are imputed values below the range of data using `impute_below` (by default imputing 10% below the range). Visualizing this as a histogram shows the number of missing values on its left. Ozone is shown in a different color by referring to the variable `Ozone` as `Ozone_NA` in a fill aesthetic in ggplot, shown in Figure \@ref(fig:impute-shift-histogram).
 
@@ -467,7 +467,7 @@ airquality %>%
   theme_minimal()
 ```
 
-#### Univariate split by missingness {#vis-split-by-miss}
+### Univariate split by missingness {#vis-split-by-miss}
 
 Missingness of one variable can also be used to display different distributions in another. Figure \@ref(fig:bind-shadow-density) shows the values of temperature when ozone is present, and missing. Figure \@ref(fig:bind-shadow-density)A is a faceted histogram, and Figure \@ref(fig:bind-shadow-density)B is an overlaid density. This shows how values of temperature are affected by the missingness of ozone, and reveals a cluster of low temperature observations with missing ozone values.
 
@@ -491,7 +491,7 @@ ggplot(aes(x = Temp,
 ```
 
 
-### Bivariate plots {#bivariate-plots}
+## Bivariate graphics {#bivariate-graphics}
 
 To visualize missing values in two dimensions the missing values can be placed in the plot margins. This is achieved by imputing values below the range of the data. As in Section \@ref(imp-below-range), using _nabular_ data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring have been been combined into `geom_miss_point()` from the \pkg{naniar} package (Figure \@ref(fig:geom-miss)), where there is a mostly uniform spread of missing values for Solar.R and Ozone.
 
@@ -535,7 +535,7 @@ airquality %>%
 ```
 
 
-### Multivariate plots {#multivariate-plots}
+## Multivariate graphics {#multivariate-graphics}
 
 Parallel coordinate plots can visualize missingness beyond two dimensions. They transform variables to the same scale, and typically make the data values range between 0 and 1. To showcase this visualization, the dataset `oceanbuoys` from \pkg{naniary} is used, which contains measurements of moored ocean buoys to understand and predict El Niño and El Niña. The data were collected in 1993 and 1997, and contains information on the sea and air temperature, humidity, and east west and north south wind directions. 
 
@@ -568,11 +568,11 @@ ggplot(dat_paral,
 
 ```
 
-## Numerical summaries {#num-sum}
+# Numerical summaries {#num-sum}
 
 There are different ways to summarize the amount of missing and complete values in a dataset. This section describes approaches to summarizing missingness, implemented in the \pkg{naniar} package. The functions are easy to remember as they follow consistent naming, and their output is consistent, and returns a single number or dataframe. This means they integrate well with plotting and modelling tools. Section \@ref(single-num-sum) discusses single number summaries for all data and for cases and variables ; Section \@ref(sum-tab-missings) discusses variable- and case-wise summaries; and Section \@ref(num-sum-w-group) shows how the design of these tools works with other tools in an analysis pipeline. 
 
-### Single number summaries {#single-num-sum}
+## Single number summaries {#single-num-sum}
 
 The overall number of missing values in a dataset is shown with `n_miss`, and the proportion or percent missings, `prop_miss` and `pct_miss`. Complementing these are functions to reveal the number of complete values: `n_complete`, `prop_complete`, and `pct_complete`. These be extended to summarize the number/amount of variables and cases containing a missing values by appending `_case` or `_var` to any of these summaries. Table \@ref(tab:n-prop-pct-miss-complete) shows the names and output of these functions on the dataset airquality.
 
@@ -611,8 +611,7 @@ knitr::kable(
 
 ```
 
-
-### Summaries and tabulations of missing data {#sum-tab-missings}
+## Summaries and tabulations of missing data {#sum-tab-missings}
 
 Presenting the number and percent of missing values for each variable, or case, provides a summary usable in models to inform imputations or data handling. For example, potentially dropping variables or deciding to include others in an imputation model. Another useful approach is to tabulate the frequency of missing values for each variable or case; that is, the number of times there are zero, one, two, and so on, missing values. These summaries and tabulations are shown for variable in Tables \@ref(tab:miss-var-summary) and \@ref(tab:miss-var-table), using the `miss_var_summary` and `miss_var_table` functions. Functions are also provided for case-wise summaries and tabulations with `miss_case_summary` and `miss_case_table`, which order by `n_miss`, so the most missings are always shown at the top. Other summaries provided in \pkg{naniar} include summaries of missingness across a provided repeating span, `miss_var_span`, and finding the streaks or runs of missingness in a given variable in `miss_var_run`.
 
@@ -637,7 +636,7 @@ miss_var_table(airquality) %>%
   # kable_styling(latex_options = c("hold_position"))
 ```
 
-### Combining numerical summaries with grouping operations {#num-sum-w-group}
+## Combining numerical summaries with grouping operations {#num-sum-w-group}
 
 These summaries and tabulations can be composed with the "pipe" operator to perform grouped summaries using the `group_by` operator from `dplyr`.
 These summaries return dataframes, which may be used by other plotting devices, modelling tools, or other summaries. Table \@ref(tab:group-miss-var-summary) shows an example of the missing data summaries for the airquality dataset in each variable, for each month of the year. These datasets can be summarized in visualizations, or values input into a model.
