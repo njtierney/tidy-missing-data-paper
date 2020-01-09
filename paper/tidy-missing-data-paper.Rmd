@@ -76,7 +76,7 @@ As data science has become a more solid field, theories and principles have deve
 <!-- warning (see Figure \@ref(fig:warning)). Most other analysis software will -->
 <!-- simply drop cases with missings without warning. -->
 
-```{r warning, fig.cap = "How ggplot behaves when displaying missing values:  Warning message (Left) is thrown prior to plot (Right); ggplot2 does not display missing values in the plot, but at least throws a warning message to the user, which is better than many statistical models.", fig.height = 2.5, fig.width = 2.5, out.width = "75%", warning = FALSE, fig.show = 'hold'}
+```{r warning, fig.cap = "How ggplot behaves when displaying missing values: ggplot2 does not display missing values in the plot, but at least throws a warning message to the user, which is better than many statistical models.", fig.height = 2.5, fig.width = 2.5, out.width = "75%", warning = FALSE, fig.show = 'hold'}
 
 p1 <- ggplot(oceanbuoys,
        aes(x = humidity,
@@ -100,36 +100,35 @@ knitr::include_graphics("images/ggplot2-warning-and-plot.png")
 
 ```
 
-
 The imputation literature (e.g. @Little1988, @Rubin1976, @Simon1986,
-@Schafer2002, @VanBuuren2012) does not address how to explore, understand, and handle
-missing data structures and mechanisms.
-Instead the focus is on ensuring valid statistical inference is made from
-incomplete data. They approach this chiefly through probabilistic modelling, and
-assume the mechanism of missing data is known to the analyst. 
+@Schafer2002, @VanBuuren2012) focusses on ensuring valid statistical inference
+is made from incomplete data. This is approached chiefly through probabilistic
+modelling, assuming the mechanism of missing data is known to the analyst. It
+does not address how to explore, understand, and handle missing data structures
+and mechanisms.
 
-However, something has to be known about the missing value structure to produce
-a complete dataset for analysis. Whether by case or variable deletion, or with
-imputation, it is ideal to identify the mechanism generating missing 
-values. To understand their structure, the data must be explored, which means generating visualizations, summaries, and performing exploratory modelling. This process is inherently difficult, as it is iterative, and
-involves many dead ends, and there might not be a clear answer even after much
-exploratory data analysis. 
+However, something must be known about the missing value structure to produce a
+complete dataset for analysis, whether by case- or variable-deletion, or with
+imputation. To understand their structure, the analyst must explore the data
+with perform visualizations, summaries, and modelling. This exploratory process
+is iterative, and often soaks up a lot of time before more pertinent questions
+can be answered.
 
-Although
-decision tree models or latent group analysis can reveal structures or patterns
-of missingness [@Tierney2015; @Barnett2017], these are not definitive and
-usually require discussion with data curators to validate.
-While there might be other times where the data are
-clearly missing completely at random (or missing at random), determining this is not always straightforward. There is no silver bullet to reveal missing data
-mechanisms to the analyst. Missing data must be explored.
+Decision tree models or latent group analysis can reveal structures or patterns
+of missingness [@Tierney2015; @Barnett2017], but are not definitive. While there
+might be other times where the missing data mechanism is obvious, determining
+this is not always straightforward. There is no silver bullet to reveal missing
+data mechanisms to the analyst. Missing data must be explored.
 
-While there have been many software tools for exploring missing data (VIM, mi, mice, MissingDataGUI, MANET, ggobi, norm), these tools generate outputs challenging to integrate into analysis pipelines. Despite it being crucial to explore and understand missing data, there is very little research on how to make this process more efficient and integrate it into the analysis pipeline. The analyst must
+While there have been many software tools for exploring missing data [@VIM, @mi, @mice, @Cheng2015, @MANET, @ggobi, @norm], these tools do not integrate easily into analysis pipelines. Despite it being crucial to explore and understand missing data, there is very little research on how to make this process more efficient and integrate it into the analysis pipeline. The analyst must
 explore missing data using visualizations, summaries, and exploratory analyses,
 but there is a lack of modern tools to efficiently explore missing data.
 
-The graphics literature [@Swayne1998; @Unwin1996; @VIM; @Cheng2015] provides several solutions for exploring missings visually. These approaches incorporate missings into the plot in some way. For example, imputing values 10% below the range to display all values in a scatter plot. These methods require the data to be linked to the missing or imputed values; this link is typically hidden from the user. The approaches from the graphics literature have not been translated and integrated into tidy data. This limits the analyst's capacity to efficiently explore missing values. Extending tidy data and tidy tools to account for missing values would create more efficient and robust workflows and analysis.
+The graphics literature [@Swayne1998; @Unwin1996; @VIM; @Cheng2015] provides several solutions for exploring missings visually. These approaches incorporate missings into the plot in some way. For example, imputing values 10% below the range to display all values in a scatter plot. These methods require the data to be linked to the missing or imputed values, but this link is typically hidden from the user. The approaches from the graphics literature have not been translated and integrated into tidy data. This limits the analyst's capacity to efficiently explore missing values. Extending tidy data and tidy tools to account for missing values would create more efficient and robust workflows and analysis.
 
-The paper is organized in the following way to discuss the problem of missing data. The next section (\@ref(tidy-data-concepts)) is an introduction to tidy data principles and tools. Missing value imputation (\@ref(missing-data-rep-dep) and \@ref(imputation)) and exploration literature (\@ref(exploration)) are then discussed. Section \@ref(extensions) discusses tidy methodology extensions, which facilitate operations for exploring, visualizing, and imputing missing data. The application of these new methods is illustrated using a case study in section \@ref(case-study). Finally, section \@ref(discussion) discusses strengths, limitations, and future directions.
+The paper is organized in the following way to discuss the problem of missing data. The next section (\@ref(tidy-data-concepts)) is an introduction to tidy data principles and tools. Existing missing data software is discussed in \@ref(existing-software). Section \@ref(extensions) discusses tidy methodology extensions, which facilitate operations for exploring, visualizing, and imputing missing data. The application of these new methods is illustrated using a case study in section \@ref(case-study). Finally, section \@ref(discussion) discusses strengths, limitations, and future directions.
+
+
 
 # Background {#background}
 
@@ -152,26 +151,26 @@ Data manipulation is made input- and output-tidy with R packages \pkg{dplyr} and
 
 ### Visualizations {#tidy-vis}
 
-Visualization tools only have tidy data as their input, as the output is a graphic. The popular domain specific language \pkg{ggplot2} maps variables in a dataset to features (referred to as aesthetics) of a graphic [@ggplot2]. For example, a scatterplot can be created by mapping two variables to the x and y axes, and specifying a point geometry. The graph can then be changed to map a third variable to color of the points, and a fourth variable to size.
+Visualization tools only have tidy data as their input, as the output is a graphic. The popular domain specific language \pkg{ggplot2} maps variables in a dataset to features (referred to as aesthetics) of a graphic [@ggplot2]. For example, a scatterplot can be created by mapping two variables to the x and y axes, and specifying a point geometry. 
 
 ### Modelling {#tidy-model}
 
-Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. This output problem has been partially addressed with the \pkg{broom} package, which tidies up model outputs for data analysis, and the developing \pkg{recipes} package, which helps make modelling input and output tidy [@recipes].
+Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs for data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
 
 ### The tidyverse {#the-tidyverse}
 
-Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the "tidyverse" [@tidyverse]. These are designed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr} and dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles and create fluid workflows for new domains. For example, the \pkg{tidytext} package for text analysis, the \pkg{tsibble} package for time series data, and \pkg{tidycensus} for working with US census and boundary data [@tidytext; @wang2020tsibble; @tidycensus].
+Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the "tidyverse" [@tidyverse]. These are designed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr} and dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} package for text analysis, the \pkg{tsibble} package for time series data, and \pkg{tidycensus} for working with US census and boundary data [@tidytext; @wang2020tsibble; @tidycensus].
 
 ### Tidy formats for missing data {#tidy-formats-missing-data}
 
 Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools suffer the same problems as modelling for imputation: They use tidy input, but produce messy output - their output is challenging to integrate with other steps of data analysis. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
 
 Graphics research on missing data has not yet been framed in a tidy way.
-The graphics literature has explored methods for missing value exploration and imputation. Translating and expanding these to fit within tidy data and tidy tools would create more efficient workflows. By laying down these concepts, it allows the focus to be more general than just software, but rather, an extensible framework for tidy tools to explore missing data.
+The graphics literature has explored methods for missing value exploration and imputation. Translating and expanding these to fit within tidy data and tidy tools would create more efficient workflows. Defining these concepts allows the focus to be more general than just software, but rather, an extensible framework for tidy tools to explore missing data.
 
 ## Missing data representation and dependence {#missing-data-rep-dep}
 
-The information on missing values in a dataset can be represented as a missingness matrix, $R$, where 0 is observed data and 1 is missing data, where for data $y$ with $i$ rows and $j$ columns, the value $r_{ij}$ is given by:
+Missingness can be represented as a matrix, $R$, for data $y$ with $i$ rows and $j$ columns:
 
 $$
 r_{ij} =\begin{cases}
@@ -180,13 +179,11 @@ r_{ij} =\begin{cases}
 \end{cases}
 $$
 
-There are many ways each value can go missing, we adopt the notation used in @VanBuuren2012. The information in $R$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), Missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $r_{ij}$ can depend on the entire dataset, which is represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the _missing data model_, of which $/psi$ contains the model parameters, and the missing data model can written as $Pr(r_{ij} | Y_{obs}, Y_{miss}, \psi)$ - the probability of missingness is conditional on the data observed, data missing, and some probability parameter of missingness. We can then use this to help precisely define categories of missing values.
+There are many ways each value can go missing, we adopt the notation used in @VanBuuren2012. The information in $R$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), Missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $r_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the _missing data model_ $Pr(r_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps precisely define categories of missing values.
 
-**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(R = 1 | Y_{obs}, Y_{miss}) = Pr(R = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameters $\psi$, which is the overall probability of missingness. Although this is a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. 
+**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(R = 1 | Y_{obs}, Y_{miss}) = Pr(R = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameters $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is,$Pr(R = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(R = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(R = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations, data goes missing due to some phenomena unobserved, including the structure of the missing data itself.  This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena.
 
-**MAR** refers to cases where the missingness only depends on the data observed, and not data missing, that is,$Pr(R = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(R = 1 | Y_{obs}, \psi)$. Some structure or dependence between the missing values and observed values is allowed, provided that this can be explained by the data observed, and some overall probability of missingness. 
-
-Finally, **MNAR** refers to the missingness being related to values observed, and un unobserved; if this does not simplify  $Pr(R = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes that conditioning on all available observed data, the data goes missing due to some phenomena unobserved, including the structure of the missing data itself.  This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena.
+<!-- (possibly remove this next para?) -->
 
 Visualizations can help assess whether data is MCAR, MAR or MNAR. Imputation is recommended in most cases of missingness dependence, where the values are plausible (e.g., imputing a pulse for someone deceased), as this can help re-assess the classification of missingness.
 
@@ -1345,7 +1342,7 @@ The approach meshes with the dynamic nature of data analysis, allowing the analy
 
 # Acknowledgements
 
-The authors would like to thank Miles McBain, for his key contributions and discussions on the `naniar` package, in particular for helping implement `geom_miss_point`, and for his feedback on ideas, implementations, and names. We also thank Colin Fay for his contributions to the `naniar` package, in particular for his assistance with the `replace_with_na` functions. We also thank Earo Wang and Mitchell O'Hara-Wild for the many useful discussions on missing data and package development, and for their assistance with creating elegant approaches that take advantage of the tidy syntax. We would also like to thank those who contributed pull requests and discussions on the `naniar` package, in particular Jim Hester and Romain François for improving the speed of key functions, Ross Gayler for discussion on special missing values, and Luke Smith for helping `naniar` be more compliant with `ggplot2`.
+The authors would like to thank Miles McBain, for his key contributions and discussions on the `naniar` package, in particular for helping implement `geom_miss_point`, and for his feedback on ideas, implementations, and names. We also thank Colin Fay for his contributions to the `naniar` package, in particular for his assistance with the `replace_with_na` functions. We also thank Earo Wang and Mitchell O'Hara-Wild for the many useful discussions on missing data and package development, and for their assistance with creating elegant approaches that take advantage of the tidy syntax. We would also like to thank those who contributed pull requests and discussions on the `naniar` package, in particular Jim Hester and Romain François for improving the speed of key functions, Ross Gayler for discussion on special missing values, and Luke Smith for helping `naniar` be more compliant with `ggplot2`. We would also like to thank Amelia McNamara for her assistance with proof-reading the paper.
 
 
 # References
