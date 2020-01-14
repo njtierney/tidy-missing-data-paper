@@ -46,7 +46,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.height = 4, 
                       cache = TRUE)
 
-library(tidyverse)
+library(tidyverse) 
 library(gridExtra)
 # options(kableExtra.latex.load_packages = FALSE)
 # library(kableExtra)
@@ -61,6 +61,9 @@ library(naniar)
 library(knitr)
 library(lubridate)
 library(magick)
+library(rpart)
+library(visdat)
+library(patchwork)
 options(tinytex.verbose = TRUE)
 ```
 
@@ -100,8 +103,7 @@ knitr::include_graphics("images/ggplot2-warning-and-plot.png")
 
 ```
 
-The imputation literature (e.g. @Little1988, @Rubin1976, @Simon1986,
-@Schafer2002, @VanBuuren2012) focusses on ensuring valid statistical inference
+The imputation literature (See \@ref(imputation)) focusses on ensuring valid statistical inference
 is made from incomplete data. This is approached chiefly through probabilistic
 modelling, assuming the mechanism of missing data is known to the analyst. It
 does not address how to explore, understand, and handle missing data structures
@@ -120,11 +122,11 @@ might be other times where the missing data mechanism is obvious, determining
 this is not always straightforward. There is no silver bullet to reveal missing
 data mechanisms to the analyst. Missing data must be explored.
 
-While there have been many software tools for exploring missing data [@VIM, @mi, @mice, @Cheng2015, @MANET, @ggobi, @norm], these tools do not integrate easily into analysis pipelines. Despite it being crucial to explore and understand missing data, there is very little research on how to make this process more efficient and integrate it into the analysis pipeline. The analyst must
+While there have been many software tools for exploring missing data (See \@ref(exploration)), these tools do not integrate easily into analysis pipelines. Despite it being crucial to explore and understand missing data, there is very little research on how to make this process more efficient and integrate it into the analysis pipeline. The analyst must
 explore missing data using visualizations, summaries, and exploratory analyses,
 but there is a lack of modern tools to efficiently explore missing data.
 
-The graphics literature [@Swayne1998; @Unwin1996; @VIM; @Cheng2015] provides several solutions for exploring missings visually. These approaches incorporate missings into the plot in some way. For example, imputing values 10% below the range to display all values in a scatter plot. These methods require the data to be linked to the missing or imputed values, but this link is typically hidden from the user. The approaches from the graphics literature have not been translated and integrated into tidy data. This limits the analyst's capacity to efficiently explore missing values. Extending tidy data and tidy tools to account for missing values would create more efficient and robust workflows and analysis.
+The graphics literature (See \@ref(exploration)) provides several solutions for exploring missings visually. These approaches incorporate missings into the plot in some way. For example, imputing values 10% below the range to display all values in a scatter plot. These methods require the data to be linked to the missing or imputed values, but this link is typically hidden from the user. The approaches from the graphics literature have not been translated and integrated into tidy data. This limits the analyst's capacity to efficiently explore missing values. Extending tidy data and tidy tools to account for missing values would create more efficient and robust workflows and analysis.
 
 The paper is organized in the following way to discuss the problem of missing data. The next section (\@ref(tidy-data-concepts)) is an introduction to tidy data principles and tools. Existing missing data software is discussed in \@ref(existing-software). Section \@ref(extensions) discusses tidy methodology extensions, which facilitate operations for exploring, visualizing, and imputing missing data. The application of these new methods is illustrated using a case study in section \@ref(case-study). Finally, section \@ref(discussion) discusses strengths, limitations, and future directions.
 
@@ -294,7 +296,7 @@ cowplot::plot_grid(p1,
           labels = LETTERS[1:4])
 ```
 
-# Extensions to tidyverse {#extensions}
+# Tidy framework for Missings {#extensions}
 
 Applying tidyverse principles to the domain of missing data clarifies and
 facilitates missing data exploration, visualization, and imputation. This
@@ -563,8 +565,6 @@ All missings can be displayed using a heatmap style visualization. This is achie
 
 ```{r vis-miss, fig.height = 3, fig.width = 4.5, out.width = "80%", fig.show = 'hold', echo = FALSE, dev = "png", dpi = 300, fig.cap = "Heatmap visualizations of missing data for the airquality dataset. (A) The default output and (B) ordered by clustering on rows and columns. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness."}
 
-library(visdat)
-
 p1 <- vis_miss(airquality)
 
 p2 <- vis_miss(airquality, cluster = TRUE)
@@ -674,8 +674,6 @@ airquality %>%
 Parallel coordinate plots can visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The `oceanbuoys` dataset from \pkg{naniar} is used for this visualisation, containing measurements of ocean buoys to understand and predict El Niño and El Niña. Data was collected in 1993 and 1997, and contains measurements of sea and air temperature, humidity, and east west and north south wind speeds. Figure \@ref(fig:parallel-cord-plot) shows a parallel coordinate plot of the `oceanbuoys`, with missing values imputed to be 10% below the range, and values colored according to where humidity was missing (humidity_NA). This shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location. 
 
 ```{r parallel-cord-plot, fig.width = 8, fig.height = 4, out.width = "100%", echo = FALSE, fig.cap = "Parallel coordinate plot shows missing values imputed 10\\% below range for the oceanbuoys dataset. Values are colored by missingness of humidity. Humidity is missing for low air and sea temperatures, and is missing for one year and one location. "}
-library(naniar)
-library(tidyverse)
 
 range_01 <- function(x, ...){(x - min(x, ...)) / (max(x, ...) - min(x, ...))}
 
@@ -942,7 +940,6 @@ housing_cls <- add_miss_cluster(housing, n_clusters = 2)
 ```
 
 ```{r rpart-fit-cluster}
-library(rpart)
 
 miss_cls_pre_fit <- housing_cls %>%
   mutate(year = lubridate::year(date),
@@ -1279,14 +1276,25 @@ aug_fits <- bind_rows(cc =  aug_fit_cc,
                       lm =  aug_fit_lm,
                       .id = "model")
 
-aug_fits %>%
-  ggplot(aes(x = .fitted,
-             y = .resid)) + 
-  # geom_point(alpha = 0.1) + 
-  geom_hex() +
-  labs(fill = "Count") +
-  scale_fill_viridis_c() +
-  facet_wrap(~model)
+gg_hex <- function(data,
+                   subset){
+  
+  data_subset <- data %>% 
+    filter(model == subset)
+  
+    ggplot(data_subset, aes(x = .fitted,
+               y = .resid)) + 
+    geom_hex() + 
+    scale_fill_viridis_c() +
+    theme(legend.position = "bottom",
+          aspect.ratio = 1) +
+      labs(tag = subset)
+}
+
+gg_hex(aug_fits, "cc") +
+gg_hex(aug_fits, "knn") +
+gg_hex(aug_fits, "lm")
+
 
 ```
 
