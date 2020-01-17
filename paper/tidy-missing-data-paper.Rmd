@@ -18,11 +18,11 @@ title:
   # For running headers, if needed
   short:     "Explore missingness with \\pkg{naniar}"
 abstract: >
-  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as an integral part of data analysis workflows. We define both new data structures and new verbs (functions) to perform common operations. Together, these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package `naniar`.
+  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as an integral part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package called `naniar`.
 keywords:
   # at least one keyword must be supplied
-  formatted: [workflow, statistical computing, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
-  plain:     [workflow, statistical computing, data science, data visualization, tidyverse, data pipeline, R]
+  formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
+  plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, R]
 preamble: >
   \usepackage{amsmath}
   \usepackage[english]{babel}
@@ -69,7 +69,7 @@ options(tinytex.verbose = TRUE)
 
 # Introduction {#intro}
 
-As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' a set of guidelines for converting raw data into a clean, analysis-ready format that works efficiently in a data analysis pipeline, while another is the idea of the Grammar of Graphics, which describes how to map data values into a visualization [@Wickham2014, Wilkinson2012]. These principles have guided analysts in their work for several years now. However, while these principles outline how to work with data in a general way, they do not address the problem of missing data. In particular, there is little to no guidance for working with missing values in the field of visualization. Most analysis software simply drops missing values when making a plot, although some packages provide a warning (Figure \@ref(fig:warning)).
+As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines of a clean, analysis-ready format, that informs the workflow to convert raw data through a data analysis pipeline [@Wickham2014]. The second idea is the grammar of graphics, which describes how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted. However, these principles do not address the problem of missing data. In particular, there is little guidance for missing value handling in the data workflow. Most analysis and visualisation software simply drops missing values when making a plot, although some packages like \pkg{ggplot2} provide a warning (Figure \@ref(fig:warning)).
 
 <!-- Tidy data [@Wickham2014] is a relatively new principle and suite of tools -->
 <!-- facilitating the process of converting raw data into a clean, analysis-ready -->
@@ -79,7 +79,7 @@ As data science has become a more solid field, theories and principles have deve
 <!-- warning (see Figure \@ref(fig:warning)). Most other analysis software will -->
 <!-- simply drop cases with missings without warning. -->
 
-```{r warning, fig.cap = "How ggplot behaves when displaying missing values: ggplot2 does not display missing values in the plot, but at least throws a warning message to the user, which is better than many statistical models.", fig.height = 2.5, fig.width = 2.5, out.width = "75%", warning = FALSE, fig.show = 'hold'}
+```{r warning, fig.cap = "How ggplot2 behaves when displaying missing values. A warning message is displayed, but missing values are not shown in the plot", fig.height = 2.5, fig.width = 2.5, out.width = "75%", warning = FALSE, fig.show = 'hold'}
 
 p1 <- ggplot(oceanbuoys,
        aes(x = humidity,
@@ -103,7 +103,7 @@ knitr::include_graphics("images/ggplot2-warning-and-plot.png")
 
 ```
 
-The imputation literature (See \@ref(imputation)) focusses on ensuring valid statistical inference
+The imputation literature focusses on ensuring valid statistical inference
 is made from incomplete data. This is approached chiefly through probabilistic
 modelling, assuming the mechanism of missing data is known to the analyst. It
 does not address how to explore, understand, and handle missing data structures
@@ -112,9 +112,11 @@ and mechanisms.
 However, something must be known about the missing value structure to produce a
 complete dataset for analysis, whether by case- or variable-deletion, or with
 imputation. To understand their structure, the analyst must explore the data
-with perform visualizations, summaries, and modelling. This exploratory process
+with visualizations, summaries, and modelling. This exploratory process
 is iterative, and often soaks up a lot of time before more pertinent questions
 can be answered.
+
+Understanding the missing data mechanism is an iterative procedure, to arrive at a reasonably confident state of understanding the missing data mechanism.
 
 Decision tree models or latent group analysis can reveal structures or patterns
 of missingness [@Tierney2015; @Barnett2017], but are not definitive. While there
