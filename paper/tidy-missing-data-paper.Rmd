@@ -111,28 +111,17 @@ and mechanisms.
 
 However, something must be known about the missing value structure to produce a
 complete dataset for analysis, whether by case- or variable-deletion, or with
-imputation. To understand their structure, the analyst must explore the data
-with visualizations, summaries, and modelling. This exploratory process
-is iterative, and often soaks up a lot of time before more pertinent questions
-can be answered.
-
-Understanding the missing data mechanism is an iterative procedure, to arrive at a reasonably confident state of understanding the missing data mechanism.
-
-Decision tree models or latent group analysis can reveal structures or patterns
+imputation. Decision tree models or latent group analysis can reveal structures or patterns
 of missingness [@Tierney2015; @Barnett2017], but are not definitive. While there
 might be other times where the missing data mechanism is obvious, determining
-this is not always straightforward. There is no silver bullet to reveal missing
-data mechanisms to the analyst. Missing data must be explored.
+this is not straightforward. To understand their structure, the analyst must explore the data
+with visualizations, summaries, and modelling. It is an iterative procedure, to arrive at a reasonably confident state of understanding the missing data mechanism. 
 
-While there have been many software tools for exploring missing data (See \@ref(exploration)), these tools do not integrate easily into analysis pipelines. Despite it being crucial to explore and understand missing data, there is very little research on how to make this process more efficient and integrate it into the analysis pipeline. The analyst must
-explore missing data using visualizations, summaries, and exploratory analyses,
-but there is a lack of modern tools to efficiently explore missing data.
+While there have been many software tools for exploring missing data, they do not work together. The graphics literature provides several solutions for exploring missings visually by incorporating them into the plot in some way. For example, imputing values to be 10% below the minimum will include all observations into a scatter plot. 
 
-The graphics literature (See \@ref(exploration)) provides several solutions for exploring missings visually. These approaches incorporate missings into the plot in some way. For example, imputing values 10% below the range to display all values in a scatter plot. These methods require the data to be linked to the missing or imputed values, but this link is typically hidden from the user. The approaches from the graphics literature have not been translated and integrated into tidy data. This limits the analyst's capacity to efficiently explore missing values. Extending tidy data and tidy tools to account for missing values would create more efficient and robust workflows and analysis.
+However, this is often implicit, and not transparent to the user. (**NOTE** include possible brief example from mice/mi/VIM). The ideas from the graphics literature need to be translated into tidy data tools to integrate missing data handling in a data pipeline.
 
-The paper is organized in the following way to discuss the problem of missing data. The next section (\@ref(tidy-data-concepts)) is an introduction to tidy data principles and tools. Existing missing data software is discussed in \@ref(existing-software). Section \@ref(extensions) discusses tidy methodology extensions, which facilitate operations for exploring, visualizing, and imputing missing data. The application of these new methods is illustrated using a case study in section \@ref(case-study). Finally, section \@ref(discussion) discusses strengths, limitations, and future directions.
-
-
+This paper is organized in the following way. The next section (\@ref(background)) provides the background to to tidy data principles and tools (\@ref(tidy-data-concepts) and missing data representations (\@ref(missing-data-rep-dep). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
 
 # Background {#background}
 
