@@ -127,20 +127,19 @@ This paper is organized in the following way. The next section (\@ref(background
 
 ## Tidy data concepts and methods {#tidy-data-concepts}
 
-Features of tidy data were formally discussed in 2014 [@Wickham2014], subsequently generating much discussion (@Donoho2017 and commentary, @r4ds), and tools for data analysis. Tidy data is defined as:
+Features of tidy data were formally discussed in @Wickham2014, and were discussed in terms of their importance for data science by @Donoho2017, and tools for data analysis. Tidy data is defined by @r4ds as:
 
 > 1. Each variable must have its own column.
 > 1. Each observation must have its own row.
 > 1. Each value must have its own cell.
 
-Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are most robustly implemented in the R programming language, so the 
-paper focusses on R.
+Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are comprehensively implemented in the R programming language, so this paper focusses on R.
 
-With tidy data come tidy tools, which have the same input and output: tidy data. This consistency means multiple tools can be composed together in sequence, allowing for rapid, elegant operations. Contrasting tidy tools are messy tools. These have tidy input but messy output. Messy tools slow down analysis by shifting the focus from analysis to transforming output so it is the right shape for the next step in the analysis. This makes the work at each step harder to predict, and more complex and difficult to maintain. This disrupts workflow, and incites errors. Tidy tools fall into three broad categories: data manipulation, visualization, and modelling. These are now discussed in turn.
+Tidy tools require the same tidy data input and output. This consistency means multiple tools can be composed together into a sequence, allowing for rapid, elegant, and complex operations. Contrasting tidy tools are messy tools. These have tidy input but messy output. Messy tools slow down analysis by shifting the focus from analysis to transforming output so it is the right shape for the next step in the analysis. This makes the work at each step harder to predict, and more complex and difficult to maintain. This disrupts workflow, and invites errors. Tidy tools fall into three broad categories: data manipulation, visualization, and modelling.
 
 ### Data manipulation {#tidy-data-manip}
 
-Data manipulation is made input- and output-tidy with R packages \pkg{dplyr} and \pkg{tidyr} [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. **Data reshaping** goes from long to wide formats; **sorting** arranges rows in a specific order; **filtering** removes rows based on a condition; **transforming** changes existing variables or adding new ones; **aggregating** creates a single value from many values, say for example by computing the minimum, maximum, and mean.
+Data manipulation is made input- and output-tidy with R packages \pkg{dplyr} and \pkg{tidyr} [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. **Data reshaping** goes from long to wide formats; **sorting** arranges rows in a specific order; **filtering** removes rows based on a condition; **transforming**, changes existing variables or adds new ones; **aggregating** creates a single value from many values, say, for example, by computing the minimum, maximum, and mean.
 
 ### Visualizations {#tidy-vis}
 
@@ -152,18 +151,18 @@ Modelling tools work well with tidy data, as they have a clear mapping from vari
 
 ### The tidyverse {#the-tidyverse}
 
-Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the "tidyverse" [@tidyverse]. These are designed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr} and dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} package for text analysis, the \pkg{tsibble} package for time series data, and \pkg{tidycensus} for working with US census and boundary data [@tidytext; @wang2020tsibble; @tidycensus].
+Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the "tidyverse" [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr} and dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
 
 ### Tidy formats for missing data {#tidy-formats-missing-data}
 
 Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools suffer the same problems as modelling for imputation: They use tidy input, but produce messy output - their output is challenging to integrate with other steps of data analysis. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
 
-Graphics research on missing data has not yet been framed in a tidy way.
-The graphics literature has explored methods for missing value exploration and imputation. Translating and expanding these to fit within tidy data and tidy tools would create more efficient workflows. Defining these concepts allows the focus to be more general than just software, but rather, an extensible framework for tidy tools to explore missing data.
+Taking existing methods from the missing data graphics literature, and translating and expanding them into tidy data and tidy tools would create more effective data visualisations.
+Defining these concepts allows the focus to be more general than just software, but rather, an extensible framework for tidy tools to explore missing data.
 
 ## Missing data representation and dependence {#missing-data-rep-dep}
 
-Missingness can be represented as a matrix, $R$, for data $y$ with $i$ rows and $j$ columns:
+The convention for representing missingness is a matrix, $R$, for data $y$ with $i$ rows and $j$ columns:
 
 $$
 r_{ij} =\begin{cases}
@@ -172,17 +171,19 @@ r_{ij} =\begin{cases}
 \end{cases}
 $$
 
-There are many ways each value can go missing, we adopt the notation used in @VanBuuren2012. The information in $R$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), Missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $r_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the _missing data model_ $Pr(r_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps precisely define categories of missing values.
+There are many ways each value can be missing, we adopt the notation used in @VanBuuren2012. The information in $R$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $r_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the _missing data model_ $Pr(r_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps to precisely define categories of missing values.
 
-**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(R = 1 | Y_{obs}, Y_{miss}) = Pr(R = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameters $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is,$Pr(R = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(R = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(R = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations, data goes missing due to some phenomena unobserved, including the structure of the missing data itself.  This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena.
+**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(R = 1 | Y_{obs}, Y_{miss}) = Pr(R = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is, $Pr(R = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(R = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(R = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself.  This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena.
 
 <!-- (possibly remove this next para?) -->
 
-Visualizations can help assess whether data is MCAR, MAR or MNAR. Imputation is recommended in most cases of missingness dependence, where the values are plausible (e.g., imputing a pulse for someone deceased), as this can help re-assess the classification of missingness.
+Visualizations can help assess whether data is MCAR, MAR or MNAR. Imputation is recommended in most cases of missingness dependence.
 
 # Existing Software {#existing-software}
 
-Methods for exploring, understanding, and imputing missing data are more accessible than they have ever been. In particular, the number of methods and implementations in imputation seeing continued growth. Values can be imputed with one value (single imputation), or multiple values (multiple imputation), creating $m$ datasets. This section discusses existing software for single and multiple imputation \@ref(imputation), and exploration \@ref(exploration).
+Methods for exploring, understanding, and imputing missing data are more accessible now than they have ever been. In particular, the number of methods and implementations of imputation are seeing continued growth. Values can be imputed with one value (single imputation), or multiple values (multiple imputation), creating $m$ datasets. This section discusses existing software for single and multiple imputation, and exploration.
+
+(**read over next two sections - Nick**)
 
 ## Imputation {#imputation}
 
@@ -287,49 +288,54 @@ cowplot::plot_grid(p1,
           labels = LETTERS[1:4])
 ```
 
-# Tidy framework for Missings {#extensions}
+# Tidy framework for missings {#extensions}
 
-Applying tidyverse principles to the domain of missing data clarifies and
-facilitates missing data exploration, visualization, and imputation. This
-section discusses how these principles, in three parts: tidy data structures for missing data \@ref(data-structure), common operations (verbs) of missing data \@ref(verbs), graphics \@ref(graphics), and data summaries \@ref(num-sum). The design and naming of these features is discussed throughout, as they are an important component to help the analyst compose them efficiently in data pipelines.
+Applying tidyverse principles has the potential to clarify missing data exploration, visualization, and imputation. This
+section discusses how these principles are applied for data structures \@ref(data-structure), common operations (verbs) \@ref(verbs), graphics \@ref(graphics), and data summaries \@ref(num-sum). The design and naming of these features is important, and care has been taken to make the names intuitive for their purpose.
 
 ## Data structure {#data-structure}
 
 To explore missing data there needs to be a robust representation of missing
-values that integrate into analysis pipelines. This means a data structure that is easily transported, and not a special class reliant on attributes that can be lost in analysis. The R matrix, where 0 and 1
+values that integrates into analysis pipelines. This means a data structure that is easily transported, and not a special class reliant on attributes that can be lost in analysis. The $R$ matrix, where 0 and 1
 indicate not missing and missing provides a useful template, as it is very common in
 missing data literature.  This matrix was used to explore missing values in
 the interactive graphics library XGobi, called a "missing value
 shadow", or "shadow matrix", defined as a copy of the original data with
-indicator values of missingness, where 1s represent missing values, and 0
-represents complete values. The values 0 and 1 can
+indicator values of missingness. The values 0 and 1 can
 be confusing representations of missing values - does
-0 indicate a the absence of observation, or the presence of a missing value? The
-shadow matrix was specially linked to the data, but could not be access
-directly, instead linked with special window views. The data structure was abstracted from the user to facilitate data exploration, which was consistent with the state of the art. However, the data structure needs to be clearly presented to the user so they
-can apply it more flexibly in data analysis.
+0 indicate an absence of observation, or the presence of a missing value? 
+The shadow matrix could be interactively linked to the data.
 
-```{r shadow-matrix-progress, echo = FALSE, fig.cap = "Progression of creating shadow matrix data. (1-2) Data to a binary representation of missings, (2-3) Binary format converted to a shadow matrix (3-4) New and improved shadow matrix with changed variable names. This clearly links a variable to its state of missingness.", out.width = "100%", fig.align="center"}
+```{r shadow-matrix-progress, echo = FALSE, fig.cap = "Series of steps to create shadow matrix data. (1-2) Data to a binary representation of missings, (2-3) Binary format converted to a shadow matrix (3-4) New and improved shadow matrix with changed variable names. This clearly links a variable to its state of missingness.", out.width = "100%", fig.align="center"}
 
 knitr::include_graphics("images/full-conversion-to-shadow.png")
 
 ```
 
-We propose a new form for tidy representation of missing data. It is simple, and flexible, building off of past research. Four features are added to the shadow matrix to facilitate analysis of missing data:
+We propose a new form for tidy representation of missing data based on these ideas, based on this past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:shadow-matrix-progress)
 
-1. Missing value label: A simple label to the shadow matrix clear, "NA" and "!NA" for missing and not missing, represented as 0 and 1 (Figure \@ref(fig:shadow-matrix-progress) parts 2 and 3). 
+(**note** - condense details below into points here.)
 
-1. Special missing values: Building on 2, the values in the shadow matrix can be "special" missing values, indicated as `NA_suffix`, where "suffix" is a very short label of the type of missings, and the underlying values are >= 2.
-
-1. Coordinated names: Variables in the shadow matrix gain the same name as in the data, with the suffix "_NA".
-
-1. Cohesiveness: Binding the shadow matrix column-wise to the original data creates a cohesive _nabular_ data form, useful for visualization, summaries, and tracking imputed values.
-
-### Missing value labels {#missing-labels}
+1. **Missing value labels**. A simple label to the shadow matrix clear, "NA" and "!NA" for missing and not missing, represented as 0 and 1.
 
 The $R$ matrix is a very common representation of missing values. It can be created in the "R" language with \code{is.na(data)}. The values 0 and 1 (or FALSE and TRUE) can be confusing, however, as it is not immediately clear what they represent: does 0 indicate a the absence (0) of observation, or the presence (1) of a missing value? This is solved by adding a simple label to the shadow matrix: "NA" and "!NA" for missing and not missing. Values in the shadow matrix can be represented as "factor" types values, with text values "NA" and "!NA" and underlying number values 1 and 0, for missing and not missing (Figure \@ref(fig:shadow-matrix-progress) parts 1-3).
 
+
+
+1. Special missing values: Building on 1, the values in the shadow matrix can be "special" missing values, indicated as `NA_instrument`, where "instrument" is a very short label indicating an instrument error resulting in a missing values.
+
+1. Coordinated names: Variables in the shadow matrix gain the same name as in the data, with the suffix "_NA".
+
+1. Cohesiveness: Binding the shadow matrix column-wise to the original data creates a cohesive _nabular_ data format, so that it cannot be out of sync with the data. useful for visualization, summaries, and tracking imputed values.
+
+(**note - change R matrix to something else**)
+
+### Missing value labels {#missing-labels}
+
+
 ### Special missings {#special-missings}
+
+()
 
 Extending missing value labels to include "special" missing values labelled as "NA_\<suffix\>" allows for representing additional missingness features such as instrument failure and drop-out as "NA_instr_fail", and "NA_drop_out", and even imputations (Table \@ref(tab:shadow-encoding)). The underlying number representation changes from binary to integer, allowing for unlimited missingness features. For example, instrument failure and drop out would be represented as 2 and 3 (Table \@ref(tab:shadow-encoding)). Encoding special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)). 
 
@@ -353,6 +359,7 @@ knitr::kable(fig_shadow_code,
 
 A consistent short suffix "`_NA`" for each variable keeps names coordinated throughout analysis (Figure \@ref(fig:shadow-matrix-progress) part 4). The suffix is short and easy to remember in analysis or visualization. It also makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`. This subtle change is important as it shifts the focus from the value of a variable to its missingness state, making intent clear when performing analysis.
 
+(make this it's own section)
 
 ## Nabular data {#nabular-data}
 
