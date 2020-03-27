@@ -316,30 +316,18 @@ We propose a new form for tidy representation of missing data based on these ide
 
 (**note** - condense details below into points here.)
 
-1. **Missing value labels**. A simple label to the shadow matrix clear, "NA" and "!NA" for missing and not missing, represented as 0 and 1.
+1. **Missing value labels**. Simple labels, "NA" and "!NA", for missing and not missing, clearly identifies missing values for analysis and plotting. This is an improvement over the commonly used binary matrix ($B$), which makes it unclear if 0 indicates the absence (0) of observation, or the presence (1) of a missing value. Missing value labels can be represented as "factor" types values, with text values "NA" and "!NA" and underlying number values 1 and 0, for missing and not missing (Figure \@ref(fig:shadow-matrix-progress) parts 1-3).
 
-The $B$ matrix is a very common representation of missing values. It can be created in the "R" language with \code{is.na(data)}. The values 0 and 1 (or FALSE and TRUE) can be confusing, however, as it is not immediately clear what they represent: does 0 indicate a the absence (0) of observation, or the presence (1) of a missing value? This is solved by adding a simple label to the shadow matrix: "NA" and "!NA" for missing and not missing. Values in the shadow matrix can be represented as "factor" types values, with text values "NA" and "!NA" and underlying number values 1 and 0, for missing and not missing (Figure \@ref(fig:shadow-matrix-progress) parts 1-3).
-
-
-
-1. Special missing values: Building on 1, the values in the shadow matrix can be "special" missing values, indicated as `NA_instrument`, where "instrument" is a very short label indicating an instrument error resulting in a missing values.
-
-1. Coordinated names: Variables in the shadow matrix gain the same name as in the data, with the suffix "_NA".
-
-1. Cohesiveness: Binding the shadow matrix column-wise to the original data creates a cohesive _nabular_ data format, so that it cannot be out of sync with the data. useful for visualization, summaries, and tracking imputed values.
-
-(**note - change R matrix to something else**)
-
-### Missing value labels {#missing-labels}
-
-
-### Special missings {#special-missings}
-
-()
-
-Extending missing value labels to include "special" missing values labelled as "NA_\<suffix\>" allows for representing additional missingness features such as instrument failure and drop-out as "NA_instr_fail", and "NA_drop_out", and even imputations (Table \@ref(tab:shadow-encoding)). The underlying number representation changes from binary to integer, allowing for unlimited missingness features. For example, instrument failure and drop out would be represented as 2 and 3 (Table \@ref(tab:shadow-encoding)). Encoding special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)). 
+1. **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA_\<suffix\>" - for example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Table \@ref(tab:shadow-encoding)). The underlying number representation changes from binary to integer, allowing for unlimited missingness features. For example, instrument failure and drop out would be represented as 2 and 3 (Table \@ref(tab:shadow-encoding)). Encoding special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)). 
 
 Other statistical programs represent missingness values as a full-stop, `.`, and allow for recording special missing values as `.a` - `.z`. The special values from these languages break the rule of "keeping one thing in a cell", as they record both the value and the multivariate missingness state. Additionally, special missing values in other statistical programming languages are encoded at a lower level in the fundamental `NA` type, which is not possible in R.
+
+
+1. **Coordinated names**: Variables in the shadow matrix gain a consistent short suffix, "_NA", keeping names coordinated throughout analysis (Figure \@ref(fig:shadow-matrix-progress) part 4). The suffix is short and easy to remember in analysis or visualization. This shifts the focus from the value of a variable to its missingness state, making intent clear when performing analysis.
+
+(It makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`. )
+
+1. **Cohesiveness**: Binding the shadow matrix column-wise to the original data creates a cohesive _nabular_ data format, so that it cannot be out of sync with the data. useful for visualization, summaries, and tracking imputed values. This is discussed in more detail below in \@ref(nabular-data).
 
 
 ```{r shadow-encoding}
@@ -355,11 +343,6 @@ knitr::kable(fig_shadow_code,
 
 ```
 
-## Coordinated names {#coordinated-names}
-
-A consistent short suffix "`_NA`" for each variable keeps names coordinated throughout analysis (Figure \@ref(fig:shadow-matrix-progress) part 4). The suffix is short and easy to remember in analysis or visualization. It also makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`. This subtle change is important as it shifts the focus from the value of a variable to its missingness state, making intent clear when performing analysis.
-
-(make this it's own section)
 
 ## Nabular data {#nabular-data}
 
