@@ -295,6 +295,8 @@ section discusses how these principles are applied for data structures \@ref(dat
 
 ## Data structure {#data-structure}
 
+(note: section to work on this week.)
+
 To explore missing data there needs to be a robust representation of missing
 values that integrates into analysis pipelines. This means a data structure that is easily transported, and not a special class reliant on attributes that can be lost in analysis. The $B$ matrix, where 0 and 1
 indicate not missing and missing provides a useful template, as it is very common in
@@ -473,7 +475,7 @@ impute_mean_all(airquality) %>% head()
 
 ```
 
-## track: Shadow and impute missing values {#verbs-track}
+### track: Shadow and impute missing values {#verbs-track}
 
 To evaluate imputations they need to be tracked, which is achieved by combining the verbs `nabular`, `impute_`, and `add_label_shadow`. The missing values can then be referred to by their shadow variable, `_NA`. The missingness of any observation can be referred to with `any_missing` (Figure \@ref(fig:track-impute-example)). The code chunk below shows the track pattern, first using `nabular`, then imputing with `impute_lm`, and adding a `label_shadow`:
 
@@ -531,6 +533,8 @@ aq_imputed %>%
 ```
 
 # Graphics {#graphics}
+
+(note: next section to work on)
 
 Visualizing missingness in a dataset is essential to understand its structure. This section discusses four different areas of visualization of missing data: overviews (\@ref(overview-graphics)), univariate (\@ref(univariate-graphics)), bivariate (\@ref(bivariate-graphics)), and multivariate (\@ref(multivariate-graphics)). All plots are created using \pkg{ggplot2}, giving users clearer control over the plot appearance.
 
