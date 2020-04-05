@@ -297,16 +297,17 @@ section discusses how these principles are applied for data structures \@ref(dat
 
 (note: section to work on this week.)
 
+- re-arrange this paragraph around
+
 To explore missing data there needs to be a robust representation of missing
-values that integrates into analysis pipelines. This means a data structure that is easily transported, and not a special class reliant on attributes that can be lost in analysis. The $B$ matrix, where 0 and 1
-indicate not missing and missing provides a useful template, as it is very common in
-missing data literature.  This matrix was used to explore missing values in
+values that integrates into analysis pipelines. This means a data structure that is easily transported, and not a special class reliant on attributes that can be lost in analysis. The $B$ matrix, where 0 and 1 indicate not missing and missing (respectively), provides a useful template, as it is very common in missing data literature.  This matrix was used to explore missing values in
 the interactive graphics library XGobi, called a "missing value
 shadow", or "shadow matrix", defined as a copy of the original data with
-indicator values of missingness. The values 0 and 1 can
-be confusing representations of missing values - does
+indicator values of missingness. The shadow matrix could be interactively linked to the data.
+
+There are some limitations to the shadow matrix, however. Namely, the values 0 and 1 can be confusing representations of missing values - does
 0 indicate an absence of observation, or the presence of a missing value? 
-The shadow matrix could be interactively linked to the data.
+
 
 ```{r shadow-matrix-progress, echo = FALSE, fig.cap = "Series of steps to create shadow matrix data. (1-2) Data to a binary representation of missings, (2-3) Binary format converted to a shadow matrix (3-4) New and improved shadow matrix with changed variable names. This clearly links a variable to its state of missingness.", out.width = "100%", fig.align="center"}
 
@@ -314,7 +315,7 @@ knitr::include_graphics("images/full-conversion-to-shadow.png")
 
 ```
 
-We propose a new form for tidy representation of missing data based on these ideas, based on this past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:shadow-matrix-progress)
+We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:shadow-matrix-progress)
 
 (**note** - condense details below into points here.)
 
@@ -1008,7 +1009,7 @@ node_4 <- data_in %>%
 
 \pkg{simputation} is used to implement two imputation: simple linear regression and K nearest neighbors. Values are imputed stepwise in ascending order of missingness. The  track missings pattern is applied (described in \@ref(verbs-track)), to assess imputed values. Imputed datasets are compared on their performance in a model predicting log house price for 4 variables (Figure \@ref(fig:imputed-by-model)). Compared to KNN imputed values, the linear model imputed values closer to the mean. 
 
-```{r clean-data-for-analysis, include = FALSE}
+```{r clean-data-for-analysis, include = FALSE, cache = TRUE}
 # add memoise to store the output data for this
 impute_knn <- simputation::impute_knn
 dat_house <- housing_cls %>%
@@ -1043,7 +1044,7 @@ dat_house_knn <- dat_house %>%
 ```
 
 
-```{r impute-knn}
+```{r impute-knn, cache = TRUE}
 
 dat_house_lm <- dat_house %>%
   nabular() %>%
