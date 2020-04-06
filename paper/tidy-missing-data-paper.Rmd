@@ -297,16 +297,11 @@ section discusses how these principles are applied for data structures \@ref(dat
 
 (note: section to work on this week.)
 
-- re-arrange this paragraph around
-
 To explore missing data there needs to be a robust representation of missing
 values that integrates into analysis pipelines. This means a data structure that is easily transported, and not a special class reliant on attributes that can be lost in analysis. The $B$ matrix, where 0 and 1 indicate not missing and missing (respectively), provides a useful template, as it is very common in missing data literature.  This matrix was used to explore missing values in
 the interactive graphics library XGobi, called a "missing value
 shadow", or "shadow matrix", defined as a copy of the original data with
-indicator values of missingness. The shadow matrix could be interactively linked to the data.
-
-There are some limitations to the shadow matrix, however. Namely, the values 0 and 1 can be confusing representations of missing values - does
-0 indicate an absence of observation, or the presence of a missing value? 
+indicator values of missingness. The shadow matrix could be interactively linked to the data. There are some limitations to the shadow matrix, however. Namely, the values 0 and 1 can be confusing representations of missing values - does 0 indicate an absence of observation, or the presence of a missing value? 
 
 
 ```{r shadow-matrix-progress, echo = FALSE, fig.cap = "Series of steps to create shadow matrix data. (1-2) Data to a binary representation of missings, (2-3) Binary format converted to a shadow matrix (3-4) New and improved shadow matrix with changed variable names. This clearly links a variable to its state of missingness.", out.width = "100%", fig.align="center"}
@@ -315,27 +310,15 @@ knitr::include_graphics("images/full-conversion-to-shadow.png")
 
 ```
 
-We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:shadow-matrix-progress)
+We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:shadow-matrix-progress).
 
 (**note** - condense details below into points here.)
 
 
 
-1. **Missing value labels**. Simple labels, "NA" and "!NA", for missing and not missing, clearly identifies missing values for analysis and plotting. This is an improvement over the commonly used binary matrix ($B$), which makes it unclear if 0 indicates the absence (0) of observation, or the presence (1) of a missing value. Missing value labels can be represented as "factor" types values, with text values "NA" and "!NA" and underlying number values 1 and 0, for missing and not missing (Figure \@ref(fig:shadow-matrix-progress) parts 1-3).
+1. **Missing value labels**. Simple labels, "NA" and "!NA", for missing and not missing, clearly identifies missing values for analysis and plotting. This is an improvement over the commonly used binary matrix ($B$), which makes it unclear if 0 indicates the absence (0) of observation, or the presence (1) of a missing value. Missing value labels can be represented as "factor" types values, with text values "NA" and "!NA" and underlying number values 1 and 0, for missing and not missing (Figure \@ref(fig:shadow-matrix-progress) parts 1-3). (principle: clarity of labelling - transparent what the matrix means, because these could equally be "missing" or "present" - for this. Anybody looking at these values)
 
-(principle: clarity of labelling - transparent what the matrix means, because these could equally be "missing" or "present" - for this. Anybody looking at these values)
-
-1. **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA_\<suffix\>" - for example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Table \@ref(tab:shadow-encoding)). The underlying number representation changes from binary to integer, allowing for unlimited missingness features. For example, instrument failure and drop out would be represented as 2 and 3 (Table \@ref(tab:shadow-encoding)). Encoding special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)). 
-
-Other statistical programs (SPSS, SAS, and Stata) represent missingness values as a full-stop, `.`, and allow for recording special missing values as `.a` - `.z`. 
-
-SAS, SPSS, and STATA all implement 
-
-The special values from these languages break the rule of "keeping one thing in a cell", as they record both the value and the multivariate missingness state. Additionally, special missing values in other statistical programming languages are encoded at a lower level in the fundamental `NA` type, which is not possible in R.
-
-(discuss the principles, rather than what we've done)
-
-(in the same column you have mixed information, which breaks the tidy principle of one column having one type of value)
+1. **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA_\<suffix\>" - for example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Table \@ref(tab:shadow-encoding)). The underlying number representation changes from binary to integer, allowing for unlimited missingness features. For example, instrument failure and drop out would be represented as 2 and 3 (Table \@ref(tab:shadow-encoding)). Encoding special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)). {Other statistical programs (SPSS, SAS, and Stata) represent missingness values as a full-stop, `.`, and allow for recording special missing values as `.a` - `.z`.  SAS, SPSS, and STATA all implement } {The special values from these languages break the rule of "keeping one thing in a cell", as they record both the value and the multivariate missingness state. Additionally, special missing values in other statistical programming languages are encoded at a lower level in the fundamental `NA` type, which is not possible in R.} {(discuss the principles, rather than what we've done)}. {(in the same column you have mixed information, which breaks the tidy principle of one column having one type of value)}.
 
 1. **Coordinated names**: Variables in the shadow matrix gain a consistent short suffix, "_NA", keeping names coordinated throughout analysis (Figure \@ref(fig:shadow-matrix-progress) part 4). The suffix is short and easy to remember in analysis or visualization. This shifts the focus from the value of a variable to its missingness state, making intent clear when performing analysis.
 
@@ -537,9 +520,28 @@ aq_imputed %>%
 
 (note: next section to work on)
 
-Visualizing missingness in a dataset is essential to understand its structure. This section discusses four different areas of visualization of missing data: overviews (\@ref(overview-graphics)), univariate (\@ref(univariate-graphics)), bivariate (\@ref(bivariate-graphics)), and multivariate (\@ref(multivariate-graphics)). All plots are created using \pkg{ggplot2}, giving users clearer control over the plot appearance.
+note: First sentence needs to be more on track with the overall summary of what this section is about...
 
-## Overview graphics {#overview-graphics}
+- Graphics are important to understand the missingness structure.
+- The multivariate relationships
+- Working through a hierarchy of how to explore missings - from overview to 
+- Sentence linking the two.
+- How to visualise a binary matrix of missing vs not, and the dependencies between those binary variables as well.
+- It is more than that, when we visualise the complete cases, we don't want to lose track of the missings themselves. This comes back to the data structure
+- gg_miss_var and gg_miss_upset and vis_miss are all showing how we can summarise the missings.
+- but the addition of missing counts into a histogram, allows us to understand that there are many missings - and we have a skewed distribution o Ozone. But we want to know where these values might have been located. tying this back to the nabular structure, and also the terminology of MCAR MAR, etc. (We would expect if data were MCAR for these points to be representatively thoughout the histogram)
+
+When we define the graphics, describe which part of the nabular matrix we are going to display (overview - just binary parts), the summaries, are summaries of the binary, the histogram and points are both the missings and the complete values.
+- 
+
+
+
+- Combining that with the data itself, looking at the patterns in the complete cases, 
+- from the overview through to the univariate
+
+Visualizing missingness in a dataset is essential to understand its structure. This section discusses four different areas of visualization of missing data: overviews (\@ref(overviews)), univariate (\@ref(univariate)), bivariate (\@ref(bivariate)), and multivariate (\@ref(multivariate)). All plots are created using \pkg{ggplot2}, giving users clearer control over the plot appearance.
+
+## Overviews {#overviews}
 
 Rather than highlighting the amount of complete data, missing data visualizations should draw attention to the amount of missings, and ordering by missingness. Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)). These are shown using the "airquality" dataset, included in base R, containing daily air quality measurements in New York, from May to September, 1973. 
 
@@ -579,7 +581,7 @@ gg_miss_upset(airquality)
 
 ```
 
-## Univariate graphics {#univariate-graphics}
+## Univariate {#univariate}
 
 Missing values are by default not shown for univariate visualizations such as histograms or densities. Two ways to use _nabular_ data to present univariate data with missings are discussed. The first imputes values below the range to facilitate visualizations. The second displays two plots of the same variable according to the missingness of a chosen variable.
 
@@ -619,7 +621,7 @@ ggplot(aes(x = Temp,
 ```
 
 
-## Bivariate graphics {#bivariate-graphics}
+## Bivariate {#bivariate}
 
 To visualize missing values in two dimensions the missing values can be placed in plot margins, by imputing values below the range of the data.  Using _nabular_ data identifies imputed values (\@ref(univariate-graphics)), and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring are combined into `geom_miss_point()`. Figure \@ref(fig:geom-miss) shows a mostly uniform spread of missing values for Solar.R and Ozone. As `geom_miss_point()` is a defined \pkg{ggplot2} geometry, it works with features such as facetting and mapping other variables to graphical aesthetics. The shadow format by itself is also useful for exploring patterns of missingness. 
 
@@ -663,7 +665,7 @@ airquality %>%
 ```
 
 
-## Multivariate graphics {#multivariate-graphics}
+## Multivariate {#multivariate}
 
 Parallel coordinate plots can visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The `oceanbuoys` dataset from \pkg{naniar} is used for this visualisation, containing measurements of ocean buoys to understand and predict El Niño and El Niña. Data was collected in 1993 and 1997, and contains measurements of sea and air temperature, humidity, and east west and north south wind speeds. Figure \@ref(fig:parallel-cord-plot) shows a parallel coordinate plot of the `oceanbuoys`, with missing values imputed to be 10% below the range, and values colored according to where humidity was missing (humidity_NA). This shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location. 
 
