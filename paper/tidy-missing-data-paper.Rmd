@@ -518,6 +518,11 @@ aq_imputed %>%
 
 # Graphics {#graphics}
 
+The acronym MANET [@Unwin1996] stands for "Missings Are Now Equally Treated". Missing values are often ignored when plotting data, but  plots can help to reveal the type of missing values patterns existing in the data, and even help to assess whether the fall into the MCAR, MAR or even MNAR labels.
+
+Here we summarise systematically exploring the missing patterns visually, and define  useful plots to make relative to the nabular  data structure.
+
+<!--
 (note: next section to work on)
 
 note: First sentence needs to be more on track with the overall summary of what this section is about...
@@ -540,10 +545,11 @@ When we define the graphics, describe which part of the nabular matrix we are go
 - from the overview through to the univariate
 
 Visualizing missingness in a dataset is essential to understand its structure. This section discusses four different areas of visualization of missing data: overviews (\@ref(overviews)), univariate (\@ref(univariate)), bivariate (\@ref(bivariate)), and multivariate (\@ref(multivariate)). All plots are created using \pkg{ggplot2}, giving users clearer control over the plot appearance.
+-->
 
 ## Overviews {#overviews}
 
-Rather than highlighting the amount of complete data, missing data visualizations should draw attention to the amount of missings, and ordering by missingness. Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)). These are shown using the "airquality" dataset, included in base R, containing daily air quality measurements in New York, from May to September, 1973. 
+The  first step is to get an overview of the extent of the missingness. <!--Rather than highlighting the amount of complete data,-->  Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)). These  missing data visualizations should draw attention to the amount of missings, and ordering by missingness. The "airquality" dataset (available in base R), included in base R, containing daily air quality measurements in New York, from May to September, 1973, is shown.  
 
 ```{r gg-miss-case-var, echo = FALSE, fig.show='hold', fig.cap = "Graphical summaries of missingness in variables (A) and cases (B) for the airquality data. There are missing values in Ozone and Solar.R, with Ozone having more missings. Not many cases have two missings. Most missingness is from cases with one missing value.", fig.height = 3, fig.width = 6, out.width = "90%", fig.align="center"}
 
