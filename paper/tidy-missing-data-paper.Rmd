@@ -18,7 +18,7 @@ title:
   # For running headers, if needed
   short:     "Explore missingness with \\pkg{naniar}"
 abstract: >
-  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as an integral part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the R package `naniar`.
+  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as a key part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the R package `naniar`.
 keywords:
   # at least one keyword must be supplied
   formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
@@ -69,7 +69,7 @@ options(tinytex.verbose = TRUE)
 
 # Introduction {#intro}
 
-As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analsis workflow. Most analysis and visualisation software simply drop missing values when making a plot, although some (\pkg{ggplot2}) provide a warning (Figure \@ref(fig:warning)).
+As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analysis workflow. Most analysis and visualisation software simply drop missing values when making a plot, although some (\pkg{ggplot2}) provide a warning (Figure \@ref(fig:warning)).
 
 <!-- Tidy data [@Wickham2014] is a relatively new principle and suite of tools -->
 <!-- facilitating the process of converting raw data into a clean, analysis-ready -->
@@ -110,15 +110,12 @@ However, something must be known about the missing value structure to produce a
 complete dataset for analysis, whether by case- or variable-deletion, or with
 imputation. Decision tree models or latent group analysis can reveal structures or patterns
 of missingness [@Tierney2015; @Barnett2017], but are not definitive. While there
-might be other times where the missing data mechanism is obvious, determining
-this is not straightforward. To understand their structure, the analyst must explore the data
-with visualizations, summaries, and modelling. It is an iterative procedure, to arrive at a reasonably confident state of understanding the missing data mechanism. 
+are times where the missing data mechanism is obvious, determining this is typically not straightforward. To understand their structure and possible mechanisms, the analyst must explore the data
+with visualizations, summaries, and modelling, in an iterative fashion.
 
-While there have been many software tools for exploring missing data, they do not work together. The graphics literature provides several solutions for exploring missings visually by incorporating them into the plot in some way. For example, imputing values to be 10% below the minimum will include all observations into a scatter plot. 
+While there have been many software tools for exploring missing data, they do not work together. The graphics literature provides several solutions for exploring missings visually by incorporating them into the plot in some way. For example, imputing values to be 10% below the minimum to include all observations into a scatter plot [@Cook2007], or treating missing values as an equal category of data [@Unwin1996]. The ideas from the graphics literature need to be translated into tidy data tools to integrate missing data handling in a data analysis pipeline.
 
-However, this is often implicit, and not transparent to the user. (**NOTE** include possible brief example from mice/mi/VIM). The ideas from the graphics literature need to be translated into tidy data tools to integrate missing data handling in a data pipeline.
-
-This paper is organized in the following way. The next section (\@ref(background)) provides the background to to tidy data principles and tools (\@ref(tidy-data-concepts) and missing data representations (\@ref(missing-data-rep-dep). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
+This paper is organized in the following way. The next section (\@ref(background)) provides the background to tidy data principles and tools (\@ref(tidy-data-concepts)) and missing data representations (\@ref(missing-data-rep-dep)). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). Graphics (\@ref(graphics)) and Numerical summaries (\@ref(num-sum)) of missing values are then discussed. An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
 
 # Background {#background}
 
