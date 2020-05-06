@@ -121,19 +121,19 @@ This paper is organized in the following way. The next section (\@ref(background
 
 ## Tidy data concepts and methods {#tidy-data-concepts}
 
-Features of tidy data were formally discussed in @Wickham2014, and were discussed in terms of their importance for data science by @Donoho2017, and tools for data analysis. Tidy data is defined by @r4ds as:
+Features of tidy data were formally described in @Wickham2014, and were discussed in terms of their importance for data science by @Donoho2017, and tools for data analysis. Tidy data is defined by @r4ds as:
 
 > 1. Each variable must have its own column.
 > 1. Each observation must have its own row.
 > 1. Each value must have its own cell.
 
-Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are comprehensively implemented in the R programming language, so this paper focusses on R.
+Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are comprehensively implemented in the R programming language, so this paper focusses on R [@rcore].
 
 Tidy tools require the same tidy data input and output. This consistency means multiple tools can be composed together into a sequence, allowing for rapid, elegant, and complex operations. Contrasting tidy tools are messy tools. These have tidy input but messy output. Messy tools slow down analysis by shifting the focus from analysis to transforming output so it is the right shape for the next step in the analysis. This makes the work at each step harder to predict, and more complex and difficult to maintain. This disrupts workflow, and invites errors. Tidy tools fall into three broad categories: data manipulation, visualization, and modelling.
 
 ### Data manipulation {#tidy-data-manip}
 
-Data manipulation is made input- and output-tidy with R packages \pkg{dplyr} and \pkg{tidyr} [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. **Data reshaping** goes from long to wide formats; **sorting** arranges rows in a specific order; **filtering** removes rows based on a condition; **transforming**, changes existing variables or adds new ones; **aggregating** creates a single value from many values, say, for example, by computing the minimum, maximum, and mean.
+Data manipulation is made input- and output-tidy with R packages \pkg{dplyr} and \pkg{tidyr} [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. Data reshaping goes from long to wide formats; sorting arranges rows in a specific order; filtering removes rows based on a condition; transforming, changes existing variables or adds new ones; aggregating creates a single value from many values, say, for example, in computing the minimum, maximum, and mean.
 
 ### Visualizations {#tidy-vis}
 
@@ -141,7 +141,7 @@ Visualization tools only have tidy data as their input, as the output is a graph
 
 ### Modelling {#tidy-model}
 
-Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs for data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
+Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs into a tidy data format for use data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
 
 ### The tidyverse {#the-tidyverse}
 
@@ -149,7 +149,7 @@ Defining tidy data and tidy tools has resulted in a growing set of packages know
 
 ### Tidy formats for missing data {#tidy-formats-missing-data}
 
-Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools suffer the same problems as modelling for imputation: They use tidy input, but produce messy output - their output is challenging to integrate with other steps of data analysis. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
+Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools suffer the same problems as modelling: They use tidy input, but produce messy output - their output is challenging to integrate with other steps of data analysis. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
 
 Taking existing methods from the missing data graphics literature, and translating and expanding them into tidy data and tidy tools would create more effective data visualisations.
 Defining these concepts allows the focus to be more general than just software, but rather, an extensible framework for tidy tools to explore missing data.
@@ -165,11 +165,12 @@ b_{ij} =\begin{cases}
 \end{cases}
 $$
 
-There are many ways each value can be missing, we adopt the notation used in @VanBuuren2012. The information in $B$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $b_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the _missing data model_ $Pr(r_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps to precisely define categories of missing values.
+There are many ways each value can be missing, we adopt the notation used in @VanBuuren2012. The information in $B$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $b_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the _missing data model_ $Pr(b_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps to precisely define categories of missing values.
 
-**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(R = 1 | Y_{obs}, Y_{miss}) = Pr(R = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is, $Pr(R = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(R = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(R = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself.  This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena. Visualizations can help assess whether data is MCAR, MAR or MNAR. Imputation is recommended in most cases of missingness dependence.
+**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}) = Pr(B = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(B = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself.  This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena. Visualizations can help assess whether data may be MCAR, MAR or MNAR. Imputation is recommended in most cases of missingness dependence.
 
-<!-- (NOTE - are the above last two sentences OK?) -->
+<!-- (NOTE: Are the above last two sentences OK?) -->
+<!-- (NOTE: trying to come up with a sentence that leads from this section to the next) -->
 
 # Existing Software {#existing-software}
 
