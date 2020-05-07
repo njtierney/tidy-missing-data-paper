@@ -498,15 +498,11 @@ aq_imputed %>%
 
 # Graphics {#graphics}
 
-Missing values are often ignored when plotting data - so much so that the data visualisation software, MANET, is an acronym for "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to reveal the type of missing value patterns, even those of MCAR, MAR or even MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make relative to the nabular data structure.
+Missing values are often ignored when plotting data - so much so that the data visualisation software, MANET, is an acronym for "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to reveal the type of missing value patterns, even those of MCAR, MAR or MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make, relative to the nabular data structure.
 
 ## Overviews {#overviews}
 
-- How to visualise a binary matrix of missing vs not, and the dependencies between those binary variables as well.
-- These overview plots are looking at the shadow matrix, and the summaries of each of the variables
-- In this section we  describe which part of the nabular matrix we are going to display (overview - just binary parts), the summaries are summaries of the binary, the histogram and points are both the missings and the complete values.
-
-The  first step is to get an overview of the extent of the missingness. Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (available in base R), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn in figure \@ref("fig:gg-miss-case-var")A-B, that two variables contain missings and approximately one third of observations have one missing value. A tiny number of observations are missing on two variables. These summary plots compute proportions from the shadow matrix. The numerical statistics can also be reported, and are discussed in the next section. 
+The  first step is to get an overview of the extent of the missingness. Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)A), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (available in base R), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn in figure \@ref(fig:gg-miss-case-var)A-B, that two variables contain missings, approximately one third of observations have one missing value, and a tiny number of observations are missing across two variables. These overview plots are created from the shadow matrix. Numerical statistics can also be reported, and are discussed in the next section. 
 
 ```{r gg-miss-case-var, echo = FALSE, fig.show='hold', fig.cap = "Graphical summaries of missingness in the airquality data. Missings invariables (A) and cases (B), and for a birds eye view with missingness as a heatmap in (C), and with clustering applied (D). There are missing values in Ozone and Solar.R, with Ozone having more missings. Not many cases have two missings. Most missingness is from cases with one missing value. The default output (C) and ordered by clustering on rows and columns (D). There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness.", fig.height = 7, fig.width = 6, out.width = "90%", fig.align="center"}
 
@@ -526,7 +522,7 @@ aq_vis_miss_cluster <- vis_miss(airquality,
 
 ```
 
-The shadow matrix allows both the variables and cases to be displayed using a heatmap style visualization, `vis_miss()` from \pkg{visdat} [@visdat]. This also provides numerical summaries of missingness in the legend, and for each column (Figure \@ref(fig:gg-miss-case-var)C-D). The user can also apply clustering to the rows, and arrange columns by missingness (Figure \@ref(fig:gg-miss-case-var)D). Similar visualizations are available in other missing data packages such as \pkg{VIM}, \pkg{mi}, \pkg{Amelia}, and \pkg{MissingDataGUI}. A key improvement is `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns in the visualization and are named at the top, and each row is an observation. Using \pkg{ggplot2} makes the plot easily customizable. 
+The shadow matrix allows both the variables and cases to be displayed using a heatmap style visualization, `vis_miss()` from \pkg{visdat} [@visdat]. This also provides numerical summaries of missingness in the legend, and for each column (Figure \@ref(fig:gg-miss-case-var)C-D). Clustering can be applied to the rows, and columns arranged in order of missingness (Figure \@ref(fig:gg-miss-case-var)D). Similar visualizations are available in other packages such as \pkg{VIM}, \pkg{mi}, \pkg{Amelia}, and \pkg{MissingDataGUI}. A key improvement is `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns and are named at the top, and each row is an observation. Using \pkg{ggplot2} makes the plot easily customizable. 
 
 ```{r airquality-upset, fig.height = 3, fig.width = 4, fig.cap = "The pattern of missingness in the airquality dataset shown in an upset plot. Only Ozone and Solar.R have missing values, and Ozone has the most missing values. There are 2 cases where both Solar.R and Ozone have missing values."}
 # 
@@ -534,13 +530,18 @@ gg_miss_upset(airquality)
 
 ```
 
-The number of times certain variables go missing together can be visualized using an "upset plot" [@Conway2017]. An alternative to a Venn diagram, an upset plot shows the size and features of overlapping sets, but scales well with more variables. This can be applied to missing values, and an upset plot can be constructed from the shadow matrix, Figure \@ref(fig:airquality-upset) visualises overlapping amounts of missing data in the airquality data. The bottom right shows the combinations of missingness, the top panel shows the size of these combinations, and the bottom left shows missingness in each variable. This shows us clearly that Ozone has the most missing values, and there are 2 cases where values in both Solar.R and Ozone are missing together, illustrating similar points to \@ref(fig:gg-miss-case-var).
+The number of times observations are missing together is visualized using an "upset plot" [@Conway2017]. An alternative to a Venn diagram, an upset plot shows the size and features of overlapping sets, scaling well with more variables. An upset plot can be constructed from the shadow matrix, with Figure  \@ref(fig:airquality-upset) visualising overlapping amounts missings in the airquality data. The bottom right shows the combinations of missingness, the top panel shows the size of these combinations, and the bottom left shows missingness in each variable. This provides similar information to Figure \@ref(fig:gg-miss-case-var)A-D, but more clearly illustrating overlapping missingness, where 2 cases are missing together in variables Solar.R and Ozone.
 
 ## Univariate {#univariate}
 
 Missing values are by default not shown for univariate visualizations such as histograms or densities. Two ways to use _nabular_ data to present univariate data with missings are discussed. The first imputes values below the range to facilitate visualizations. The second displays two plots of the same variable according to the missingness of a chosen variable.
 
-**Imputing values below the range**. To visualize the amount of missings in each variable, the data is transformed into _nabular_ form, then values are imputed below the range of data using `impute_below` (by default imputing 10% below the range). Figure \@ref(fig:impute-shift-histogram)A shows a histogram of Ozone, the number of missing values on its left. Ozone is shown in a different color by identifying the imputed values in _nabular_ data, by referring to the variable `Ozone` as `Ozone_NA` in a fill aesthetic in ggplot. The addition of the counts of missings in the histogram allows us to understand there are many missings, and that we have a skewed distribution of Ozone. 
+<!-- note: Di can you check these last two paragraphs -->
+
+**Imputing values below the range**. To visualize the amount of missings in each variable, the data is transformed into _nabular_ form, then values are imputed below the range of data using `impute_below`. Figure \@ref(fig:impute-shift-histogram)A shows a histogram of Ozone values on the right in green, and the  count of missing ozone values on the left, in orange. The missings in Ozone are mapped to the fill aesthetic in ggplot by referring to the variable `Ozone` as `Ozone_NA`, the values imputed below the range. Nabular data facilitates adding counts of missingness to a histogram, allowing not only understanding of a variables' distribution of values, but also understanding of the magnitude of missings.
+
+**Univariate split by missingness**. Two distributions of a variable can be shown according to the missingness of another variable. Figure \@ref(fig:impute-shift-histogram) shows the values of temperature when ozone is present, and missing. Figure \@ref(fig:impute-shift-histogram)A is a faceted histogram, and Figure \@ref(fig:impute-shift-histogram)B is an overlaid density. This shows how values of temperature are affected by the missingness of ozone, and reveals a cluster of low temperature observations with missing ozone values.
+The nabular structure of the data helps reveals the distribution of the missing values. This can facilitate exploring missing data distributions. For example, we would expect if data were MCAR, for values to be roughly uniformly missing thoughout the histogram or density.
 
 ```{r impute-shift-histogram, fig.height = 2.5, fig.width = 5, fig.cap = "Univariate summaries of missingness. (A) A histogram using nabular data to show the values and missings in ozone. Values are imputed below the range to show the number of missings in Ozone and colored according to missingness of ozone (`Ozone\\_NA`). There are about 35 missings in Ozone. Panel C shows Temperature according to missingness in ozone from in the airquality dataset. A histogram of temperature facetted by the missingness of ozone (B), or a density of temperature colored by missingness in ozone (C). These show a cluster of low temperature observations with missing ozone values, but temperature is otherwise similar.", error = FALSE, warning = FALSE, message = FALSE, out.width = "75%", fig.show = 'hold'}
   
@@ -573,20 +574,9 @@ ggplot(aes(x = Temp,
 
 ```
 
-**Univariate split by missingness**. Missingness of one variable can also be used to display different distributions in another. Figure \@ref(fig:bind-shadow-density) shows the values of temperature when ozone is present, and missing. Figure \@ref(fig:bind-shadow-density)A is a faceted histogram, and Figure \@ref(fig:bind-shadow-density)B is an overlaid density. This shows how values of temperature are affected by the missingness of ozone, and reveals a cluster of low temperature observations with missing ozone values.
-The nabular structure of the data reveals the distribution of the missing values
-
-```
-To know where these values might have been located. tying this back to the nabular structure, and also the terminology of MCAR MAR, etc. (We would expect if data were MCAR for these points to be representatively thoughout the histogram)
-
-- be sure to clear up vague language (it is important to...etc., )
-- Missings are often ignored
-```
-
 ## Bivariate {#bivariate}
 
-To visualize missing values in two dimensions the missing values can be placed in plot margins, by imputing values below the range of the data.  Using _nabular_ data identifies imputed values (\@ref(univariate-graphics)), and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring are combined into `geom_miss_point()`. Figure \@ref(fig:geom-miss) shows a mostly uniform spread of missing values for Solar.R and Ozone. As `geom_miss_point()` is a defined \pkg{ggplot2} geometry, it works with features such as facetting and mapping other variables to graphical aesthetics. The shadow format by itself is also useful for exploring patterns of missingness. 
-
+To visualize missing values in two dimensions the missing values can be placed in plot margins, by imputing values below the range of the data.  Using _nabular_ data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring are combined into `geom_miss_point()`. Figure \@ref(fig:geom-miss) shows a mostly uniform spread of missing values for Solar.R and Ozone. As `geom_miss_point()` is a defined \pkg{ggplot2} geometry, it works with features such as facetting and mapping other variables to graphical aesthetics. 
 
 ```{r geom-miss, fig.height = 3, fig.width = 6, fig.cap = "Scatterplots with missings displayed at 10 percent below for the airquality dataset. Scatterplots of ozone and solar radiation (A), and ozone and temperature (B). There are missings in ozone and solar radiation, but not temperature."}
 
