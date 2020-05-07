@@ -524,7 +524,7 @@ aq_vis_miss_cluster <- vis_miss(airquality,
 
 The shadow matrix allows both the variables and cases to be displayed using a heatmap style visualization, `vis_miss()` from \pkg{visdat} [@visdat]. This also provides numerical summaries of missingness in the legend, and for each column (Figure \@ref(fig:gg-miss-case-var)C-D). Clustering can be applied to the rows, and columns arranged in order of missingness (Figure \@ref(fig:gg-miss-case-var)D). Similar visualizations are available in other packages such as \pkg{VIM}, \pkg{mi}, \pkg{Amelia}, and \pkg{MissingDataGUI}. A key improvement is `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns and are named at the top, and each row is an observation. Using \pkg{ggplot2} makes the plot easily customizable. 
 
-```{r airquality-upset, fig.height = 3, fig.width = 4, fig.cap = "The pattern of missingness in the airquality dataset shown in an upset plot. Only Ozone and Solar.R have missing values, and Ozone has the most missing values. There are 2 cases where both Solar.R and Ozone have missing values."}
+```{r airquality-upset, fig.height = 2, fig.width = 3, fig.cap = "The pattern of missingness in the airquality dataset shown in an upset plot. Only Ozone and Solar.R have missing values, and Ozone has the most missing values. There are 2 cases where both Solar.R and Ozone have missing values."}
 # 
 gg_miss_upset(airquality) 
 
@@ -619,7 +619,7 @@ airquality %>%
 
 ## Multivariate {#multivariate}
 
-Parallel coordinate plots can visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The `oceanbuoys` dataset from \pkg{naniar} is used for this visualisation, containing measurements of ocean buoys to understand and predict El Niño and El Niña. Data was collected in 1993 and 1997, and contains measurements of sea and air temperature, humidity, and east west and north south wind speeds. Figure \@ref(fig:parallel-cord-plot) shows a parallel coordinate plot of the `oceanbuoys`, with missing values imputed to be 10% below the range, and values colored according to where humidity was missing (humidity_NA). This shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location. 
+Parallel coordinate plots can visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The `oceanbuoys` dataset from \pkg{naniar} is used for this visualisation, containing measurements of sea and air temperature, humidity, and east west and north south wind speeds. Data was collected in 1993 and 1997, to understand and predict El Niño and El Niña. Figure \@ref(fig:parallel-cord-plot) is a parallel coordinate plot of `oceanbuoys`, with missing values imputed to be 10% below the range, and values colored according to whether humidity was missing (`humidity_NA`). Figure \@ref(fig:parallel-cord-plot) shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location. 
 
 ```{r parallel-cord-plot, fig.width = 8, fig.height = 4, out.width = "100%", echo = FALSE, fig.cap = "Parallel coordinate plot shows missing values imputed 10\\% below range for the oceanbuoys dataset. Values are colored by missingness of humidity. Humidity is missing for low air and sea temperatures, and is missing for one year and one location. "}
 
