@@ -1258,7 +1258,7 @@ Other data structures such as spatial data, time series, networks, and
 longitudinal data would be supported by the inherently tabular,
 _nabular_ data, if they are first structured as wide tidy format. Large data may need special handling, and additional features like efficient storage of purely imputed values and lazy evaluation. Special missing value codes could be improved by creating special classes, or expanding low level representation of `NA` at the source code level.
 
-The methodology described in this paper can be used in conjunction with other approaches to understand multivariate missingness dependencies (e.g. decision trees [@Tierney2015], latent group analysis [@Barnett2017], and PCA [@FactoMineR]) . Evaluating imputed values using a testing framework like @VanBuuren2012 is also supported. 
+The methodology described in this paper can be used in conjunction with other approaches to understand multivariate missingness dependencies (e.g. decision trees [@Tierney2015], latent group analysis [@Barnett2017], and PCA [@FactoMineR]). Evaluating imputed values using a testing framework like @VanBuuren2012 is also supported. 
 
 The approach meshes with the dynamic nature of data analysis, allowing the analyst to go from raw data to model data in a fluid workflow.
 
