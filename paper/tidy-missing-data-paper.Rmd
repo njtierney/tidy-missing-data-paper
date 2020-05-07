@@ -816,13 +816,13 @@ housing <- housing_raw %>%
 
 ```
 
-This section shows how the methods described so far are used together in a data analysis workflow. These are applied to a case study, of housing data for the city of Melbourne from January 28, 2016 to March 17, 2018. The data was compiled by scraping weekly property clearance data [@Kaggle-2018-data]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include real estate type (town house, unit, house), suburb, selling method, number of rooms, price, real estate agent, sale date, and distance from Central Business District (CBD).
+This section shows how the methods described so far are used together in a data analysis workflow. We analyse a case study of housing data for the city of Melbourne from January 28, 2016 to March 17, 2018. The data was compiled by scraping weekly property clearance data [@Kaggle-2018-data]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include real estate type (town house, unit, house), suburb, selling method, number of rooms, price, real estate agent, sale date, and distance from Central Business District (CBD).
 
 The goal in analyzing this data is to accurately predict Melbourne housing prices. The data contains many missing values. As a precursor to building a predictive model, this analysis focusses on understanding the patterns of missingness.
 
 ## Exploring patterns of missingness {#case-study-explore-pattern}
 
-Figure \@ref(fig:housing-miss-case-var)A shows 9 variables with missing values. The most missings are in building area, followed by year built, and land size, with similar amounts of missingness in Car, bathroom, bedroom2, longitude, and latitude. Figure \@ref(fig:housing-miss-case-var)B reveals there are up to 50% missing values in cases, and the majority of cases have more than 5% values missing. The variables building area and year built have more than 50% missing data, and so could perhaps be omitted from subsequent analysis, as imputed values are likely to be spurious. Three missingness clusters are revealed by visualizing missingness in the whole dataset, clustering and arranging the rows and columns of the data (Figure \@ref(fig:applic-vis-miss)).
+Figure \@ref(fig:housing-miss-case-var)A shows 9 variables with missing values. The most missings are in "building area", followed by "year built", and "land size", with similar amounts of missingness in "Car", "bathroom", "bedroom2", "longitude", and "latitude." Figure \@ref(fig:housing-miss-case-var)B reveals there are up to 50% missing values in cases, and the majority of cases have more than 5% values missing. The variables "building area" and "year built" have more than 50% missing data, and so could perhaps be omitted from subsequent analysis, as imputed values are likely to be spurious. Three missingness clusters are revealed by visualizing missingness in the whole dataset, clustering and arranging the rows and columns of the data (Figure \@ref(fig:applic-vis-miss)).
 
 
 ```{r housing-miss-case-var, fig.cap = "The amount of missings in variables (A) and cases (B) for Melbourne housing data. (A) Build area and year built have more than 50\\% missing, and car, bathroom, bedroom2 and longitude and latitude have about 25\\% missings. (B) Cases are missing 5 - 50\\% of values. The majority of missingness is in selected cases and variables.", fig.height = 4, fig.width = 8, out.width = "100%"}
@@ -846,7 +846,7 @@ housing %>%
 
 ```
 
-Figure \@ref(fig:applic-vis-miss) shows missingness patterns with an `upset` plot [@Conway2017], displaying 8 intersecting sets of missing variables. Two patterns stand out: two, and five variables missing, providing further evidence of the missingness patterns seen in Figures \@ref(fig:housing-miss-case-var) and \@ref(fig:housing-upset).
+Figure \@ref(fig:housing-upset) shows missingness patterns with an `upset` plot [@Conway2017], displaying 8 intersecting sets of missing variables. Two patterns stand out: two, and five variables missing, providing further evidence of the missingness patterns seen in Figures \@ref(fig:housing-miss-case-var) and \@ref(fig:housing-upset).
 
 
 ```{r housing-upset, fig.height = 5, fig.width = 8, fig.cap = "An upset plot of 8 sets of missingness in the housing data. Missingness for each variable is shown on the bottom left. Connected dots show co-occurences of missings in variables. Two missingness patterns are clear, year built and building area, and lattitude through to building area.", out.width = "100%"}
@@ -858,7 +858,7 @@ gg_miss_upset(housing,
 ```
 
 
-Tabulating the number of missings in variables in Table \@ref(tab:housing-miss-var-case-table) (left) shows three groups of missingness. Tabulating missings in cases (Table \@ref(tab:housing-miss-var-case-table) (right) shows six patterns of missingness. These overview plots lead to the removal of two variables from with more than 50% missingness from analysis: building area and year built.
+Tabulating the number of missings in variables in Table \@ref(tab:housing-miss-var-case-table) (left) shows three groups of missingness. Tabulating missings in cases (Table \@ref(tab:housing-miss-var-case-table) (right) shows six patterns of missingness. These overview plots lead to the removal of two variables from with more than 50% missingness from analysis: "building area" and "year built".
 
 
 ```{r housing-miss-var-case-table}
@@ -878,9 +878,9 @@ knitr::kable(list(t1, t2),
 
 ## Exploring missingness patterns for imputation {#case-study-explore-for-imp}
 
-Using information from \@ref(case-study-explore-pattern), the following variables are explored for features predicting missingness: Land size, latitude, longitude, bedroom2, bathroom, car, and land size.
+Using information from \@ref(case-study-explore-pattern), the following variables are explored for features predicting missingness: "Land size", "latitude", "longitude", "bedroom2", "bathroom", "car", and "land size".
 
-Missingness structure is explored by clustering the missing values into groups. Then, a  classification and regression trees (CART) model is applied to predict these missingness clusters using the remaining variables, to find variables and values that predicting missingness clusters [@Tierney2015; @Barnett2017]. Two clusters of missingness are identified and predicted using all variables in the dataset with the CART package `rpart` [@rpart], and plotted using the `rpart.plot` package [@rpart-plot].  Importance scores reveal variables important for predicting missingness: rooms, price, suburb, council area, distance, and region name. These variables are important for predicting missingness, so are important to include in the imputation model. 
+Missingness structure is explored by clustering the missing values into groups. Then, a  classification and regression trees (CART) model is applied to predict these missingness clusters using the remaining variables [@Tierney2015; @Barnett2017]. Two clusters of missingness are identified and predicted using all variables in the dataset with the CART package `rpart` [@rpart], and plotted using the `rpart.plot` package [@rpart-plot]. Importance scores reveal the following variables as most important in predicting missingness: "rooms", "price", "suburb", "council area", "distance", and "region name". These variables are important for predicting missingness, so are included in the imputation model. 
 
 ```{r housing-cluster-miss}
 housing_cls <- add_miss_cluster(housing, n_clusters = 2)
@@ -960,7 +960,7 @@ node_4 <- data_in %>%
 
 ## Imputation and diagnostics {#case-study-imp-diagnosis}
 
-\pkg{simputation} is used to implement two imputation: simple linear regression and K nearest neighbors. Values are imputed stepwise in ascending order of missingness. The  track missings pattern is applied (described in \@ref(verbs-track)), to assess imputed values. Imputed datasets are compared on their performance in a model predicting log house price for 4 variables (Figure \@ref(fig:imputed-by-model)). Compared to KNN imputed values, the linear model imputed values closer to the mean. 
+\pkg{simputation} is used to implement two imputations: simple linear regression and K nearest neighbors. Values are imputed stepwise in ascending order of missingness. The  track missings pattern is applied (described in \@ref(verbs-track)), to assess imputed values. Imputed datasets are compared on their performance in a model predicting log house price for 4 variables (Figure \@ref(fig:imputed-by-model)). Compared to KNN imputed values, the linear model imputed values closer to the mean. 
 
 ```{r clean-data-for-analysis, include = FALSE, cache = TRUE}
 # add memoise to store the output data for this
@@ -1106,7 +1106,7 @@ bound_models_gather %>%
 ```
 
 
-## Assess model predictions {#case-study-assess-model}
+## Assessing model predictions {#case-study-assess-model}
 
 ```{r fit-each-model}
 
@@ -1247,7 +1247,7 @@ gg_hex(aug_fits, "lm")
 
 ## Summary {#case-study-summary}
 
-The `naniar` and `visdat` packages implement the methods discussed in the paper, building on existing tidy tools and strike a compromise between automation and control, making analysis efficient, readable, but not overly complex. Each tool has clear intent and effects - plotting or generating data or augmenting data in some way. This reduces repetition and typing for the user, making exploration of missing values easier as they follow consistent, predictable rules.
+The `naniar` and `visdat` packages implement the methods discussed in the paper, building on existing tidy tools and strike a compromise between automation and control, making analysis efficient, readable, but not overly complex. Each tool has clear intent and effects - summarising, plotting or generating data or augmenting data in some way. This not only reduces repetition and typing in an analysis, but most importantly, allows for clear expression of intent, making exploration of missing values fluent.
 
 # Discussion {#discussion}
 
