@@ -282,12 +282,14 @@ cowplot::plot_grid(p1,
 # Tidy framework for missings {#extensions}
 
 Applying tidyverse principles has the potential to clarify missing data exploration, visualization, and imputation. This
-section discusses how these principles are applied for data structures \@ref(data-structure), common operations (verbs) \@ref(verbs), graphics \@ref(graphics), and data summaries \@ref(num-sum). The design and naming of these features is important, and care has been taken to make the names intuitive for their purpose.
+section discusses how these principles are applied for data structures (\@ref(data-structure)), common operations (verbs) (\@ref(verbs)), graphics (\@ref(graphics)), and data summaries (\@ref(num-sum)). Care has been taken to make the names and design these features intuitive for their purpose, and is discussed throughout.
 
 ## Data structure {#data-structure}
 
-If a data structure is to be added to facilitate exploring missing data, it needs to be simple to understand, and transport with a data analysis. A useful template common in missing data literature, is the $B$ matrix, where 0 and 1 indicate not missing and missing, respectively.  This matrix was used to explore missing values in the interactive graphics library XGobi, called a "missing value shadow", or "shadow matrix", defined as a copy of the original data with
-indicator values of missingness. The shadow matrix could be interactively linked to the data.  However, there are some limitations to the shadow matrix. Namely, the values 0 and 1 can be confusing representations of missing values: Does 0 indicate an absence of observation, or the presence of a missing value? 
+A data structure facilitating exploration of missing data needs to be simple to reason with and to transport with a data analysis, otherwise it will not be used. A useful template common in missing data literature, is the $B$ matrix, where 0 and 1 indicate not missing and missing, respectively.  This matrix was used to explore missing values in the interactive graphics library XGobi, called a "missing value shadow", or "shadow matrix", defined as a copy of the original data with
+indicator values of missingness. The shadow matrix could be interactively linked to the data.  However, there are some limitations to the shadow matrix. Namely, the values 0 and 1 can be confusing representations of missing values, since it is not clear if 0 indicates an absence of observation, or the presence of a missing value.
+
+<!-- since 0 and 1 could interchangably indicate the absence (0) of observation, or the presence (1) of a missing value. -->
 
 ```{r shadow-matrix-progress, echo = FALSE, fig.cap = "Series of steps to create shadow matrix data. (1-2) Data to a binary representation of missings, (2-3) Binary format converted to a shadow matrix (3-4) New and improved shadow matrix with changed variable names. This clearly links a variable to its state of missingness.", out.width = "100%", fig.align="center"}
 
@@ -297,15 +299,15 @@ knitr::include_graphics("images/full-conversion-to-shadow.png")
 
 We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:shadow-matrix-progress).
 
-1. **Missing value labels**. Simple labels, "NA" and "!NA", for missing and not missing, clearly identify missing values for analysis and plotting (Figure \@ref(fig:shadow-matrix-progress) parts 1-3). This improves the 0 and 1 values in $B$, which are unclear, since 0 and 1 could interchangably indicate the absence (0) of observation, or the presence (1) of a missing value.  These values follow a principle: "**clarity of labelling**" - the matrix's meaning is transparent, and anybody looking at these values could understand what they mean, which is not the case of binary values.  Equally, these values could instead be "missing" or "present".
+1. **Missing value labels**. Simple labels for missing and not missing to clearly identify missing values for analysis and plotting. We propose "NA" and "!NA". (Figure \@ref(fig:shadow-matrix-progress) parts 1-3). This improves the 0 and 1 values in $B$, which do not clearly identify missingness.  These values follow a principle: "**clarity of labelling**" - the matrix's meaning is transparent, and anybody looking at these values could understand what they mean, which is not the case of binary values.  Equally, these values could instead be "missing" or "present".
 
-1. **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA_\<suffix\>" - for example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Table \@ref(tab:shadow-encoding)). 
+1. **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA_\<suffix\>" - for example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Table \@ref(tab:shadow-encoding)) (note: the part of the new figure). 
 
-1. **Coordinated names**: Variables in the shadow matrix gain a consistent short suffix, "_NA", keeping names coordinated throughout analysis (Figure \@ref(fig:shadow-matrix-progress) part 4). The suffix is short and easy to remember during data a analysis, and shifts the focus from the value of a variable to its missingness state. It makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`.
+1. **Coordinated names**: Variable names in the shadow matrix gain a consistent short suffix, "_NA", keeping names coordinated throughout analysis (Figure \@ref(fig:shadow-matrix-progress) part 4 - note: update this figure). It makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`. This suffix is short and easy to remember during data analysis, and shifts the focus from the value of a variable, to its missingness state.
 
-1. **Connectedness**: Binding the shadow matrix column-wise to the original data creates a single connected _nabular_ data format, so that it cannot be out of sync with the data. useful for visualization, summaries, and tracking imputed values. This is discussed in more detail below in \@ref(nabular-data).
+1. **Connectedness**: Binding the shadow matrix column-wise to the original data creates a single, connected, _nabular_ data format, which cannot be out of sync with the data. It is useful for visualization, summaries, and tracking imputed values, discussed in more detail in \@ref(nabular-data).
 
-Note: I think that Figure \@ref(fig:shadow-matrix-progress), Table \@ref(tab:shadow-encoding), and Figure \@ref(fig:nabularfig) could be combined into one useful graphic. This could form the "key graphic" of the paper. I also think that the point about the shadow value (`var_NA`) being a factor and having an underlying value is not directly relevant to the paper.
+<!-- Note: I think that Figure \@ref(fig:shadow-matrix-progress), Table \@ref(tab:shadow-encoding), and Figure \@ref(fig:nabularfig) could be combined into one useful graphic. This could form the "key graphic" of the paper. I also think that the point about the shadow value (`var_NA`) being a factor and having an underlying value is not directly relevant to the paper. -->
 
 ```{r shadow-encoding}
 
@@ -323,7 +325,7 @@ knitr::kable(fig_shadow_code,
 
 ## Nabular data {#nabular-data}
 
-_Nabular_ data binds the shadow matrix column-wise to the original data. It is a portmanteau of `NA` and `tabular`. _Nabular_ explicitly links missing values to data, keeping corresponding observations together and removing the possibility of mismatching records. _Nabular_ data facilitates visualization and summaries by allowing the user to reference the missingness of a variable in a coordinated way - with `var`, as `var_NA` during analysis. _Nabular_ data is a snapshot of the missingness of the data. This means when _nabular_ data are imputed, those imputed values can easily be identified in analysis (`var` vs `var_NA`).  _Nabular_ data is not unlike classical data formats with quality or flag columns associated with each measured variable, e.g. Scripps CO2 data [@Keeling2005-scripps], GHCN data [@Durre2008-ghcn]. _Nabular_ data is created with `nabular(data)` (Figure \@ref(fig:nabularfig)).
+_Nabular_ data binds the shadow matrix column-wise to the original data. It is a portmanteau of `NA` and `tabular`. _Nabular_ data explicitly links missing values to data, keeping corresponding observations together and removing the possibility of mismatching records. _Nabular_ data facilitates visualization and summaries by allowing the user to reference the missingness of a variable in a coordinated way: the missingness of `var`, as `var_NA` during analysis. _Nabular_ data is a snapshot of the missingness of the data. This means when _nabular_ data are imputed, those imputed values can easily be identified in analysis (`var` vs `var_NA`).  _Nabular_ data is not unlike classical data formats with quality or flag variables associated with each measured variable, e.g. Scripps CO2 data [@Keeling2005-scripps], GHCN data [@Durre2008-ghcn]. _Nabular_ data is created with `nabular(data)` (Figure \@ref(fig:nabularfig)).
 
 
 ```{r nabularfig, echo = FALSE, fig.cap = "The process of creating nabular data. Data transformed to shadow matrix, and nabular data contains the shadow matrix, column bound to the data. Nabular data can be created using `bind\\_shadow` or `nabular()` functions. Nabular data provides a useful format for missing data exploration and analysis.", out.width = "100%", fig.align = "center"}
@@ -332,14 +334,18 @@ knitr::include_graphics("images/nabular.png")
 
 ```
 
+<!-- Note: I'm not sure why I talk about this on the fly stuff here, and I wonder if this paragraph below could be removed? -->
+
 The _nabular_ data structure provides three key benefits over creating a missingness matrix, $B$, on-the-fly. Firstly, missing value labels `NA` and `!NA` are clearer than TRUE or FALSE. Secondly, special missing values cannot be added easily during analysis with a logical matrix. Finally, the logical matrix cannot capture which values are imputed if imputation has already taken place. Imputing values on _nabular_ data automatically tracks these imputations.
 
-Using additional columns to represent missingness information follows best practices for data organization, described in @Ellis2017 and @Broman2017: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information can now be represented in the shadow columns as special missing values. In practice, encoding special missing values is achieved by defining logical conditions and suffixes with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)). 
+Using additional columns to represent missingness information follows best practices for data organization, described in @Ellis2017 and @Broman2017: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information can now be represented in the shadow columns as special missing values. Encoding special missing values is achieved by defining logical conditions and suffixes.  This is implemented with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)). 
 
-- Other statistical programs (SPSS, SAS, and Stata) represent missingness values as a full-stop, `.`, and allow for recording special missing values as `.a` - `.z`.  SAS, SPSS, and STATA all implement.
+<!-- Note: I'm not sure where I should put these three parts below parts in the paper: -->
 
-- The special values from these languages break the rule of "keeping one thing in a cell", as they record both the value and the multivariate missingness state. Additionally, special missing values in other statistical programming languages are encoded at a lower level in the fundamental `NA` type, which is not possible in R.
-- (in the same column you have mixed information, which breaks the tidy principle of one column having one type of value)
+<!-- - Other statistical programs (SPSS, SAS, and Stata) represent missingness values as a full-stop, `.`, and allow for recording special missing values as `.a` - `.z`.  SAS, SPSS, and STATA all implement. -->
+
+<!-- - The special values from these languages break the rule of "keeping one thing in a cell", as they record both the value and the multivariate missingness state. Additionally, special missing values in other statistical programming languages are encoded at a lower level in the fundamental `NA` type, which is not possible in R. -->
+<!-- - (in the same column you have mixed information, which breaks the tidy principle of one column having one type of value) -->
 
 
 ## Missing data operations {#verbs}
