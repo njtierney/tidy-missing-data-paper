@@ -1250,6 +1250,8 @@ The `naniar` and `visdat` packages implement the methods discussed in the paper,
 
 # Discussion {#discussion}
 
+<!-- Note: I think I'm basically there, but I'd like to revisit the first paragraph in this section and the last sentence -->
+
 This paper has described new methods for exploring, visualizing, and imputing missing data. The work was motivated by recent developments of tidy data, and extends them for better missing value handling. The methods have standard outputs, function arguments, and behavior. This provides consistent workflows centered around data analysis that integrate well with existing imputation methodology, visualization, and modelling. 
 
 The _nabular_ data structures discussed in the paper are simple by design, to promote flexibility.  They could be used to create different visualizations than were shown in the paper. The analyst can use the data structures to decide on appropriate visualization for their problem. The data structures could also be used to support interactive graphics, in the manner of MANET and ggobi. Linking the plots (via linked brushing) could facilitate exploration of missingness, and could be implemented with \pkg{plotly} [@plotly] for added interactivity. Animating between different sets of imputed values could also be possible with packages like \pkg{gganimate} [@gganimate].
@@ -1264,8 +1266,7 @@ The approach meshes with the dynamic nature of data analysis, allowing the analy
 
 # Acknowledgements
 
-The authors would like to thank Miles McBain, for his key contributions and discussions on the `naniar` package, in particular for helping implement `geom_miss_point`, and for his feedback on ideas, implementations, and names. We also thank Colin Fay for his contributions to the `naniar` package, in particular for his assistance with the `replace_with_na` functions. We also thank Earo Wang and Mitchell O'Hara-Wild for the many useful discussions on missing data and package development, and for their assistance with creating elegant approaches that take advantage of the tidy syntax. We would also like to thank those who contributed pull requests and discussions on the `naniar` package, in particular Jim Hester and Romain François for improving the speed of key functions, Ross Gayler for discussion on special missing values, and Luke Smith for helping `naniar` be more compliant with `ggplot2`. We would also like to thank Amelia McNamara for her assistance with proof-reading the paper.
-
+The authors would like to thank Miles McBain, for his key contributions and discussions on the `naniar` package, in particular for helping implement `geom_miss_point`, and for his feedback on ideas, implementations, and names. We also thank Colin Fay for his contributions to the `naniar` package, in particular for his assistance with the `replace_with_na` functions. We also thank Earo Wang and Mitchell O'Hara-Wild for the many useful discussions on missing data and package development, and for their assistance with creating elegant approaches that take advantage of the tidy syntax. We would also like to thank those who contributed pull requests and discussions on the `naniar` package, in particular Jim Hester and Romain François for improving the speed of key functions, Ross Gayler for discussion on special missing values, and Luke Smith for helping `naniar` be more compliant with `ggplot2`. We would also like to thank Amelia McNamara for discussions on the paper.
 
 # References
 
