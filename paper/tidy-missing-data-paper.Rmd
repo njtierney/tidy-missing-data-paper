@@ -648,12 +648,12 @@ ggplot(dat_paral,
 
 # Numerical summaries {#num-sum}
 
-This section describes approaches to summarizing missingness. The functions are implemented in \pkg{naniar}, and are easy to remember as they have consistent names and output, returning either a single number \@ref(single-num-sum), or a dataframe (\@ref(sum-tab-missings)), integrating well with plotting and modelling tools. How these work with other tools in an analysis pipeline is shown in \@ref(num-sum-w-group).
+This section describes approaches to summarizing missingness, and an implementation in \pkg{naniar}. Numerical summaries should be easy to remember with consistent names and output, returning either a single number \@ref(single-num-sum), or a dataframe \@ref(sum-tab-missings), so they integrate well with plotting and modelling tools. How these work with other tools in an analysis pipeline is shown in \@ref(num-sum-w-group).
 
 
 ## Single number summaries {#single-num-sum}
 
-The overall number, proportion, or percent of missing values in a dataset is shown with `n_miss`, `prop_miss` and `pct_miss`, and their complete value complements: `n_complete`, `prop_complete`, and `pct_complete`. Summaries for variables and cases are made by appending `_case` or `_var` to any of the summaries. An overview is shown in Table \@ref(tab:n-prop-pct-miss-complete).
+The overall number, proportion, or percent of missing values in a dataset should be simple to calculate. `naniar` provides the functions `n_miss`, `prop_miss` and `pct_miss`, as well as their complements. Summaries for variables and cases are made by appending `_case` or `_var` to these summaries. An overview is shown in Table \@ref(tab:n-prop-pct-miss-complete).
 
 ```{r n-prop-pct-miss-complete, echo = FALSE}
 
@@ -692,7 +692,9 @@ knitr::kable(
 
 ## Summaries and tabulations of missing data {#sum-tab-missings}
 
-Presenting the number and percent of missing values for each variable, or case, provides a summary usable in models to inform imputations or data handling. For example, potentially dropping variables or deciding to include others in an imputation model. Another useful approach is to tabulate the frequency of missing values for each variable or case; that is, the number of times there are zero, one, two, and so on, missing values. These summaries and tabulations are shown for variable in Tables \@ref(tab:miss-var-summary) and \@ref(tab:miss-var-table), using `miss_var_summary` and `miss_var_table`. Functions are also provided for case-wise summaries and tabulations: `miss_case_summary` and `miss_case_table`, which order rows by `n_miss`, to show the most missings at the top. `naniar` also shows missingness summaries across a repeating span, `miss_var_span`, and finding streaks or runs of missingness in a given variable in `miss_var_run`.
+Presenting the number and percent of missing values for each variable, or case, provides a summary usable in data handling, or in models to inform imputation. For example, potentially dropping variables, or deciding to include others in an imputation model. Another useful approach is to tabulate the frequency of missing values for each variable or case; that is, the number of times there are zero missings, one missing, two, and so on. These summaries and tabulations are shown for variables in Tables \@ref(tab:miss-var-summary) and \@ref(tab:miss-var-table), and implemented with `miss_var_summary` and `miss_var_table`. Case-wise (row-wise) summaries and tabulations are implemented with `miss_case_summary` and `miss_case_table`. 
+
+These summaries order rows by the number of missings (`n_miss`), to show the most missings at the top. The number of missings across a repeating span, or finding "runs" or "streaks" of missings in given variables can also be useful for identifying missingness patterns, and are implemented with `miss_var_span`, and `miss_var_run`.
 
 ```{r miss-var-summary}
 
@@ -717,8 +719,7 @@ miss_var_table(airquality) %>%
 
 ## Combining numerical summaries with grouping operations {#num-sum-w-group}
 
-These summaries and tabulations can be composed with the "pipe" operator to perform grouped summaries with `dplyr`'s `group_by` function.
-These summaries return dataframes, easily used in other plotting devices, modelling tools, or other summaries. Table \@ref(tab:group-miss-var-summary) shows an example of missing data summaries for airquality by each month.
+It is useful to explore summaries and tabulations within groups of a dataset.  `naniar` works with `dplyr`'s `group_by` operator to produce grouped summaries, which work well with the "pipe" operator. The code and table below \@ref(tab:group-miss-var-summary) show an example of missing data summaries for airquality, grouped by month.
 
 ```{r group-miss-var-summary}
 
@@ -733,8 +734,6 @@ airquality %>%
   # kable_styling(latex_options = c("hold_position"))
 
 ```
-
-
 
 # Application {#case-study}
 
@@ -817,9 +816,9 @@ housing <- housing_raw %>%
 
 ```
 
-To illustrate the methods, data on housing for the city of Melbourne from January 28, 2016 to March 17, 2018 is used. The data was compiled by scraping weekly property clearance data [@Kaggle-2018-data]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include real estate type (town house, unit, house), suburb, selling method, number of rooms, price, real estate agent, sale date, and distance from Central Business District (CBD).
+This section shows how the methods described so far are used together in a data analysis workflow. These are applied to a case study, of housing data for the city of Melbourne from January 28, 2016 to March 17, 2018. The data was compiled by scraping weekly property clearance data [@Kaggle-2018-data]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include real estate type (town house, unit, house), suburb, selling method, number of rooms, price, real estate agent, sale date, and distance from Central Business District (CBD).
 
-The goal in analyzing this data is to accurately predict Melbourne housing prices. The data contains many missing values. As a precursor to building a predictive model, this analysis focusses on understanding the patterns of missingness. This section shows how the methods from previous sections are used together in a data analysis workflow.
+The goal in analyzing this data is to accurately predict Melbourne housing prices. The data contains many missing values. As a precursor to building a predictive model, this analysis focusses on understanding the patterns of missingness.
 
 ## Exploring patterns of missingness {#case-study-explore-pattern}
 
