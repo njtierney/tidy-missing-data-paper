@@ -291,36 +291,15 @@ indicator values of missingness. The shadow matrix could be interactively linked
 
 <!-- since 0 and 1 could interchangably indicate the absence (0) of observation, or the presence (1) of a missing value. -->
 
-```{r shadow-matrix-progress, echo = FALSE, fig.cap = "Series of steps to create shadow matrix data. (1-2) Data to a binary representation of missings, (2-3) Binary format converted to a shadow matrix (3-4) New and improved shadow matrix with changed variable names. This clearly links a variable to its state of missingness.", out.width = "100%", fig.align="center"}
+We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:nabularfig).
 
-knitr::include_graphics("images/full-conversion-to-shadow.png")
+1. **Missing value labels**. Simple labels for missing and not missing to clearly identify missing values for analysis and plotting. We propose "NA" and "!NA". (Figure \@ref(fig:nabularfig)). This improves the 0 and 1 values in $B$, which do not clearly identify missingness.  These values follow a principle: "**clarity of labelling**" - the matrix's meaning is transparent, and anybody looking at these values could understand what they mean, which is not the case of binary values.  Equally, these values could instead be "missing" or "present".
 
-```
+1. **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA_\<suffix\>" - for example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Figure \@ref(fig:nabularfig)).
 
-We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:shadow-matrix-progress).
-
-1. **Missing value labels**. Simple labels for missing and not missing to clearly identify missing values for analysis and plotting. We propose "NA" and "!NA". (Figure \@ref(fig:shadow-matrix-progress) parts 1-3). This improves the 0 and 1 values in $B$, which do not clearly identify missingness.  These values follow a principle: "**clarity of labelling**" - the matrix's meaning is transparent, and anybody looking at these values could understand what they mean, which is not the case of binary values.  Equally, these values could instead be "missing" or "present".
-
-1. **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA_\<suffix\>" - for example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Table \@ref(tab:shadow-encoding)) (note: the part of the new figure). 
-
-1. **Coordinated names**: Variable names in the shadow matrix gain a consistent short suffix, "_NA", keeping names coordinated throughout analysis (Figure \@ref(fig:shadow-matrix-progress) part 4 - note: update this figure). It makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`. This suffix is short and easy to remember during data analysis, and shifts the focus from the value of a variable, to its missingness state.
+1. **Coordinated names**: Variable names in the shadow matrix gain a consistent short suffix, "_NA", keeping names coordinated throughout analysis (Figure \@ref(fig:nabularfig)). It makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`. This suffix is short and easy to remember during data analysis, and shifts the focus from the value of a variable, to its missingness state.
 
 1. **Connectedness**: Binding the shadow matrix column-wise to the original data creates a single, connected, _nabular_ data format, which cannot be out of sync with the data. It is useful for visualization, summaries, and tracking imputed values, discussed in more detail in \@ref(nabular-data).
-
-<!-- Note: I think that Figure \@ref(fig:shadow-matrix-progress), Table \@ref(tab:shadow-encoding), and Figure \@ref(fig:nabularfig) could be combined into one useful graphic. This could form the "key graphic" of the paper. I also think that the point about the shadow value (`var_NA`) being a factor and having an underlying value is not directly relevant to the paper. -->
-
-```{r shadow-encoding}
-
-fig_shadow_code <- tibble::tibble(temp = c(-99, NA, -1, 106),
-                                  temp_NA = c("NA_instr",NA, "NA_dropout","!NA"),
-                                  NA_value = c(2, 1, 3, 0))
-
-knitr::kable(fig_shadow_code,
-             caption = "Example data of temperature, its shadow representation, and underlying NA value. The temperature value of -99 is represented in the shadow column as 'NA\\_instr', which in turn has the underlying numeric value of 2. This captures additional information about the data otherwise difficult to record.")
-             # booktabs = TRUE) 
-  # kable_styling(latex_options = c("hold_position"))
-
-```
 
 
 ## Nabular data {#nabular-data}
@@ -328,9 +307,9 @@ knitr::kable(fig_shadow_code,
 _Nabular_ data binds the shadow matrix column-wise to the original data. It is a portmanteau of `NA` and `tabular`. _Nabular_ data explicitly links missing values to data, keeping corresponding observations together and removing the possibility of mismatching records. _Nabular_ data facilitates visualization and summaries by allowing the user to reference the missingness of a variable in a coordinated way: the missingness of `var`, as `var_NA` during analysis. _Nabular_ data is a snapshot of the missingness of the data. This means when _nabular_ data are imputed, those imputed values can easily be identified in analysis (`var` vs `var_NA`).  _Nabular_ data is not unlike classical data formats with quality or flag variables associated with each measured variable, e.g. Scripps CO2 data [@Keeling2005-scripps], GHCN data [@Durre2008-ghcn]. _Nabular_ data is created with `nabular(data)` (Figure \@ref(fig:nabularfig)).
 
 
-```{r nabularfig, echo = FALSE, fig.cap = "The process of creating nabular data. Data transformed to shadow matrix, and nabular data contains the shadow matrix, column bound to the data. Nabular data can be created using `bind\\_shadow` or `nabular()` functions. Nabular data provides a useful format for missing data exploration and analysis.", out.width = "100%", fig.align = "center"}
+```{r nabularfig, echo = FALSE, fig.cap = "The process of creating nabular data. Data transformed to shadow matrix, where values are either not missing or missing: '!NA' or 'NA'. The shadow matrix can be converted to long form to create missingness summary plots. Nabular data is created by binding the columns od the data and shadow matrix. Special missing values (such as -99) are identified as special missings, and values imputed and tracked. Nabular data can be used to identify imputations and explore data values alongside missings, providing a useful format for missing data exploration and analysis.", out.width = "100%", fig.align = "center"}
 
-knitr::include_graphics("images/nabular.png")
+knitr::include_graphics("images/diagram.png")
 
 ```
 
@@ -438,7 +417,7 @@ aq_imputed <- nabular(airquality) %>%
 head(aq_imputed)
 ```
 
-Multiple missing or imputed values can be mapped to a graphical element in ggplot2 by setting the `color` or `fill` aesthetic in ggplot to `any_missing`, a result of the `add_label_shadow()` function. (Figure \@ref(fig:track-impute-example)A - C). Imputed values can also be compared to complete case data, grouping by `any_missing`, and then summarizing, similar to other dplyr summary workflows shown below in Table \@ref(tab:impute-summary-out), showing similarities and differences in imputation methods.
+Multiple missing or imputed values can be mapped to a graphical element in ggplot2 by setting the `color` or `fill` aesthetic in ggplot to `any_missing`, a result of the `add_label_shadow()` function. (Figure \@ref(fig:track-impute-example)). Imputed values can also be compared to complete case data, grouping by `any_missing`, and then summarizing, similar to other dplyr summary workflows shown below in Table \@ref(tab:impute-summary-out), showing similarities and differences in imputation methods.
 
 ```{r track-impute-example, fig.show = "hold", fig.cap = "Scatterplot (A) and density plots (B and C) of ozone and solar radiation from the airquality dataset containing imputed values from a linear model. Imputed values are colored green, and data values orange. Imputed values are similar, but slightly trended to the mean.", fig.height = 4, fig.width = 12, out.width = "100%", echo = FALSE}
 
@@ -496,9 +475,9 @@ Missing values are often ignored when plotting data - which is why the data visu
 
 ## Overviews {#overviews}
 
-The  first step is to get an overview of the extent of the missingness. Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)A), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (available in base R), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn in figure \@ref(fig:gg-miss-case-var)A-B, that two variables contain missings, approximately one third of observations have one missing value, and a tiny number of observations are missing across two variables. These overview plots are created from the shadow matrix. Numerical statistics can also be reported, and are discussed in the next section. 
+The  first step is to get an overview of the extent of the missingness. Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)A), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (from base R), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn from figure \@ref(fig:gg-miss-case-var)A-B, that two variables contain missings, approximately one third of observations have one missing value, and a tiny number of observations are missing across two variables. These overview plots are created from the shadow matrix in long form (Figure \@ref(fig:nabularfig). Numerical statistics can also be reported, and are discussed in the next section. 
 
-```{r gg-miss-case-var, echo = FALSE, fig.show='hold', fig.cap = "Graphical summaries of missingness in the airquality data. Missings invariables (A) and cases (B), and for a birds eye view with missingness as a heatmap in (C), and with clustering applied (D). There are missing values in Ozone and Solar.R, with Ozone having more missings. Not many cases have two missings. Most missingness is from cases with one missing value. The default output (C) and ordered by clustering on rows and columns (D). There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness.", fig.height = 7, fig.width = 6, out.width = "90%", fig.align="center"}
+```{r gg-miss-case-var, echo = FALSE, fig.show='hold', fig.cap = "Graphical summaries of missingness in the airquality data. Missings invariables (A) and cases (B), and for a birds eye view with missingness as a heatmap in (C), and with clustering applied (D). There are missing values in Ozone and Solar.R, with Ozone having more missings. Not many cases have two missings. Most missingness is from cases with one missing value. The default output (C) and ordered by clustering on rows and columns (D). These overviews are made possible using the shadow matrix in long form. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness.", fig.height = 7, fig.width = 6, out.width = "90%", fig.align="center"}
 
 library(patchwork)
 aq_miss_var <- gg_miss_var(airquality) + labs(title = "A")
@@ -543,7 +522,6 @@ airquality %>%
              fill = Ozone_NA)) + 
   geom_histogram() + 
   scale_fill_brewer(palette = "Dark2") + 
-  theme_minimal() +
   labs(tag = "A") + 
   theme(legend.position = "bottom")
 
