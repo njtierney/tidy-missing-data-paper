@@ -24,6 +24,6 @@ And [Omar Wasow](https://twitter.com/owasow/status/1006743170846109697):
 
 In addition, the R package has been cited 9 times, and the pre-print of this paper has been cited 6 times since 2018.
 
-Along with the PDF is an accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This article is not under consideration elsewhere.  This paper was submitted two years ago to the Journal of Computational and Graphical Statistics, but was rejected. It has now been substantially re-written, based on reviewer feedback. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print series at Monash University.
+Along with the PDF is an accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This article is not under consideration elsewhere.  This paper was submitted two years ago to the Journal of Computational and Graphical Statistics, but was rejected. It has now been substantially re-written, based on reviewer feedback, and we agree with the reviewers that the work is more suited JSS. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print series at Monash University.
 
 We hope that you find this paper of interest to the readers of Journal of Statistical Software,

@@ -69,7 +69,7 @@ options(tinytex.verbose = TRUE)
 
 # Introduction {#intro}
 
-As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analysis workflow. Most analysis and visualisation software simply drop missing values when making a plot, although some (\pkg{ggplot2}) provide a warning (Figure \@ref(fig:warning)).
+As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analysis workflow. Most analysis and visualization software simply drop missing values when making a plot, although some (\pkg{ggplot2}) provide a warning (Figure \@ref(fig:warning)).
 
 <!-- Tidy data [@Wickham2014] is a relatively new principle and suite of tools -->
 <!-- facilitating the process of converting raw data into a clean, analysis-ready -->
@@ -100,7 +100,7 @@ gp = grid::gpar(fontsize = 14,
   
 ```
 
-The imputation literature focusses on ensuring valid statistical inference
+The imputation literature focuses on ensuring valid statistical inference
 is made from incomplete data. This is approached chiefly through probabilistic
 modelling, assuming the mechanism of missing data is known to the analyst. It
 does not address how to explore, understand, and handle missing data structures
@@ -127,7 +127,7 @@ Features of tidy data were formally described in @Wickham2014, and were discusse
 > 1. Each observation must have its own row.
 > 1. Each value must have its own cell.
 
-Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are comprehensively implemented in the R programming language, so this paper focusses on R [@rcore].
+Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are comprehensively implemented in the R programming language, so this paper focuses on R [@rcore].
 
 Tidy tools require the same tidy data input and output. This consistency means multiple tools can be composed together into a sequence, allowing for rapid, elegant, and complex operations. Contrasting tidy tools are messy tools. These have tidy input but messy output. Messy tools slow down analysis by shifting the focus from analysis to transforming output so it is the right shape for the next step in the analysis. This makes the work at each step harder to predict, and more complex and difficult to maintain. This disrupts workflow, and invites errors. Tidy tools fall into three broad categories: data manipulation, visualization, and modelling.
 
@@ -151,7 +151,7 @@ Defining tidy data and tidy tools has resulted in a growing set of packages know
 
 Current tools for missing data are messy. Missing data tools can be used to perform imputations, missing data diagnostics, and data visualizations. However, these tools suffer the same problems as modelling: They use tidy input, but produce messy output - their output is challenging to integrate with other steps of data analysis. The complex, often multivariate nature of imputation methods also makes makes them difficult to represent. Visualization methods for missing data do not map data features to the aesthetics of a graphic, as in \pkg{ggplot2}, limiting expressive exploration.
 
-Taking existing methods from the missing data graphics literature, and translating and expanding them into tidy data and tidy tools would create more effective data visualisations.
+Taking existing methods from the missing data graphics literature, and translating and expanding them into tidy data and tidy tools would create more effective data visualizations.
 Defining these concepts allows the focus to be more general than just software, but rather, an extensible framework for tidy tools to explore missing data.
 
 ## Missing data representation and dependence {#missing-data-rep-dep}
@@ -471,11 +471,11 @@ aq_imputed %>%
 
 # Graphics {#graphics}
 
-Missing values are often ignored when plotting data - which is why the data visualisation software, MANET, was named using an acronym for "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to identify the type of missing value patterns, even those of MCAR, MAR or MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make, relative to the nabular data structure.
+Missing values are often ignored when plotting data - which is why the data visualization software, MANET, was named and is an acronym corresponding to "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to identify the type of missing value patterns, even those of MCAR, MAR or MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make, relative to the nabular data structure.
 
 ## Overviews {#overviews}
 
-The  first step is to get an overview of the extent of the missingness. Overview visualisations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)A), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (from base R), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn from figure \@ref(fig:gg-miss-case-var)A-B, that two variables contain missings, approximately one third of observations have one missing value, and a tiny number of observations are missing across two variables. These overview plots are created from the shadow matrix in long form (Figure \@ref(fig:nabularfig)). Numerical statistics can also be reported (Section \@ref(num-sum)). 
+The  first step is to get an overview of the extent of the missingness. Overview visualizations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)A), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (from base R), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn from figure \@ref(fig:gg-miss-case-var)A-B, that two variables contain missings, approximately one third of observations have one missing value, and a tiny number of observations are missing across two variables. These overview plots are created from the shadow matrix in long form (Figure \@ref(fig:nabularfig)). Numerical statistics can also be reported (Section \@ref(num-sum)). 
 
 ```{r gg-miss-case-var, echo = FALSE, fig.show='hold', fig.cap = "Graphical summaries of missingness in the airquality data. Missings invariables (A) and cases (B), and for a birds eye view with missingness as a heatmap in (C), and with clustering applied (D). There are missing values in Ozone and Solar.R, with Ozone having more missings. Not many cases have two missings. Most missingness is from cases with one missing value. The default output (C) and ordered by clustering on rows and columns (D). These overviews are made possible using the shadow matrix in long form. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness.", fig.height = 7, fig.width = 6, out.width = "90%", fig.align="center"}
 
@@ -511,7 +511,7 @@ Missing values are typically not shown for univariate visualizations such as his
 
 **Imputing values below the range**. To visualize the amount of missings in each variable, the data is transformed into _nabular_ form, then values are imputed below the range of data using `impute_below_all`. Figure \@ref(fig:impute-shift-histogram)A shows a histogram of Ozone values on the right in green, and the histogram of missing ozone values on the left, in orange. The missings in Ozone are imputed and `Ozone_NA` is  mapped to the fill aesthetic. Nabular data facilitates adding counts of missingness to a histogram, allowing examination of a variables' distribution of values, and also the magnitude of missings.
 
-**Univariate split by missingness**. The distribution of a variable can be shown according to the missingness of another variable. The shadow matrix part of nabular is used to handle the faceting, and color mapping. Figure \@ref(fig:impute-shift-histogram) shows the values of temperature when ozone is present, and missing, using a faceted histogram (B), and  an overlaid density (C).  This shows how values of temperature are affected by the missingness of ozone, and reveals a cluster of low temperature observations with missing ozone values. This type of plot can facilitate exploring missing data distributions. For example, we would expect if data were MCAR, for values to be roughly uniformly missing thoughout the histogram or density.
+**Univariate split by missingness**. The distribution of a variable can be shown according to the missingness of another variable. The shadow matrix part of nabular is used to handle the faceting, and color mapping. Figure \@ref(fig:impute-shift-histogram) shows the values of temperature when ozone is present, and missing, using a faceted histogram (B), and  an overlaid density (C).  This shows how values of temperature are affected by the missingness of ozone, and reveals a cluster of low temperature observations with missing ozone values. This type of plot can facilitate exploring missing data distributions. For example, we would expect if data were MCAR, for values to be roughly uniformly missing throughout the histogram or density.
 
 ```{r impute-shift-histogram, fig.height = 2.5, fig.width = 5, fig.cap = "Univariate summaries of missingness. (A) A histogram using nabular data to show the values and missings in ozone. Values are imputed below the range to show the number of missings in ozone and colored according to missingness of ozone (`Ozone\\_NA`). There are about 35 missings in Ozone. Panel C shows temperature according to missingness in ozone from in the airquality dataset. A histogram of temperature facetted by the missingness of ozone (B), or a density of temperature colored by missingness in ozone (C). These show a cluster of low temperature observations with missing ozone values, but temperature is otherwise similar.", error = FALSE, warning = FALSE, message = FALSE, out.width = "75%", fig.show = 'hold'}
   
@@ -545,7 +545,7 @@ ggplot(aes(x = Temp,
 
 ## Bivariate {#bivariate}
 
-To visualize missing values in two dimensions the missing values can be placed in plot margins, by imputing values below the range of the data.  Using _nabular_ data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring are combined into `geom_miss_point()`. Figure \@ref(fig:geom-miss) shows a mostly uniform spread of missing values for Solar.R and Ozone. As `geom_miss_point()` is a defined \pkg{ggplot2} geometry, it works with features such as facetting and mapping other variables to graphical aesthetics. 
+To visualize missing values in two dimensions the missing values can be placed in plot margins, by imputing values below the range of the data.  Using _nabular_ data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring are combined into `geom_miss_point()`. Figure \@ref(fig:geom-miss) shows a mostly uniform spread of missing values for Solar.R and Ozone. As `geom_miss_point()` is a defined \pkg{ggplot2} geometry, it works with features such as faceting and mapping other variables to graphical aesthetics. 
 
 ```{r geom-miss, fig.height = 3, fig.width = 6, fig.cap = "Scatterplots with missings displayed at 10 percent below for the airquality dataset. Scatterplots of ozone and solar radiation (A), and ozone and temperature (B). There are missings in ozone and solar radiation, but not temperature."}
 
@@ -588,7 +588,7 @@ airquality %>%
 
 ## Multivariate {#multivariate}
 
-Parallel coordinate plots can help to visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The `oceanbuoys` dataset from \pkg{naniar} is used for this visualisation, containing measurements of sea and air temperature, humidity, and east west and north south wind speeds. Data was collected in 1993 and 1997, to understand and predict El Niño and El Niña. Figure \@ref(fig:parallel-cord-plot) is a parallel coordinate plot of `oceanbuoys`, with missing values imputed to be 10% below the range, and values colored according to whether humidity was missing (`humidity_NA`). Figure \@ref(fig:parallel-cord-plot) shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location. 
+Parallel coordinate plots can help to visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The `oceanbuoys` dataset from \pkg{naniar} is used for this visualization, containing measurements of sea and air temperature, humidity, and east west and north south wind speeds. Data was collected in 1993 and 1997, to understand and predict El Niño and El Niña. Figure \@ref(fig:parallel-cord-plot) is a parallel coordinate plot of `oceanbuoys`, with missing values imputed to be 10% below the range, and values colored according to whether humidity was missing (`humidity_NA`). Figure \@ref(fig:parallel-cord-plot) shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location. 
 
 ```{r parallel-cord-plot, fig.width = 8, fig.height = 4, out.width = "100%", echo = FALSE, fig.cap = "Parallel coordinate plot shows missing values imputed 10\\% below range for the oceanbuoys dataset. Values are colored by missingness of humidity. Humidity is missing for low air and sea temperatures, and is missing for one year and one location. "}
 
@@ -785,9 +785,9 @@ housing <- housing_raw %>%
 
 ```
 
-This section shows how the methods described so far are used together in a data analysis workflow. We analyse a case study of housing data for the city of Melbourne from January 28, 2016 to March 17, 2018. The data was compiled by scraping weekly property clearance data [@Kaggle-2018-data]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include real estate type (town house, unit, house), suburb, selling method, number of rooms, price, real estate agent, sale date, and distance from Central Business District (CBD).
+This section shows how the methods described so far are used together in a data analysis workflow. We analyse a case study of housing data for the city of Melbourne from January 28, 2016 to March 17, 2018. The data was compiled by scraping weekly property clearance data [@Kaggle-2018-data]. There are `r scales::number(nrow(housing), big.mark = ",")` properties, and `r ncol(housing)` variables in the dataset. The variables include real estate type (town house, unit, house), suburb, selling method, number of rooms, price, real estate agent, sale date, and distance from the Central Business District (CBD).
 
-The goal in analyzing this data is to accurately predict Melbourne housing prices. The data contains many missing values. As a precursor to building a predictive model, this analysis focusses on understanding the patterns of missingness.
+The goal in analyzing this data is to accurately predict Melbourne housing prices. The data contains many missing values. As a precursor to building a predictive model, this analysis focuses on understanding the patterns of missingness.
 
 ## Exploring patterns of missingness {#case-study-explore-pattern}
 
