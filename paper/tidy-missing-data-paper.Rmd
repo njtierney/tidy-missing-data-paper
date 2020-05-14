@@ -34,7 +34,6 @@ output:
     keep_tex: yes
     citation_package: 'natbib'
 bibliography: tidy-missing-data-paper.bib
-# csl: jcgs.csl
 ---
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
@@ -70,14 +69,6 @@ options(tinytex.verbose = TRUE)
 # Introduction {#intro}
 
 As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analysis workflow. Most analysis and visualization software simply drop missing values when making a plot, although some (\pkg{ggplot2}) provide a warning (Figure \@ref(fig:warning)).
-
-<!-- Tidy data [@Wickham2014] is a relatively new principle and suite of tools -->
-<!-- facilitating the process of converting raw data into a clean, analysis-ready -->
-<!-- format that works efficiently in a data analysis pipeline. In tidy data, missing -->
-<!-- values can be handled implicitly or explicitly, at the analyst's discretion. -->
-<!-- However, when making a plot, missing values are simply dropped, albeit with a -->
-<!-- warning (see Figure \@ref(fig:warning)). Most other analysis software will -->
-<!-- simply drop cases with missings without warning. -->
 
 ```{r warning, fig.cap = "How ggplot2 behaves when displaying missing values. A warning message is displayed, but missing values are not shown in the plot", fig.height = 4, fig.width = 8, out.width = "75%", warning = FALSE, fig.show = 'hold'}
 p1 <- ggplot(oceanbuoys,
