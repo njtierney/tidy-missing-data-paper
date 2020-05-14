@@ -10,6 +10,21 @@
   year      =  1976
 }
 
+
+@book{r4ds,
+	address = {Sebastopol, CA},
+	edition = {First edition},
+	title = {R for data science: import, tidy, transform, visualize, and model data},
+	isbn = {9781491910399 9781491910368},
+	shorttitle = {R for data science},
+	abstract = {"This book introduces you to R, RStudio, and the tidyverse, a collection of R packages designed to work together to make data science fast, fluent, and fun. Suitable for readers with no previous programming experience"--},
+	publisher = {O'Reilly},
+	author = {Wickham, Hadley and Grolemund, Garrett},
+	year = {2016},
+	note = {OCLC: ocn968213225},
+	keywords = {R (Computer program language), Data mining, Computer programs, Information visualization, Computer programs, Big data, Databases, Big data, Databases, Electronic data processing, R (Computer program language), Statistics}
+}
+
 @ARTICLE{Unwin1996,
   title     = "Interactive Graphics for Data Sets with Missing Values: {MANET}",
   author    = "Unwin, Antony and Hawkins, George and Hofmann, Heike and Siegl,
@@ -218,24 +233,17 @@
     url = {http://ggplot2.org},
   }
 
-
-@BOOK{r4ds,
-  title     = "{R} for Data Science: Import, Tidy, Transform, Visualize, and
-               Model Data",
-  author    = "Wickham, Hadley and Grolemund, Garrett",
-  publisher = "``O'Reilly Media, Inc.''",
-  month     =  dec,
-  year      =  2016,
-  language  = "en"
+@article{wang2020tsibble,
+  Author = {Earo Wang and Dianne Cook and Rob J Hyndman},
+  Title = {A new tidy data structure to support exploration and modeling of temporal data},
+  journal = {Journal of Computational and Graphical Statistics},
+  volume = {0},
+  number = {0},
+  pages = {1-13},
+  year  = {2020},
+  publisher = {Taylor \& Francis},
+  doi = {10.1080/10618600.2019.1695624}
 }
-
-@Manual{tsibble,
-    title = {tsibble: Tidy Temporal Data Frames and Tools},
-    author = {Earo Wang and Di Cook and Rob Hyndman},
-    year = {2018},
-    note = {R package version 0.1.5},
-    url = {https://CRAN.R-project.org/package=tsibble},
-  }
 
 @Article{tidytext,
     title = {tidytext: Text Mining and Analysis Using Tidy Data Principles in R},
@@ -250,17 +258,25 @@
   }
 
 
-@TECHREPORT{Ross2017,
-  title       = "Declutter your {R} workflow with tidy tools",
-  author      = "Ross, Zev and Wickham, Hadley and Robinson, David",
-  publisher   = "PeerJ Inc.",
-  number      = "e3180v1",
-  institution = "PeerJ Preprints",
-  month       =  aug,
-  year        =  2017,
-  language    = "en"
+@ARTICLE{Wilkinson2012,
+  title     = "The grammar of graphics",
+  author    = "Wilkinson, L",
+  journal   = "Handbook of Computational Statistics",
+  publisher = "Springer",
+  year      =  2012
 }
 
+
+@Article{tidyverse,
+    title = {Welcome to the {tidyverse}},
+    author = {Hadley Wickham and Mara Averick and Jennifer Bryan and Winston Chang and Lucy D'Agostino McGowan and Romain François and Garrett Grolemund and Alex Hayes and Lionel Henry and Jim Hester and Max Kuhn and Thomas Lin Pedersen and Evan Miller and Stephan Milton Bache and Kirill Müller and Jeroen Ooms and David Robinson and Dana Paige Seidel and Vitalie Spinu and Kohske Takahashi and Davis Vaughan and Claus Wilke and Kara Woo and Hiroaki Yutani},
+    year = {2019},
+    journal = {Journal of Open Source Software},
+    volume = {4},
+    number = {43},
+    pages = {1686},
+    doi = {10.21105/joss.01686},
+  }
 
 @MISC{Tidyverse-Manifesto,
   title        = "The tidy tools manifesto",
@@ -294,6 +310,16 @@
     note = {R package version 1.1.1},
     url = {https://CRAN.R-project.org/package=haven},
   }
+
+@Manual{rcore,
+    title = {R: A Language and Environment for Statistical Computing},
+    author = {{R Core Team}},
+    organization = {R Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2020},
+    url = {https://www.R-project.org/},
+  }
+
 
 @Manual{stringr,
     title = {stringr: Simple, Consistent Wrappers for Common String Operations},
@@ -343,14 +369,14 @@
   year    =  2015
 }
 
- @Manual{recipes,
+@Manual{recipes,
     title = {recipes: Preprocessing Tools to Create Design Matrices},
     author = {Max Kuhn and Hadley Wickham},
-    year = {2018},
-    note = {R package version 0.1.2},
+    year = {2019},
+    note = {R package version 0.1.8},
     url = {https://CRAN.R-project.org/package=recipes},
   }
-
+  
 @Article{amelia,
     title = {{Amelia II}: A Program for Missing Data},
     author = {James Honaker and Gary King and Matthew Blackwell},
@@ -682,13 +708,4 @@ Department of Statistics},
     author = {Carson Sievert},
     year = {2018},
     url = {https://plotly-book.cpsievert.me},
-  }
-
-
-@Manual{gganimate,
-    title = {gganimate: A Grammar of Animated Graphics},
-    author = {Thomas Lin Pedersen and David Robinson},
-    year = {2017},
-    note = {R package version 0.9.9.9999},
-    url = {http://github.com/thomasp85/gganimate},
   }

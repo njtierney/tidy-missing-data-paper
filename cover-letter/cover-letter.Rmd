@@ -1,21 +1,29 @@
 ---
 from: Nicholas Tierney
 fromqualifications: BPsySc (Hons), PhD (Statistics)
-fromtitle: Research Fellow
+fromtitle: Lecturer
 fromWWW: njtierney.com
 fromemail: nicholas.tierney@gmail.com
 fromphone: +61 3 9905 9352
 fromsignature: sigfile.png
-toname: Dr. B.U. Park
-toaddress: CSDA
-opening: Dear Dr. D.U. Park
-closing: Regards, \newline Dr. Nicholas Tierney \newline Reseach Fellow
+toname: Editors-in-Chief
+toaddress: Journal of Statistical Software
+opening: Dear Editors-in-Chief
+closing: Regards, \newline Dr. Nicholas Tierney \newline Lecturer
 spacing: 1.4
 output: MonashEBSTemplates::letter
 ---
 
-Please consider my article "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations" for possible publication in CSDA. This article describes new work on handling missing values from a data centric approach. The methodology is implemented in the R package, `naniar`, which is available on CRAN, https://cran.r-project.org/web/packages/naniar, with the development version on github https://github.com/njtierney/naniar.
+Please consider my article "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations" for publication in the Journal of Statistical Software. This article describes new work on handling missing values using a tidy approach. The methods are implemented in the R package, `naniar`, which is available on CRAN (https://cran.r-project.org/web/packages/naniar), and the development version is available on github https://github.com/njtierney/naniar. The package, `naniar` is being downloaded at a volume of 14,000 times a month, with total lifetime downloads 160,000 times, as measured from the RStudio server using the `cranlogs` package. The work has very visible, and widely praised, for example: [Karandeep Singh](https://twitter.com/kdpsinghlab/status/1110529278830170116) says: 
 
-Along with the PDF is an accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This article is not under consideration elsewhere. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print at Monash University.
+> Looking forward to teaching about missing data and mechanisms of missingness today. Prep work involved swapping out the mi and VIM packages from last year's #rstats code with @nj_tierney's excellent naniar package.
 
-We hope that you find this paper of interest to the readers of CSDA,
+And [Omar Wasow](https://twitter.com/owasow/status/1006743170846109697):
+
+> naniar also tipped the scale for me w/teaching. In past, I've skipped lecturing on missing data. This year, I revised lectures & covered naniar/simputation/Amelia. Was grateful to easily show basic issue as well as trade-offs of different forms of imputation (eg mean vs lm). Thx!
+
+In addition, the R package has been cited 9 times, and the pre-print of this paper has been cited 6 times since 2018.
+
+Along with the PDF is an accompanying Rmarkdown file, which contains all of the code to reproduce the results in this paper. This article is not under consideration elsewhere.  This paper was submitted two years ago to the Journal of Computational and Graphical Statistics, but was rejected. It has now been substantially re-written, based on reviewer feedback, and we agree with the reviewers that the work is more suited JSS. We have submitted a pre-print of this article to arxiv, and to our internal department pre-print series at Monash University.
+
+We hope that you find this paper of interest to the readers of Journal of Statistical Software,
