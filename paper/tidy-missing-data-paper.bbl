@@ -1,0 +1,375 @@
+\begin{thebibliography}{54}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Barnett \emph{et~al.}(2017)Barnett, McElwee, Nathan, Burton, and
+  Turrell}]{Barnett2017}
+Barnett AG, McElwee P, Nathan A, Burton NW, Turrell G (2017).
+\newblock \enquote{Identifying patterns of item missing survey data using
+  latent groups: an observational study.}
+\newblock \emph{BMJ open}, \textbf{7}(10), e017284.
+
+\bibitem[{Broman and Woo(2017)}]{Broman2017}
+Broman KW, Woo KH (2017).
+\newblock \enquote{Data organization in spreadsheets.}
+\newblock \emph{Technical Report e3183v1}, PeerJ Preprints.
+
+\bibitem[{Cheng \emph{et~al.}(2015)Cheng, Cook, and Hofmann}]{Cheng2015}
+Cheng X, Cook D, Hofmann H (2015).
+\newblock \enquote{Visually Exploring Missing Values in Multivariable Data
+  Using a Graphical User Interface.}
+\newblock \emph{Journal of statistical software}, \textbf{68}(1), 1--23.
+
+\bibitem[{Conway \emph{et~al.}(2017)Conway, Lex, and Gehlenborg}]{Conway2017}
+Conway JR, Lex A, Gehlenborg N (2017).
+\newblock \enquote{{UpSetR}: an {R} package for the visualization of
+  intersecting sets and their properties.}
+\newblock \emph{Bioinformatics}, \textbf{33}(18), 2938--2940.
+
+\bibitem[{Cook and Swayne(2007)}]{Cook2007}
+Cook D, Swayne DF (2007).
+\newblock \emph{Interactive and Dynamic Graphics for Data Analysis With {R} and
+  {GGobi}}.
+\newblock 1st edition. Springer Publishing Company, Incorporated.
+
+\bibitem[{Dempster \emph{et~al.}(1977)Dempster, Laird, and
+  Rubin}]{Dempster1977}
+Dempster AP, Laird NM, Rubin DB (1977).
+\newblock \enquote{Maximum Likelihood from Incomplete Data via the {EM}
+  Algorithm.}
+\newblock \emph{Journal of the Royal Statistical Society. Series B, Statistical
+  methodology}, \textbf{39}(1), 1--38.
+
+\bibitem[{Donoho(2017)}]{Donoho2017}
+Donoho D (2017).
+\newblock \enquote{50 Years of Data Science.}
+\newblock \emph{Journal of computational and graphical statistics: a joint
+  publication of American Statistical Association, Institute of Mathematical
+  Statistics, Interface Foundation of North America}, \textbf{26}(4), 745--766.
+
+\bibitem[{Durre \emph{et~al.}(2008)Durre, Menne, and Vose}]{Durre2008-ghcn}
+Durre I, Menne MJ, Vose RS (2008).
+\newblock \enquote{Strategies for Evaluating Quality Assurance Procedures.}
+\newblock \emph{Journal of Applied Meteorology and Climatology},
+  \textbf{47}(6), 1785--1791.
+
+\bibitem[{Ellis and Leek(2017)}]{Ellis2017}
+Ellis SE, Leek JT (2017).
+\newblock \enquote{How to share data for collaboration.}
+\newblock \emph{Technical Report e3139v1}, PeerJ Preprints.
+
+\bibitem[{Gelman and Hill(2011)}]{mi}
+Gelman A, Hill J (2011).
+\newblock \enquote{Opening Windows to the Black Box.}
+\newblock \emph{Journal of Statistical Software}, \textbf{40}.
+
+\bibitem[{Grolemund and Wickham(2011)}]{lubridate}
+Grolemund G, Wickham H (2011).
+\newblock \enquote{Dates and Times Made Easy with {lubridate}.}
+\newblock \emph{Journal of Statistical Software}, \textbf{40}(3), 1--25.
+\newblock \urlprefix\url{http://www.jstatsoft.org/v40/i03/}.
+
+\bibitem[{{Harrell Jr} \emph{et~al.}(2018){Harrell Jr}, with contributions~from
+  Charles~Dupont, and many others.}]{Hmisc}
+{Harrell Jr} FE, with contributions~from Charles~Dupont, many others (2018).
+\newblock \emph{Hmisc: Harrell Miscellaneous}.
+\newblock R package version 4.1-1,
+  \urlprefix\url{https://CRAN.R-project.org/package=Hmisc}.
+
+\bibitem[{Henry and Wickham(2017)}]{purrr}
+Henry L, Wickham H (2017).
+\newblock \emph{purrr: Functional Programming Tools}.
+\newblock R package version 0.2.4,
+  \urlprefix\url{https://CRAN.R-project.org/package=purrr}.
+
+\bibitem[{Honaker and King(2010)}]{Honaker2010}
+Honaker J, King G (2010).
+\newblock \enquote{What to Do about Missing Values in {Time-Series}
+  {Cross-Section} Data.}
+\newblock \emph{American journal of political science}, \textbf{54}(2),
+  561--581.
+
+\bibitem[{Honaker \emph{et~al.}(2011)Honaker, King, and Blackwell}]{amelia}
+Honaker J, King G, Blackwell M (2011).
+\newblock \enquote{{Amelia II}: A Program for Missing Data.}
+\newblock \emph{Journal of Statistical Software}, \textbf{45}(7), 1--47.
+\newblock \urlprefix\url{http://www.jstatsoft.org/v45/i07/}.
+
+\bibitem[{Josse and Husson(2016)}]{missMDA}
+Josse J, Husson F (2016).
+\newblock \enquote{missMDA: A Package for Handling Missing Values in
+  Multivariate Data Analysis.}
+\newblock \emph{Journal of Statistical Software, Articles}, \textbf{70}(1),
+  1--31.
+\newblock ISSN 1548-7660.
+\newblock \doi{10.18637/jss.v070.i01}.
+\newblock \urlprefix\url{https://www.jstatsoft.org/v070/i01}.
+
+\bibitem[{Keeling \emph{et~al.}(2005)Keeling, Piper, Bacastow, Wahlen, Whorf,
+  Heimann, and Meijer}]{Keeling2005-scripps}
+Keeling CD, Piper SC, Bacastow RB, Wahlen M, Whorf TP, Heimann M, Meijer HA
+  (2005).
+\newblock \enquote{Atmospheric {CO2} and {13CO2} Exchange with the Terrestrial
+  Biosphere and Oceans from 1978 to 2000: Observations and Carbon Cycle
+  Implications.}
+\newblock In IT~Baldwin, MM~Caldwell, G~Heldmaier, RB~Jackson, OL~Lange,
+  HA~Mooney, ED~Schulze, U~Sommer, JR~Ehleringer, M~Denise~Dearing, TE~Cerling
+  (eds.), \emph{A History of Atmospheric {CO2} and Its Effects on Plants,
+  Animals, and Ecosystems}, pp. 83--113. Springer New York, New York, NY.
+
+\bibitem[{Kowarik and Templ(2016)}]{VIM}
+Kowarik A, Templ M (2016).
+\newblock \enquote{Imputation with the {R} Package {VIM}.}
+\newblock \emph{Journal of Statistical Software}, \textbf{74}(7), 1--16.
+\newblock \doi{10.18637/jss.v074.i07}.
+
+\bibitem[{Kuhn and Wickham(2019)}]{recipes}
+Kuhn M, Wickham H (2019).
+\newblock \emph{recipes: Preprocessing Tools to Create Design Matrices}.
+\newblock R package version 0.1.8,
+  \urlprefix\url{https://CRAN.R-project.org/package=recipes}.
+
+\bibitem[{L\^e \emph{et~al.}(2008)L\^e, Josse, and Husson}]{FactoMineR}
+L\^e S, Josse J, Husson F (2008).
+\newblock \enquote{{FactoMineR}: A Package for Multivariate Analysis.}
+\newblock \emph{Journal of Statistical Software}, \textbf{25}(1), 1--18.
+\newblock \doi{10.18637/jss.v025.i01}.
+
+\bibitem[{Milborrow(2018)}]{rpart-plot}
+Milborrow S (2018).
+\newblock \emph{rpart.plot: Plot 'rpart' Models: An Enhanced Version of
+  'plot.rpart'}.
+\newblock R package version 2.2.0,
+  \urlprefix\url{https://CRAN.R-project.org/package=rpart.plot}.
+
+\bibitem[{Moritz and Bartz-Beielstein(2017)}]{imputeTS}
+Moritz S, Bartz-Beielstein T (2017).
+\newblock \enquote{{imputeTS: Time Series Missing Value Imputation in R}.}
+\newblock \emph{{The R Journal}}, \textbf{9}(1), 207--218.
+\newblock
+  \urlprefix\url{https://journal.r-project.org/archive/2017/RJ-2017-009/index.html}.
+
+\bibitem[{Pedersen and Robinson(2017)}]{gganimate}
+Pedersen TL, Robinson D (2017).
+\newblock \emph{gganimate: A Grammar of Animated Graphics}.
+\newblock R package version 0.9.9.9999,
+  \urlprefix\url{http://github.com/thomasp85/gganimate}.
+
+\bibitem[{{R Core Team}(2020)}]{rcore}
+{R Core Team} (2020).
+\newblock \emph{R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria.
+\newblock \urlprefix\url{https://www.R-project.org/}.
+
+\bibitem[{Schafer(1999)}]{schafer-norm}
+Schafer J (1999).
+\newblock \emph{NORM: Multiple imputation of incomplete multivariate data under
+  a normal model}.
+\newblock Computer Software.
+
+\bibitem[{Schafer and Graham(2002)}]{Schafer2002}
+Schafer JL, Graham JW (2002).
+\newblock \enquote{Missing data: our view of the state of the art.}
+\newblock \emph{Psychological methods}, \textbf{7}(2), 147--177.
+
+\bibitem[{Sievert(2018)}]{plotly}
+Sievert C (2018).
+\newblock \emph{plotly for R}.
+\newblock \urlprefix\url{https://plotly-book.cpsievert.me}.
+
+\bibitem[{Silge and Robinson(2016)}]{tidytext}
+Silge J, Robinson D (2016).
+\newblock \enquote{tidytext: Text Mining and Analysis Using Tidy Data
+  Principles in R.}
+\newblock \emph{JOSS}, \textbf{1}(3).
+\newblock \doi{10.21105/joss.00037}.
+\newblock \urlprefix\url{http://dx.doi.org/10.21105/joss.00037}.
+
+\bibitem[{Sterne \emph{et~al.}(2009)Sterne, White, Carlin, Spratt, Royston,
+  Kenward, Wood, and Carpenter}]{Sterne2009}
+Sterne JaC, White IR, Carlin JB, Spratt M, Royston P, Kenward MG, Wood AM,
+  Carpenter JR (2009).
+\newblock \enquote{Multiple imputation for missing data in epidemiological and
+  clinical research: potential and pitfalls.}
+\newblock \emph{BMJ}, \textbf{338}, b2393.
+
+\bibitem[{Swayne and Buja(1998)}]{Swayne1998}
+Swayne DF, Buja A (1998).
+\newblock \enquote{Missing data in interactive high-dimensional data
+  visualization.}
+\newblock \emph{Computational statistics}, pp. 1--8.
+
+\bibitem[{Therneau and Atkinson(2018)}]{rpart}
+Therneau T, Atkinson B (2018).
+\newblock \emph{rpart: Recursive Partitioning and Regression Trees}.
+\newblock R package version 4.1-13,
+  \urlprefix\url{https://CRAN.R-project.org/package=rpart}.
+
+\bibitem[{Tierney(2017)}]{visdat}
+Tierney N (2017).
+\newblock \enquote{visdat: Visualising Whole Data Frames.}
+\newblock \emph{JOSS}, \textbf{2}(16), 355.
+\newblock \doi{10.21105/joss.00355}.
+\newblock \urlprefix\url{http://dx.doi.org/10.21105/joss.00355}.
+
+\bibitem[{Tierney(2019)}]{Kaggle-2018-data}
+Tierney N (2019).
+\newblock \enquote{{njtierney/melb-housing-data: Melbourne Housing Data
+  Releae}.}
+\newblock \doi{10.5281/zenodo.2575484}.
+\newblock \urlprefix\url{https://doi.org/10.5281/zenodo.2575484}.
+
+\bibitem[{Tierney \emph{et~al.}(2015)Tierney, Harden, Harden, and
+  Mengersen}]{Tierney2015}
+Tierney NJ, Harden FA, Harden MJ, Mengersen KL (2015).
+\newblock \enquote{Using decision trees to understand structure in missing
+  data.}
+\newblock \emph{BMJ open}, \textbf{5}(6), e007450.
+
+\bibitem[{to~R by Alvaro A. Novo. Original~by Joseph L.
+  Schafer~<jls@stat.psu.edu>.(2013)}]{norm}
+to~R by Alvaro A Novo Original~by Joseph L Schafer~<jls@statpsuedu> P (2013).
+\newblock \emph{norm: Analysis of multivariate normal datasets with missing
+  values}.
+\newblock R package version 1.0-9.5,
+  \urlprefix\url{https://CRAN.R-project.org/package=norm}.
+
+\bibitem[{Treisman(1985)}]{treisman1985}
+Treisman A (1985).
+\newblock \enquote{Preattentive processing in vision.}
+\newblock \emph{Computer vision, graphics, and image processing},
+  \textbf{31}(2), 156--177.
+
+\bibitem[{Unwin \emph{et~al.}(1996)Unwin, Hawkins, Hofmann, and
+  Siegl}]{Unwin1996}
+Unwin A, Hawkins G, Hofmann H, Siegl B (1996).
+\newblock \enquote{Interactive Graphics for Data Sets with Missing Values:
+  {MANET}.}
+\newblock \emph{Journal of computational and graphical statistics: a joint
+  publication of American Statistical Association, Institute of Mathematical
+  Statistics, Interface Foundation of North America}, \textbf{5}(2), 113--122.
+
+\bibitem[{van Buuren(2012)}]{VanBuuren2012}
+van Buuren S (2012).
+\newblock \emph{Flexible Imputation of Missing Data}.
+\newblock CRC Press.
+
+\bibitem[{{van Buuren} and Groothuis-Oudshoorn(2011)}]{mice}
+{van Buuren} S, Groothuis-Oudshoorn K (2011).
+\newblock \enquote{{mice}: Multivariate Imputation by Chained Equations in R.}
+\newblock \emph{Journal of Statistical Software}, \textbf{45}(3), 1--67.
+\newblock \urlprefix\url{http://www.jstatsoft.org/v45/i03/}.
+
+\bibitem[{{van der Loo}(2017)}]{simputation}
+{van der Loo} M (2017).
+\newblock \emph{simputation: Simple Imputation}.
+\newblock R package version 0.2.2,
+  \urlprefix\url{https://CRAN.R-project.org/package=simputation}.
+
+\bibitem[{Walker(2018)}]{tidycensus}
+Walker K (2018).
+\newblock \emph{tidycensus: Load US Census Boundary and Attribute Data as
+  'tidyverse' and 'sf'-Ready Data Frames}.
+\newblock R package version 0.4.6,
+  \urlprefix\url{https://CRAN.R-project.org/package=tidycensus}.
+
+\bibitem[{Wang \emph{et~al.}(2020)Wang, Cook, and Hyndman}]{wang2020tsibble}
+Wang E, Cook D, Hyndman RJ (2020).
+\newblock \enquote{A new tidy data structure to support exploration and
+  modeling of temporal data.}
+\newblock \emph{Journal of Computational and Graphical Statistics},
+  \textbf{0}(0), 1--13.
+\newblock \doi{10.1080/10618600.2019.1695624}.
+
+\bibitem[{Wickham(2009)}]{ggplot2}
+Wickham H (2009).
+\newblock \emph{ggplot2: Elegant Graphics for Data Analysis}.
+\newblock Springer-Verlag New York.
+\newblock ISBN 978-0-387-98140-6.
+\newblock \urlprefix\url{http://ggplot2.org}.
+
+\bibitem[{Wickham(2014)}]{Wickham2014}
+Wickham H (2014).
+\newblock \enquote{Tidy Data.}
+\newblock \emph{Journal of statistical software}, \textbf{59}(10), 1--23.
+
+\bibitem[{Wickham(2017)}]{Tidyverse-Manifesto}
+Wickham H (2017).
+\newblock \enquote{The tidy tools manifesto.}
+\newblock
+  \url{https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html}.
+\newblock Accessed: 2018-4-10.
+
+\bibitem[{Wickham(2018)}]{stringr}
+Wickham H (2018).
+\newblock \emph{stringr: Simple, Consistent Wrappers for Common String
+  Operations}.
+\newblock R package version 1.3.0,
+  \urlprefix\url{https://CRAN.R-project.org/package=stringr}.
+
+\bibitem[{Wickham \emph{et~al.}(2019)Wickham, Averick, Bryan, Chang, McGowan,
+  François, Grolemund, Hayes, Henry, Hester, Kuhn, Pedersen, Miller, Bache,
+  Müller, Ooms, Robinson, Seidel, Spinu, Takahashi, Vaughan, Wilke, Woo, and
+  Yutani}]{tidyverse}
+Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G,
+  Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller
+  K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C,
+  Woo K, Yutani H (2019).
+\newblock \enquote{Welcome to the {tidyverse}.}
+\newblock \emph{Journal of Open Source Software}, \textbf{4}(43), 1686.
+\newblock \doi{10.21105/joss.01686}.
+
+\bibitem[{Wickham and Bryan(2017)}]{readxl}
+Wickham H, Bryan J (2017).
+\newblock \emph{readxl: Read Excel Files}.
+\newblock R package version 1.0.0,
+  \urlprefix\url{https://CRAN.R-project.org/package=readxl}.
+
+\bibitem[{Wickham \emph{et~al.}(2017{\natexlab{a}})Wickham, Francois, Henry,
+  and Müller}]{dplyr}
+Wickham H, Francois R, Henry L, Müller K (2017{\natexlab{a}}).
+\newblock \emph{dplyr: A Grammar of Data Manipulation}.
+\newblock R package version 0.7.4,
+  \urlprefix\url{https://CRAN.R-project.org/package=dplyr}.
+
+\bibitem[{Wickham and Grolemund(2016)}]{r4ds}
+Wickham H, Grolemund G (2016).
+\newblock \emph{R for data science: import, tidy, transform, visualize, and
+  model data}.
+\newblock First edition edition. O'Reilly, Sebastopol, CA.
+\newblock ISBN 9781491910399 9781491910368.
+\newblock OCLC: ocn968213225.
+
+\bibitem[{Wickham and Henry(2018)}]{tidyr}
+Wickham H, Henry L (2018).
+\newblock \emph{tidyr: Easily Tidy Data with 'spread()' and 'gather()'
+  Functions}.
+\newblock R package version 0.8.0,
+  \urlprefix\url{https://CRAN.R-project.org/package=tidyr}.
+
+\bibitem[{Wickham \emph{et~al.}(2017{\natexlab{b}})Wickham, Hester, and
+  Francois}]{readr}
+Wickham H, Hester J, Francois R (2017{\natexlab{b}}).
+\newblock \emph{readr: Read Rectangular Text Data}.
+\newblock R package version 1.1.1,
+  \urlprefix\url{https://CRAN.R-project.org/package=readr}.
+
+\bibitem[{Wickham and Miller(2018)}]{haven}
+Wickham H, Miller E (2018).
+\newblock \emph{haven: Import and Export 'SPSS', 'Stata' and 'SAS' Files}.
+\newblock R package version 1.1.1,
+  \urlprefix\url{https://CRAN.R-project.org/package=haven}.
+
+\bibitem[{Wilkinson(2012)}]{Wilkinson2012}
+Wilkinson L (2012).
+\newblock \enquote{The grammar of graphics.}
+\newblock \emph{Handbook of Computational Statistics}.
+
+\end{thebibliography}

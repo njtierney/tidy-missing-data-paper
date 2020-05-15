@@ -8,3 +8,6 @@ tmp-pdfcrop-44731.tex
 .Rproj.user
 sigfile.png
 *.log
+*.aux
+*.blg
+*.out

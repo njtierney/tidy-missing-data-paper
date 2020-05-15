@@ -44,7 +44,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.width = 4, 
                       fig.height = 4, 
                       cache = TRUE)
-
+options(tinytex.clean = FALSE)
 library(tidyverse) 
 library(gridExtra)
 # options(kableExtra.latex.load_packages = FALSE)
