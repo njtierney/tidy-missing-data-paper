@@ -1,0 +1,97 @@
+---
+title: "Response to Review"
+---
+
+JSS 4108:
+
+Nicholas John Tierney, Dianne Cook
+
+
+Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations
+
+---------------------------------------------------------
+For further instructions on JSS style requirements please see the Style Files (in particular section 2.1 Style Checklist of jss.pdf) and FAQ at http://www.jstatsoft.org/about/submissions.
+
+For further examples please see RECENT JSS papers.
+---------------------------------------------------------
+
+From the editorial team:
+
+We apologize for the additional delays in processing 
+your submission due to the COVID-19 pandemic.
+
+The submission "Expanding tidy data principles to facilitate missing data
+exploration, visualization and assessment of imputations" presents the R 
+package naniar which provides data structures, summaries and visualizations 
+for missing data.
+
+Additional comments:
+
+Please add some discussion on what kind of functionality is available in 
+other statistical software packages than R in order to better embed the 
+contribution not only within R, but the statistical software ecosystem in 
+general.
+
+Please provide a plain R script which when run reproduces all results 
+presented in the manuscript. In general purling the Rmd file and editing 
+the resulting R file  slightly in order to guide the user what each block 
+does, removing knitr specific content,   etc. is suitable.
+
+* Please add some discussion on what kind of functionality is available in 
+other statistical software packages than R in order to better embed the 
+contribution not only within R, but the statistical software ecosystem in 
+general.
+
+* Please provide a plain R script which when run reproduces all results 
+presented in the manuscript. In general purling the Rmd file and editing 
+the resulting R file slightly in order to guide the user what each block 
+does, removing knitr specific content, etc. is suitable.
+
+* The JSS style (https://www.jstatsoft.org/pages/view/style) should be 
+followed more closely, especially using the title vs. sentence case, 
+JSS-specific markup (\proglang, \pkg), and improving the BibTeX file. Some 
+aspects of the style are handled incorrectly by "rticles", though (see
+https://github.com/rstudio/rticles/issues/254).
+
+* Note that the affiliation of the second author is misspelled.
+
+
+Manuscript style comments:
+
+o For the code layout in R publications, we typically distinguish input/output using Sinput/Soutput (or equivalently CodeInput/CodeOutput). Unless there are special reasons to format it differently, the input should use the text width (up to 76 or 77 characters) and be indented by two spaces, e.g.,
+
+begin{Sinput}
+R> example_model <- lm(response ~ variable1 + variable2 + variable3, 
++    weights = w, data = mydata)
+\end{Sinput}
+
+o If using "e.g." and "i.e." add a comma after the period to keep LaTeX from interpreting them as the end of a sentence, i.e.: "e.g., " and "i.e., ".
+
+o The rule for capitalizing the starting letters of Figure, Section and Table is as follows: If you are referring to a particular figure/section/table then capitalize the first letter, otherwise use a lower-case first letter. For example, something shown in Section 4 vs. there are three sections in this paper.
+
+o All captions should appear below the corresponding figure/table. The captions should be in sentence style and end with a period.  No additional formatting (such as \emph, f or \it) should be used for the caption.
+
+o All table row/column headers should also be in sentence style. There should not be further footnote-style annotations in tables; these should all be placed in the caption.
+
+o As a reminder, please make sure that:
+	- \proglang, \pkg and \code have been used for highlighting throughout the paper (including titles and references), except where explicitly escaped.
+
+
+References:
+
+
+o Journal of the Royal Statistical Society B (not: Journal of the Royal Statistical Society, Series B)
+	the EM Algorithm.” Journal of the Royal Statistical Society. Series B
+the EM Algorithm.” Journal of the Royal Statistical Society. Series B
+o Springer-Verlag (not: Springer)
+	and GGobi. 1st edition. Springer Publishing Company, Incorporated.
+
+
+o Please make sure that all software packages are \cite{}'d properly.
+o All references should be in title style.
+o See FAQ for specific reference instructions.
+
+
+Code:
+
+o Please make sure that the files needed to replicate all code/examples within the manuscript are included in a standalone replication script.
