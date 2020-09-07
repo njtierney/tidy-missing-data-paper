@@ -31,13 +31,9 @@ other statistical software packages than R in order to better embed the
 contribution not only within R, but the statistical software ecosystem in 
 general.
 
-> We have added the following:
+> We have added the following at the end of section 3:
 
-- Missing data can be visualised in other software such as STATA, SAS, and SPSS
-- They provide basic table frequencies
-- SPSS provides visualisations on missingness patterns
-- No software provides drop in functions to specifically visualise missing values.
-- Although it is possible to visualise missing values after performing data manipulations to count and summarise the missingness.
+Missing data can be explored and visualised in other software such as \proglang{STATA}, \proglang{SAS}, and \proglang{SPSS}. They provide basic table frequencies of missing data, and basic visualisations on missingness patterns. However, none of these software provide functions to specifically visualise missing values in bivariate or multivariate settings, and it is only possible to visualise missing values after performing data analysis, counting and summarising missingness. Imputation methods from mean to regression, EM, and multiple imputation are all available, with out of the box diagnostics provided to assist comparing imputations. \proglang{python} also provides exploratory data analysis for missing data within \pkg{missingno} [@Bilogur2018], and the \pkg{scikit-learn} package provides imputation methods [@scikit-learn].
 
 Please provide a plain R script which when run reproduces all results 
 presented in the manuscript. In general purling the Rmd file and editing 
@@ -52,7 +48,7 @@ JSS-specific markup (\proglang, \pkg), and improving the BibTeX file. Some
 aspects of the style are handled incorrectly by "rticles", though (see
 https://github.com/rstudio/rticles/issues/254).
 
-> 
+> I have updated to the latest rticles package and checked that the JSS-specific markup has been fixed in the latest submission.
 
 * Note that the affiliation of the second author is misspelled.
 
@@ -67,9 +63,7 @@ R> example_model <- lm(response ~ variable1 + variable2 + variable3,
 +    weights = w, data = mydata)
 \end{Sinput}
 
-> I am not sure how to address this with `rticles`, I assume I'll need to update
-to the latest version  and give that a go.
-
+> I believe this has been resolved with the latest update to rticles
 
 o If using "e.g." and "i.e." add a comma after the period to keep LaTeX from interpreting them as the end of a sentence, i.e.: "e.g., " and "i.e., ".
 
@@ -84,6 +78,8 @@ o All captions should appear below the corresponding figure/table. The captions 
 > I'm not sure it is possible to control the caption output of a kable Table, I will look into this.
 
 o All table row/column headers should also be in sentence style. There should not be further footnote-style annotations in tables; these should all be placed in the caption.
+
+> 
 
 o As a reminder, please make sure that:
 	- \proglang, \pkg and \code have been used for highlighting throughout the paper (including titles and references), except where explicitly escaped.

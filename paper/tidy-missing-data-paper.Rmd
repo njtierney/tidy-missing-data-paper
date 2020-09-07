@@ -18,7 +18,7 @@ title:
   # For running headers, if needed
   short:     "Explore missingness with \\pkg{naniar}"
 abstract: >
-  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as a key part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the R package `naniar`.
+  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as a key part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the R package \pkg{naniar}.
 keywords:
   # at least one keyword must be supplied
   formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
@@ -109,7 +109,7 @@ Features of tidy data were formally described in [@Wickham2014], and were discus
 > 2.  Each observation must have its own row.
 > 3.  Each value must have its own cell.
 
-Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are comprehensively implemented in the R programming language, so this paper focuses on R [@rcore].
+Tidy data is easier to work with and analyze because the variables are in the same format as they would be put into modelling software. This helps the analyst works swiftly and clearly, closing up opportunities for errors. Tidy data principles are general, but are comprehensively implemented in the \proglang{R} programming language, so this paper focuses on \proglang{R} [@rcore].
 
 Tidy tools require the same tidy data input and output. This consistency means multiple tools can be composed together into a sequence, allowing for rapid, elegant, and complex operations. Contrasting tidy tools are messy tools. These have tidy input but messy output. Messy tools slow down analysis by shifting the focus from analysis to transforming output so it is the right shape for the next step in the analysis. This makes the work at each step harder to predict, and more complex and difficult to maintain. This disrupts workflow, and invites errors. Tidy tools fall into three broad categories: data manipulation, visualization, and modelling.
 
@@ -127,7 +127,7 @@ Modelling tools work well with tidy data, as they have a clear mapping from vari
 
 ### The tidyverse {#the-tidyverse}
 
-Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the "tidyverse" [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
+Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the \pkg{tidyverse} [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
 
 ### Tidy formats for missing data {#tidy-formats-missing-data}
 
@@ -160,7 +160,7 @@ Methods for exploring, understanding, and imputing missing data are more accessi
 
 ## Imputation {#imputation}
 
-\pkg{VIM} [@VIM] implements well-used imputation methods K nearest neighbors, regression, hot-deck, and iterative robust model-based imputation. These diverse approaches allows for imputing with semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix `_imp`. So `Var1` has a sibling column, `Var1_imp`, with values TRUE or FALSE indicating imputation. \pkg{VIM} also has a variety of visualization methods, discussed in \@ref(exploration). \pkg{simputation} provides an interface to imputation methods from VIM, in addition providing hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. \pkg{simputation} provides a consistent formula interface for all imputation methods, and always returns a dataframe with the updated imputations. \pkg{Hmisc} [@Hmisc], provides predictive mean matching, \pkg{imputeTS} [@imputeTS], provides time series imputation methods, and \pkg{missMDA} [@missMDA], imputes data using principal components analysis.
+\pkg{VIM} [@VIM] implements well-used imputation methods K nearest neighbors, regression, hot-deck, and iterative robust model-based imputation. These diverse approaches allows for imputing with semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix "_imp". So "Var1" has a sibling column, "Var1_imp", with values TRUE or FALSE indicating imputation. \pkg{VIM} also has a variety of visualization methods, discussed in \@ref(exploration). \pkg{simputation} provides an interface to imputation methods from VIM, in addition providing hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. \pkg{simputation} provides a consistent formula interface for all imputation methods, and always returns a dataframe with the updated imputations. \pkg{Hmisc} [@Hmisc], provides predictive mean matching, \pkg{imputeTS} [@imputeTS], provides time series imputation methods, and \pkg{missMDA} [@missMDA], imputes data using principal components analysis.
 
 Multiple imputation is often regarded as best practice for imputing values [@Schafer2002], as long as appropriate caution is taken [@Sterne2009]. Popular and robust methods for multiple imputation include the \pkg{mice}, \pkg{Amelia}, and \pkg{mi} packages [@mice; @amelia; @mi]. \pkg{mice} implements the method of chained equations, using a variable-wise algorithm to calculate the posterior distribution of parameters to generate imputed values. The workflow in \pkg{mice} revolves around imputing data, returning completed data, and fitting a model and pooling the results.
 
@@ -178,11 +178,11 @@ The primary focus of most missing data packages is making inferences, and explor
 
 The missingness matrix $B$ can be used to assess missing data dependence. It has been used in interactive graphics, dubbed a "shadow matrix", to link missing and imputed values to the data, facilitating their display [@Swayne1998], focusing heavily on multivariate numeric data. This is an idea upon which this new work builds.
 
-The MANET (Missings Are Now Equally Treated) software [@Unwin1996] focussed on multivariate categorical data, with missingness explicitly added as a category. MANET also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The MANET software is no longer maintained and cannot be installed. The approach of [@Swayne1998] in the software XGobi, further developed in ggobi [@Cook2007], focussed on multivariate quantitative data. Missingness is incorporated into plots in ggobi by setting them to be 10% below the minimum value.
+The \pkg{MANET} (Missings Are Now Equally Treated) software [@Unwin1996] focussed on multivariate categorical data, with missingness explicitly added as a category. \pkg{MANET} also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The \pkg{MANET} software is no longer maintained and cannot be installed. The approach of [@Swayne1998] in the software \pkg{XGobi}, further developed in \pkg{ggobi} [@Cook2007], focussed on multivariate quantitative data. Missingness is incorporated into plots in \pkg{ggobi} by setting them to be 10% below the minimum value.
 
-MissingDataGUI provides a Graphical User Interface (GUI) for exploring missing data structure, both numerically and visually. Using a GUI to explore missing data facilitates rapid insight into missingness structures. However, this comes as a trade off, as insights are not captured or recorded with a GUI, making it challenging to incorporate into reproducible analyses. This distracts and breaks analysis workflow, inviting mistakes.
+\pkg{MissingDataGUI} provides a Graphical User Interface (GUI) for exploring missing data structure, both numerically and visually. Using a GUI to explore missing data facilitates rapid insight into missingness structures. However, this comes as a trade off, as insights are not captured or recorded with a GUI, making it challenging to incorporate into reproducible analyses. This distracts and breaks analysis workflow, inviting mistakes.
 
-VIM (Visualizing and Imputing Missing Data) provides visualization methods to identify and explore observed, imputed, and missing values. These include spinograms, spinoplots, missingness matrices, plotting missingness in the margins of other plots, and other summaries. However, these visualizations do not map variables to graphical aesthetics, creating friction when moving through analysis workflows, making them difficult to extend to new circumstances. Additionally, data used to create the visualizations cannot be accessed, posing a barrier to further exploration.
+\pkg{VIM} (Visualizing and Imputing Missing Data) provides visualization methods to identify and explore observed, imputed, and missing values. These include spinograms, spinoplots, missingness matrices, plotting missingness in the margins of other plots, and other summaries. However, these visualizations do not map variables to graphical aesthetics, creating friction when moving through analysis workflows, making them difficult to extend to new circumstances. Additionally, data used to create the visualizations cannot be accessed, posing a barrier to further exploration.
 
 \pkg{ggplot2} removes missing values with a warning (Figure \@ref(fig:warning)), and only incorporates missingness into visualizations when mapping a discrete variable with missings to a graph aesthetic. This has some limitations, shown in Figure \@ref(fig:gg-box-na), a boxplot visualization of school grade and test scores. If there are missings in a continuous variable like test score, \pkg{ggplot2} omits the missings and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, where scores are placed (Figure \@ref(fig:gg-box-na)).
 
@@ -258,13 +258,17 @@ cowplot::plot_grid(p1,
           labels = LETTERS[1:4])
 ```
 
+## Approaches in other languages
+
+Missing data can be explored and visualised in closed source software such as \proglang{STATA}, \proglang{SAS}, and \proglang{SPSS}. These provide basic table frequencies of missing data, and basic visualisations on missingness patterns. However, none of these software provide functions to specifically visualise missing values in bivariate or multivariate settings, and it is only possible to visualise missing values after performing data analysis, counting and summarising missingness. Imputation methods from mean to regression, EM, and multiple imputation are all available, with out of the box diagnostics provided to assist comparing imputations. \proglang{python} also provides exploratory data analysis for missing data within \pkg{missingno} [@Bilogur2018], and the \pkg{scikit-learn} package provides imputation methods [@scikit-learn].
+
 # Tidy framework for missings {#extensions}
 
 Applying tidyverse principles has the potential to clarify missing data exploration, visualization, and imputation. This section discusses how these principles are applied for data structures (\@ref(data-structure)), common operations (verbs) (\@ref(verbs)), graphics (\@ref(graphics)), and data summaries (\@ref(num-sum)). Care has been taken to make the names and design these features intuitive for their purpose, and is discussed throughout.
 
 ## Data structure {#data-structure}
 
-A data structure facilitating exploration of missing data needs to be simple to reason with and to transport with a data analysis, otherwise it will not be used. A useful template common in missing data literature, is the $B$ matrix, where 0 and 1 indicate not missing and missing, respectively. This matrix was used to explore missing values in the interactive graphics library XGobi, called a "missing value shadow", or "shadow matrix", defined as a copy of the original data with indicator values of missingness. The shadow matrix could be interactively linked to the data. However, there are some limitations to the shadow matrix. Namely, the values 0 and 1 can be confusing representations of missing values, since it is not clear if 0 indicates an absence of observation, or the presence of a missing value.
+A data structure facilitating exploration of missing data needs to be simple to reason with and to transport with a data analysis, otherwise it will not be used. A useful template common in missing data literature, is the $B$ matrix, where 0 and 1 indicate not missing and missing, respectively. This matrix was used to explore missing values in the interactive graphics library \pkg{XGobi}, called a "missing value shadow", or "shadow matrix", defined as a copy of the original data with indicator values of missingness. The shadow matrix could be interactively linked to the data. However, there are some limitations to the shadow matrix. Namely, the values 0 and 1 can be confusing representations of missing values, since it is not clear if 0 indicates an absence of observation, or the presence of a missing value.
 
 <!-- since 0 and 1 could interchangably indicate the absence (0) of observation, or the presence (1) of a missing value. -->
 
@@ -272,15 +276,15 @@ We propose a new form for tidy representation of missing data based on these ide
 
 1.  **Missing value labels**. Simple labels for missing and not missing to clearly identify missing values for analysis and plotting. We propose "NA" and "!NA". (Figure \@ref(fig:nabularfig)). This improves the 0 and 1 values in $B$, which do not clearly identify missingness. These values follow a principle: "**clarity of labelling**" - the matrix's meaning is transparent, and anybody looking at these values could understand what they mean, which is not the case of binary values. Equally, these values could instead be "missing" or "present".
 
-2.  **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA\_\<suffix\>". For example: `NA_instrument` uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Figure \@ref(fig:nabularfig)).
+2.  **Special missing values**: Building on **missing value labels**, the values in the shadow matrix can be "special" missing values, indicated by "NA\_\<suffix\>". For example: "NA_instrument" uses a short label, "instrument", indicating instrument error resulting in missing values. These could be also used to indicate imputations, (Figure \@ref(fig:nabularfig)).
 
-3.  **Coordinated names**: Variable names in the shadow matrix gain a consistent short suffix, \"\_NA\", keeping names coordinated throughout analysis (Figure \@ref(fig:nabularfig)). It makes a clear distinction with `var_NA` being a random variable of the missingness of a variable, `var`. This suffix is short and easy to remember during data analysis, and shifts the focus from the value of a variable, to its missingness state.
+3.  **Coordinated names**: Variable names in the shadow matrix gain a consistent short suffix, \"\_NA\", keeping names coordinated throughout analysis (Figure \@ref(fig:nabularfig)). It makes a clear distinction with "var_NA" being a random variable of the missingness of a variable, "var". This suffix is short and easy to remember during data analysis, and shifts the focus from the value of a variable, to its missingness state.
 
 4.  **Connectedness**: Binding the shadow matrix column-wise to the original data creates a single, connected, *nabular* data format, in sync with the data. It is useful for visualization, summaries, and tracking imputed values, discussed in more detail in \@ref(nabular-data).
 
 ## Nabular data {#nabular-data}
 
-*Nabular* data binds the shadow matrix column-wise to the original data. It is a portmanteau of `NA` and `tabular`. *Nabular* data explicitly links missing values to data, keeping corresponding observations together and removing the possibility of mismatching records (Figure \@ref(fig:nabularfig)). *Nabular* data facilitates visualization and summaries by allowing the user to reference the missingness of a variable in a coordinated way: the missingness of `var`, as `var_NA` during analysis. *Nabular* data is a snapshot of the missingness of the data. This means when *nabular* data are imputed, those imputed values can easily be identified in analysis (`var` vs `var_NA`). *Nabular* data is not unlike classical data formats with quality or flag variables associated with each measured variable, e.g., Scripps CO2 data [@Keeling2005-scripps], GHCN data [@Durre2008-ghcn].
+*Nabular* data binds the shadow matrix column-wise to the original data. It is a portmanteau of "NA" and "tabular". *Nabular* data explicitly links missing values to data, keeping corresponding observations together and removing the possibility of mismatching records (Figure \@ref(fig:nabularfig)). *Nabular* data facilitates visualization and summaries by allowing the user to reference the missingness of a variable in a coordinated way: the missingness of "var", as "var_NA" during analysis. *Nabular* data is a snapshot of the missingness of the data. This means when *nabular* data are imputed, those imputed values can easily be identified in analysis ("var" vs "var_NA"). *Nabular* data is not unlike classical data formats with quality or flag variables associated with each measured variable, e.g., Scripps CO2 data [@Keeling2005-scripps], GHCN data [@Durre2008-ghcn].
 
 ```{r nabularfig, echo = FALSE, fig.cap = "The process of creating nabular data. Data transformed to shadow matrix, where values are either not missing or missing: '!NA' or 'NA'. The shadow matrix can be converted to long form to create missingness summary plots. Nabular data is created by binding the columns of the data and shadow matrix. Special missing values (such as -99) are identified as special missings, and values imputed and tracked. Nabular data can be used to identify imputations and explore data values alongside missings, providing a useful format for missing data exploration and analysis.", out.width = "100%", fig.align = "center"}
 
@@ -290,19 +294,19 @@ knitr::include_graphics("images/diagram.png")
 
 <!-- Note: Do you think this paragraph needs to be here, about the use of _nabular_ data structure? -->
 
-Although a binary missingness matrix, $B$, could be generated during analysis instead of using a *nabular* data structure, there are key advantages to using *nabular* data. Firstly, missing value labels `NA` and `!NA` are clearer than TRUE or FALSE. Secondly, special missing values cannot be added easily during analysis with a logical matrix. Finally, the logical matrix cannot capture which values are imputed if imputation has already taken place. Imputing values on *nabular* data automatically tracks these imputations.
+Although a binary missingness matrix, $B$, could be generated during analysis instead of using a *nabular* data structure, there are key advantages to using *nabular* data. Firstly, missing value labels "NA" and "!NA" are clearer than TRUE or FALSE. Secondly, special missing values cannot be added easily during analysis with a logical matrix. Finally, the logical matrix cannot capture which values are imputed if imputation has already taken place. Imputing values on *nabular* data automatically tracks these imputations.
 
-Using additional columns to represent missingness information follows best practices for data organization, described in [@Ellis2017] and [@Broman2017]: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information can now be represented in the shadow columns as special missing values. Encoding special missing values is achieved by defining logical conditions and suffixes. This is implemented with the `recode_shadow` function in \pkg{naniar} (\@ref(verbs-recode)).
+Using additional columns to represent missingness information follows best practices for data organization, described in [@Ellis2017] and [@Broman2017]: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information can now be represented in the shadow columns as special missing values. Encoding special missing values is achieved by defining logical conditions and suffixes. This is implemented with the \code{recode_shadow()} function in \pkg{naniar} (\@ref(verbs-recode)).
 
-Special missing values are not a new idea, and have been implemented in other statistical programming languages, SPSS, SAS, and STATA. These typically represent missing values as a full-stop, `.`, and record special missing values as `.a` - `.z`. These special values from these languages break the tidy principle of one column having one type of value, as they record both the value, and the multivariate missingness state.
+Special missing values are not a new idea, and have been implemented in other statistical programming languages, \proglang{SPSS}, \proglang{SAS}, and \proglang{STATA}. These typically represent missing values as a full-stop, `.`, and record special missing values as `.a` - `.z`. These special values from these languages break the tidy principle of one column having one type of value, as they record both the value, and the multivariate missingness state.
 
 ## Missing data operations {#verbs}
 
-Common missing data operations can be considered verbs, in the tidyverse sense. For missing data, these include: **scan**, **replace**, **add**, **shadow**, **impute**, **track**, and **flag**. Data can be **scanned** to find possible missings not coded as `NA`. These values can then be **replaced** with `NA`. To facilitate exploration, summaries of missingness can be **added** as a summary column to the original data. The data can be augmented with the **shadow matrix** values, helping explore missing data, as well as facilitating the process of **imputing**, and **tracking**. Finally, unusual or specially coded missing values can be **flagged**.
+Common missing data operations can be considered verbs, in the tidyverse sense. For missing data, these include: **scan**, **replace**, **add**, **shadow**, **impute**, **track**, and **flag**. Data can be **scanned** to find possible missings not coded as \code{NA}. These values can then be **replaced** with \code{NA}. To facilitate exploration, summaries of missingness can be **added** as a summary column to the original data. The data can be augmented with the **shadow matrix** values, helping explore missing data, as well as facilitating the process of **imputing**, and **tracking**. Finally, unusual or specially coded missing values can be **flagged**.
 
 ### scan: Searching for common missing value labels {#verbs-search}
 
-This operation is used to search the data for specific conventional representations of missings, such as, "N/A", "MISSING", `-99`. This is implemented in the function `miss_scan_count()`, which returns a table of occurrences of that value for each variable. A list of common NA values for numbers and characters, can be provided to help check for typical representations of missings. These are implemented in `naniar` as `common_na_numbers` and `common_na_strings`.
+This operation is used to search the data for specific conventional representations of missings, such as, "N/A", "MISSING", "-99". This is implemented in the function \code{miss_scan_count()}, which returns a table of occurrences of that value for each variable. A list of common NA values for numbers and characters, can be provided to help check for typical representations of missings. These are implemented in \pkg{naniar} as objects \code{common_na_numbers} and \code{common_na_strings}.
 
 ```{r setup-miss-scan-count}
 
@@ -325,11 +329,11 @@ miss_scan_count(data = dat_ms,
 
 ### replace: Replacing values with missing values {#verbs-replace-with}
 
-Once possible missing values have been identified, these values can be replaced. For example, a dataset could have the values `-99` meaning a missing value. `naniar` implements replacement with the function, `replace_with_na()`. Values -99 could be replaced in the `x` column with: `replace_with_na(dat_ms, replace = list(x = -99))`. For operating on multiple variables, there are scoped variants for `replace_with_na`: `_all`, `_if`, and `_at`. This means `replace_with_na_all` operates on **all** columns, `replace_with_na_at` operates **at** specific columns, and `replace_with_na_if` makes a conditional change on columns **if** they meet some condition (such as `is.numeric` or `is.character`).
+Once possible missing values have been identified, these values can be replaced. For example, a dataset could have the values "-99" meaning a missing value. \pkg{naniar} implements replacement with the function, \code{replace_with_na()}. Values "-99" could be replaced in the "x" column with: \code{replace_with_na(dat_ms, replace = list(x = -99))}. For operating on multiple variables, there are scoped variants for \code{replace_with_na()}: \code{_all}, \code{_if}, and \code{_at}. This means \code{replace_with_na_all()} operates on **all** columns, \code{replace_with_na_at()} operates **at** specific columns, and \code{replace_with_na_if()} makes a conditional change on columns **if** they meet some condition (such as \code{is.numeric()} or \code{is.character()}).
 
 ### add: Adding missingness summary variables {#verbs-add-cols}
 
-Understanding the missingness structure can be improved by adding summary information alongside the data. For example, in [@Tierney2015], the proportion of missings in a row is used as the outcome in a model to identify variables important in predicting missingness structures. `naniar` implements a series of functions to add these missingness summaries to the data, starting with `add_`. These are inspired by the `add_count` function in `dplyr`, which adds count information for specified groups or conditions. `naniar` provides operations to add the number or proportion of missingness, the missingness cluster, or the presence of any missings, with: `add_n_miss()`, `add_prop_miss()`, `add_miss_cluster`, and `add_any_miss()`, respectively (Table \@ref(tab:add-missing-info)). There are also functions for adding information about shadow values, and readable labels for any missing values with `add_label_shadow()` and `add_label_missings()`.
+Understanding the missingness structure can be improved by adding summary information alongside the data. For example, in [@Tierney2015], the proportion of missings in a row is used as the outcome in a model to identify variables important in predicting missingness structures. \pkg{naniar} implements a series of functions to add these missingness summaries to the data, starting with \code{add_}. These are inspired by the \code{add_count()} function in \pkg{dplyr}, which adds count information for specified groups or conditions. \pkg{naniar} provides operations to add the number or proportion of missingness, the missingness cluster, or the presence of any missings, with: \code{add_n_miss()}, \code{add_prop_miss()}, \code{add_miss_cluster()}, and \code{add_any_miss()}, respectively (Table \@ref(tab:add-missing-info)). There are also functions for adding information about shadow values, and readable labels for any missing values with \code{add_label_shadow()} and \code{add_label_missings()}.
 
 ```{r add-missing-info}
 
@@ -350,7 +354,7 @@ tibble::tibble(
 
 ### shadow: Creating nabular data {#verbs-nabular}
 
-*Nabular* data has the shadow matrix column-bound to existing data. This facilitates visualization and summaries, and allows for imputed values to be tracked. *Nabular* data can be created with `nabular()`:
+*Nabular* data has the shadow matrix column-bound to existing data. This facilitates visualization and summaries, and allows for imputed values to be tracked. *Nabular* data can be created with \code{nabular()}:
 
 ```{r bind-shadow, echo = TRUE}
 nabular(dat_ms)
@@ -358,7 +362,7 @@ nabular(dat_ms)
 
 ### flag: Describing different types of missing values {#verbs-recode}
 
-Unusual or spurious data values are often identified and `flagged`. For example, there might be special codes to mark an individual dropping out of a study, known instrument failure in weather instruments, or for values censored in analysis. `naniar` provides tools to encode these special types of missingness in the shadow matrix of *nabular* data, using `recode_shadow()`. This requires specifying the variable to contain the flagged value, the condition for flagging, and a suffix. This is then recoded as a new factor level in the shadow matrix, so every column is aware of all possible new values of missingness. For example, -99 could be recoded to indicate a broken machine sensor for the variable `x` with the following:
+Unusual or spurious data values are often identified and "flagged". For example, there might be special codes to mark an individual dropping out of a study, known instrument failure in weather instruments, or for values censored in analysis. \pkg{naniar} provides tools to encode these special types of missingness in the shadow matrix of *nabular* data, using \code{recode_shadow()}. This requires specifying the variable to contain the flagged value, the condition for flagging, and a suffix. This is then recoded as a new factor level in the shadow matrix, so every column is aware of all possible new values of missingness. For example, -99 could be recoded to indicate a broken machine sensor for the variable "x" with the following:
 
 ```{r recode-shadow, eval = TRUE, echo = TRUE}
 nabular(dat_ms) %>%
@@ -367,13 +371,13 @@ nabular(dat_ms) %>%
 
 ### impute: Imputing values {#verbs-impute}
 
-`naniar` does not reinvent the wheel for imputation, instead working with existing methods. However, `naniar` provides a few imputation methods to facilitate exploration and visualization: `impute_below`, `impute_mean`, and `impute_median`. While useful to explore structure in missingness, they are not recommended for use in analysis. `impute_below` imputes values below the minimum value, with some controllable jitter (random noise) to reduce overplotting.
+\pkg{naniar} does not reinvent the wheel for imputation, instead working with existing methods. However, \pkg{naniar} provides a few imputation methods to facilitate exploration and visualization: \code{impute_below()}, \code{impute_mean()}, and \code{impute_median()}. While useful to explore structure in missingness, they are not recommended for use in analysis. \code{impute_below()} imputes values below the minimum value, with some controllable jitter (random noise) to reduce overplotting.
 
-Similar to `simputation`, each `impute_` function returns the data with values imputed. However, `naniar` does not use a formula syntax, instead each function has "scoped variants" `_all`, `_at` and `_if` as in \@ref(verbs-replace-with). `impute_` functions with no scoped variant, (`impute_mean`), will work on a single vector, but not a data.frame. One challenge with this approach is imputed value locations are not tracked. This issue is resolved with \code{nabular} data covered in Section \@ref(verbs-track).
+Similar to \pkg{simputation}, each \code{impute_} function returns the data with values imputed. However, \pkg{naniar} does not use a formula syntax, instead each function has "scoped variants" \code{_all}, \code{_at} and \code{_if} as in \@ref(verbs-replace-with). \code{impute_} functions with no scoped variant, (\code{impute_mean()}), will work on a single vector, but not a data.frame. One challenge with this approach is imputed value locations are not tracked. This issue is resolved with *nabular* data covered in Section \@ref(verbs-track).
 
 ### track: Shadow and impute missing values {#verbs-track}
 
-To evaluate imputations they need to be tracked. This is achieved by first using `nabular` data, then imputing, and imputed values can then be referred to by their shadow variable, `_NA` (Figure \@ref(fig:track-impute-example)). The code below shows the track pattern, first using `nabular`, then imputing with `impute_lm`. `label_shadow` then adds a label to facilitate identifying missings:
+To evaluate imputations they need to be tracked. This is achieved by first using *nabular* data, then imputing, and imputed values can then be referred to by their shadow variable, "_NA" (Figure \@ref(fig:track-impute-example)). The code below shows the track pattern, first using \code{nabular()}, then imputing with \code{impute_lm()}. \code{label_shadow()} then adds a label to facilitate identifying missings:
 
 ```{r bind-impute-label-example, echo = TRUE}
 aq_imputed <- nabular(airquality) %>%
@@ -385,7 +389,7 @@ aq_imputed <- nabular(airquality) %>%
 head(aq_imputed)
 ```
 
-Multiple missing or imputed values can be mapped to a graphical element in ggplot2 by setting the `color` or `fill` aesthetic in ggplot to `any_missing`, a result of the `add_label_shadow()` function. (Figure \@ref(fig:track-impute-example)). Imputed values can also be compared to complete case data, grouping by `any_missing`, and then summarizing, similar to other dplyr summary workflows shown below in Table \@ref(tab:impute-summary-out), showing similarities and differences in imputation methods.
+Multiple missing or imputed values can be mapped to a graphical element in ggplot2 by setting the \code{color} or \code{fill} aesthetic in ggplot to \code{any_missing}, a result of the \code{add_label_shadow()} function. (Figure \@ref(fig:track-impute-example)). Imputed values can also be compared to complete case data, grouping by \code{any_missing}, and then summarizing, similar to other \pkg{dplyr} summary workflows shown below in Table \@ref(tab:impute-summary-out), showing similarities and differences in imputation methods.
 
 ```{r track-impute-example, fig.show = "hold", fig.cap = "Scatterplot (A) and density plots (B and C) of ozone and solar radiation from the airquality dataset containing imputed values from a linear model. Imputed values are colored green, and data values orange. Imputed values are similar, but slightly trended to the mean.", fig.height = 4, fig.width = 12, out.width = "100%", echo = FALSE}
 
@@ -438,11 +442,11 @@ aq_imputed %>%
 
 # Graphics {#graphics}
 
-Missing values are often ignored when plotting data - which is why the data visualization software, MANET, was named and is an acronym corresponding to "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to identify the type of missing value patterns, even those of MCAR, MAR or MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make, relative to the nabular data structure.
+Missing values are often ignored when plotting data - which is why the data visualization software, \pkg{MANET}, was named and is an acronym corresponding to "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to identify the type of missing value patterns, even those of MCAR, MAR or MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make, relative to the *nabular* data structure.
 
 ## Overviews {#overviews}
 
-The first step is to get an overview of the extent of the missingness. Overview visualizations for variables and cases are provided with `gg_miss_var` and `gg_miss_case` (Figure \@ref(fig:gg-miss-case-var)A), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (from base R), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn from Figure \@ref(fig:gg-miss-case-var)A-B, that two variables contain missings, approximately one third of observations have one missing value, and a tiny number of observations are missing across two variables. These overview plots are created from the shadow matrix in long form (Figure \@ref(fig:nabularfig)). Numerical statistics can also be reported (Section \@ref(num-sum)).
+The first step is to get an overview of the extent of the missingness. Overview visualizations for variables and cases are provided with \code{gg_miss_var()} and \code{gg_miss_case()} (Figure \@ref(fig:gg-miss-case-var)A), drawing attention to the amount of missings, and ordering by missingness. The "airquality" dataset (from base \proglang{R}), is shown, and contains daily air quality measurements in New York, from May to September, 1973. We learn from Figure \@ref(fig:gg-miss-case-var)A-B, that two variables contain missings, approximately one third of observations have one missing value, and a tiny number of observations are missing across two variables. These overview plots are created from the shadow matrix in long form (Figure \@ref(fig:nabularfig)). Numerical statistics can also be reported (Section \@ref(num-sum)).
 
 ```{r gg-miss-case-var, echo = FALSE, fig.show='hold', fig.cap = "Graphical summaries of missingness in the airquality data. Missings invariables (A) and cases (B), and for a birds eye view with missingness as a heatmap in (C), and with clustering applied (D). There are missing values in Ozone and Solar.R, with Ozone having more missings. Not many cases have two missings. Most missingness is from cases with one missing value. The default output (C) and ordered by clustering on rows and columns (D). These overviews are made possible using the shadow matrix in long form. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness.", fig.height = 7, fig.width = 6, out.width = "90%", fig.align="center"}
 
@@ -457,12 +461,11 @@ aq_vis_miss <- vis_miss(airquality) + labs(title = "C")
 aq_vis_miss_cluster <- vis_miss(airquality, 
                                  cluster = TRUE) + labs(title = "D")
 
-
 (aq_miss_var | aq_miss_case) / (aq_vis_miss | aq_vis_miss_cluster) 
 
 ```
 
-The shadow matrix can be put into long form, allowing both the variables and cases to be displayed using a heatmap style visualization, with `vis_miss()` from \pkg{visdat} [@visdat] (Figure \@ref(fig:nabularfig)). This also provides numerical summaries of missingness in the legend, and for each column (Figure \@ref(fig:gg-miss-case-var)C-D). Clustering can be applied to the rows, and columns arranged in order of missingness (Figure \@ref(fig:gg-miss-case-var)D). Similar visualizations are available in other packages such as \pkg{VIM}, \pkg{mi}, \pkg{Amelia}, and \pkg{MissingDataGUI}. A key improvement is `vis_miss()` orients the visualization analogous to a regular data structure: variables form columns and are named at the top, and each row is an observation. Using \pkg{ggplot2}, as the foundation, makes the plot easily customizable.
+The shadow matrix can be put into long form, allowing both the variables and cases to be displayed using a heatmap style visualization, with \code{vis_miss()} from \pkg{visdat} [@visdat] (Figure \@ref(fig:nabularfig)). This also provides numerical summaries of missingness in the legend, and for each column (Figure \@ref(fig:gg-miss-case-var)C-D). Clustering can be applied to the rows, and columns arranged in order of missingness (Figure \@ref(fig:gg-miss-case-var)D). Similar visualizations are available in other packages such as \pkg{VIM}, \pkg{mi}, \pkg{Amelia}, and \pkg{MissingDataGUI}. A key improvement is \code{vis_miss()} orients the visualization analogous to a regular data structure: variables form columns and are named at the top, and each row is an observation. Using \pkg{ggplot2}, as the foundation, makes the plot easily customizable.
 
 ```{r airquality-upset, fig.height = 2, fig.width = 3, fig.cap = "The pattern of missingness in the airquality dataset shown in an upset plot. Only Ozone and Solar.R have missing values, and Ozone has the most missing values. There are 2 cases where both Solar.R and Ozone have missing values."}
 # 
@@ -470,15 +473,15 @@ gg_miss_upset(airquality)
 
 ```
 
-The number of times observations are missing together can be visualized using an "upset plot" [@Conway2017]. An alternative to a Venn diagram, an upset plot shows the size and features of overlapping sets, and scales well with more variables. An upset plot can be constructed from the shadow matrix, as shown in Figure \@ref(fig:airquality-upset) which displays the overlapping counts of missings in the airquality data. The bottom right shows the combinations of missingness, the top panel shows the size of these combinations, and the bottom left shows missingness in each variable. This provides similar information to Figure \@ref(fig:gg-miss-case-var)A-D, but more clearly illustrating overlapping missingness, where 2 cases are missing together in variables Solar.R and Ozone.
+The number of times observations are missing together can be visualized using an "upset plot" [@Conway2017]. An alternative to a Venn diagram, an upset plot shows the size and features of overlapping sets, and scales well with more variables. An upset plot can be constructed from the shadow matrix, as shown in Figure \@ref(fig:airquality-upset) which displays the overlapping counts of missings in the airquality data. The bottom right shows the combinations of missingness, the top panel shows the size of these combinations, and the bottom left shows missingness in each variable. This provides similar information to Figure \@ref(fig:gg-miss-case-var)A-D, but more clearly illustrating overlapping missingness, where 2 cases are missing together in variables "Solar.R" and "Ozone".
 
 ## Univariate {#univariate}
 
 Missing values are typically not shown for univariate visualizations such as histograms or densities. Two ways to use *nabular* data to present univariate data with missings are discussed. The first imputes values below the range to facilitate visualizations. The second displays two plots of the same variable according to the missingness of a chosen variable.
 
-**Imputing values below the range**. To visualize the amount of missings in each variable, the data is transformed into *nabular* form, then values are imputed below the range of data using `impute_below_all`. Figure \@ref(fig:impute-shift-histogram)A shows a histogram of Ozone values on the right in green, and the histogram of missing ozone values on the left, in orange. The missings in Ozone are imputed and `Ozone_NA` is mapped to the fill aesthetic. Nabular data facilitates adding counts of missingness to a histogram, allowing examination of a variables' distribution of values, and also the magnitude of missings.
+**Imputing values below the range**. To visualize the amount of missings in each variable, the data is transformed into *nabular* form, then values are imputed below the range of data using \code{impute_below_all()}. Figure \@ref(fig:impute-shift-histogram)A shows a histogram of Ozone values on the right in green, and the histogram of missing ozone values on the left, in orange. The missings in Ozone are imputed and "Ozone_NA" is mapped to the fill aesthetic. *Nabular* data facilitates adding counts of missingness to a histogram, allowing examination of a variables' distribution of values, and also the magnitude of missings.
 
-**Univariate split by missingness**. The distribution of a variable can be shown according to the missingness of another variable. The shadow matrix part of nabular is used to handle the faceting, and color mapping. Figure \@ref(fig:impute-shift-histogram) shows the values of temperature when ozone is present, and missing, using a faceted histogram (B), and an overlaid density (C). This shows how values of temperature are affected by the missingness of ozone, and reveals a cluster of low temperature observations with missing ozone values. This type of plot can facilitate exploring missing data distributions. For example, we would expect if data were MCAR, for values to be roughly uniformly missing throughout the histogram or density.
+**Univariate split by missingness**. The distribution of a variable can be shown according to the missingness of another variable. The shadow matrix part of *nabular* is used to handle the faceting, and color mapping. Figure \@ref(fig:impute-shift-histogram) shows the values of temperature when ozone is present, and missing, using a faceted histogram (B), and an overlaid density (C). This shows how values of temperature are affected by the missingness of ozone, and reveals a cluster of low temperature observations with missing ozone values. This type of plot can facilitate exploring missing data distributions. For example, we would expect if data were MCAR, for values to be roughly uniformly missing throughout the histogram or density.
 
 ```{r impute-shift-histogram, fig.height = 2.5, fig.width = 5, fig.cap = "Univariate summaries of missingness. (A) A histogram using nabular data to show the values and missings in ozone. Values are imputed below the range to show the number of missings in ozone and colored according to missingness of ozone (`Ozone\\_NA`). There are about 35 missings in Ozone. Panel C shows temperature according to missingness in ozone from in the airquality dataset. A histogram of temperature facetted by the missingness of ozone (B), or a density of temperature colored by missingness in ozone (C). These show a cluster of low temperature observations with missing ozone values, but temperature is otherwise similar.", error = FALSE, warning = FALSE, message = FALSE, out.width = "75%", fig.show = 'hold'}
   
@@ -512,7 +515,7 @@ ggplot(aes(x = Temp,
 
 ## Bivariate {#bivariate}
 
-To visualize missing values in two dimensions the missing values can be placed in plot margins, by imputing values below the range of the data. Using *nabular* data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring are combined into `geom_miss_point()`. Figure \@ref(fig:geom-miss) shows a mostly uniform spread of missing values for Solar.R and Ozone. As `geom_miss_point()` is a defined \pkg{ggplot2} geometry, it works with features such as faceting and mapping other variables to graphical aesthetics.
+To visualize missing values in two dimensions the missing values can be placed in plot margins, by imputing values below the range of the data. Using *nabular* data identifies imputed values, and color makes missingness pre-attentive [@treisman1985]. The steps of imputing and coloring are combined into \code{geom_miss_point()}. Figure \@ref(fig:geom-miss) shows a mostly uniform spread of missing values for Solar.R and Ozone. As \code{geom_miss_point()} is a defined \pkg{ggplot2} geometry, it works with features such as faceting and mapping other variables to graphical aesthetics.
 
 ```{r geom-miss, fig.height = 3, fig.width = 6, fig.cap = "Scatterplots with missings displayed at 10 percent below for the airquality dataset. Scatterplots of ozone and solar radiation (A), and ozone and temperature (B). There are missings in ozone and solar radiation, but not temperature."}
 
@@ -553,7 +556,7 @@ airquality %>%
 
 ## Multivariate {#multivariate}
 
-Parallel coordinate plots can help to visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The `oceanbuoys` dataset from \pkg{naniar} is used for this visualization, containing measurements of sea and air temperature, humidity, and east west and north south wind speeds. Data was collected in 1993 and 1997, to understand and predict El Niño and El Niña. Figure \@ref(fig:parallel-cord-plot) is a parallel coordinate plot of `oceanbuoys`, with missing values imputed to be 10% below the range, and values colored according to whether humidity was missing (`humidity_NA`). Figure \@ref(fig:parallel-cord-plot) shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location.
+Parallel coordinate plots can help to visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The \code{oceanbuoys} dataset from \pkg{naniar} is used for this visualization, containing measurements of sea and air temperature, humidity, and east west and north south wind speeds. Data was collected in 1993 and 1997, to understand and predict El Niño and El Niña. Figure \@ref(fig:parallel-cord-plot) is a parallel coordinate plot of \code{oceanbuoys}, with missing values imputed to be 10% below the range, and values colored according to whether humidity was missing ("humidity_NA"). Figure \@ref(fig:parallel-cord-plot) shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location.
 
 ```{r parallel-cord-plot, fig.width = 8, fig.height = 4, out.width = "100%", echo = FALSE, fig.cap = "Parallel coordinate plot shows missing values imputed 10\\% below range for the oceanbuoys dataset. Values are colored by missingness of humidity. Humidity is missing for low air and sea temperatures, and is missing for one year and one location. "}
 
@@ -586,7 +589,7 @@ This section describes approaches to summarizing missingness, and an implementat
 
 ## Single number summaries {#single-num-sum}
 
-The overall number, proportion, or percent of missing values in a dataset should be simple to calculate. `naniar` provides the functions `n_miss`, `prop_miss` and `pct_miss`, as well as their complements. Summaries for variables and cases are made by appending `_case` or `_var` to these summaries. An overview is shown in Table \@ref(tab:n-prop-pct-miss-complete).
+The overall number, proportion, or percent of missing values in a dataset should be simple to calculate. \pkg{naniar} provides the functions \code{n_miss()}, \code{prop_miss()} and \code{pct_miss()}, as well as their complements. Summaries for variables and cases are made by appending \code{_case} or \code{_var} to these summaries. An overview is shown in Table \@ref(tab:n-prop-pct-miss-complete).
 
 ```{r n-prop-pct-miss-complete, echo = FALSE}
 
@@ -625,9 +628,9 @@ knitr::kable(
 
 ## Summaries and tabulations of missing data {#sum-tab-missings}
 
-Presenting the number and percent of missing values for each variable, or case, provides a summary usable in data handling, or in models to inform imputation. For example, potentially dropping variables, or deciding to include others in an imputation model. Another useful approach is to tabulate the frequency of missing values for each variable or case; that is, the number of times there are zero missings, one missing, two, and so on. These summaries and tabulations are shown for variables in Tables \@ref(tab:miss-var-summary) and \@ref(tab:miss-var-table), and implemented with `miss_var_summary` and `miss_var_table`. Case-wise (row-wise) summaries and tabulations are implemented with `miss_case_summary` and `miss_case_table`.
+Presenting the number and percent of missing values for each variable, or case, provides a summary usable in data handling, or in models to inform imputation. For example, potentially dropping variables, or deciding to include others in an imputation model. Another useful approach is to tabulate the frequency of missing values for each variable or case; that is, the number of times there are zero missings, one missing, two, and so on. These summaries and tabulations are shown for variables in Tables \@ref(tab:miss-var-summary) and \@ref(tab:miss-var-table), and implemented with \code{miss_var_summary()} and \code{miss_var_table()}. Case-wise (row-wise) summaries and tabulations are implemented with \code{miss_case_summary()} and \code{miss_case_table()}.
 
-These summaries order rows by the number of missings (`n_miss`), to show the most missings at the top. The number of missings across a repeating span, or finding "runs" or "streaks" of missings in given variables can also be useful for identifying missingness patterns, and are implemented with `miss_var_span`, and `miss_var_run`.
+These summaries order rows by the number of missings (\code{n_miss()}), to show the most missings at the top. The number of missings across a repeating span, or finding "runs" or "streaks" of missings in given variables can also be useful for identifying missingness patterns, and are implemented with \code{miss_var_span()}, and \code{miss_var_run()}.
 
 ```{r miss-var-summary}
 
@@ -652,7 +655,7 @@ miss_var_table(airquality) %>%
 
 ## Combining numerical summaries with grouping operations {#num-sum-w-group}
 
-It is useful to explore summaries and tabulations within groups of a dataset. `naniar` works with `dplyr`'s `group_by` operator to produce grouped summaries, which work well with the "pipe" operator. The code and Table \@ref(tab:group-miss-var-summary) below show an example of missing data summaries for airquality, grouped by month.
+It is useful to explore summaries and tabulations within groups of a dataset. \pkg{naniar} works with \pkg{dplyr}'s \code{group_by()} operator to produce grouped summaries, which work well with the "pipe" operator. The code and Table \@ref(tab:group-miss-var-summary) below show an example of missing data summaries for airquality, grouped by month.
 
 ```{r group-miss-var-summary}
 
@@ -777,7 +780,7 @@ housing %>%
 
 ```
 
-Figure \@ref(fig:housing-upset) shows missingness patterns with an `upset` plot [@Conway2017], displaying 8 intersecting sets of missing variables. Two patterns stand out: two, and five variables missing, providing further evidence of the missingness patterns seen in Figures \@ref(fig:housing-miss-case-var) and \@ref(fig:housing-upset).
+Figure \@ref(fig:housing-upset) shows missingness patterns with an "upset" plot [@Conway2017], displaying 8 intersecting sets of missing variables. Two patterns stand out: two, and five variables missing, providing further evidence of the missingness patterns seen in Figures \@ref(fig:housing-miss-case-var) and \@ref(fig:housing-upset).
 
 ```{r housing-upset, fig.height = 5, fig.width = 8, fig.cap = "An upset plot of 8 sets of missingness in the housing data. Missingness for each variable is shown on the bottom left. Connected dots show co-occurences of missings in variables. Two missingness patterns are clear, year built and building area, and lattitude through to building area.", out.width = "100%"}
 
@@ -807,7 +810,7 @@ knitr::kable(list(t1, t2),
 
 Using information from \@ref(case-study-explore-pattern), the following variables are explored for features predicting missingness: "Land size", "latitude", "longitude", "bedroom2", "bathroom", "car", and "land size".
 
-Missingness structure is explored by clustering the missing values into groups. Then, a classification and regression trees (CART) model is applied to predict these missingness clusters using the remaining variables [@Tierney2015; @Barnett2017]. Two clusters of missingness are identified and predicted using all variables in the dataset with the CART package `rpart` [@rpart], and plotted using the `rpart.plot` package [@rpart-plot]. Importance scores reveal the following variables as most important in predicting missingness: "rooms", "price", "suburb", "council area", "distance", and "region name". These variables are important for predicting missingness, so are included in the imputation model.
+Missingness structure is explored by clustering the missing values into groups. Then, a classification and regression trees (CART) model is applied to predict these missingness clusters using the remaining variables [@Tierney2015; @Barnett2017]. Two clusters of missingness are identified and predicted using all variables in the dataset with the CART package \pkg{rpart} [@rpart], and plotted using the \pkg{rpart.plot} package [@rpart-plot]. Importance scores reveal the following variables as most important in predicting missingness: "rooms", "price", "suburb", "council area", "distance", and "region name". These variables are important for predicting missingness, so are included in the imputation model.
 
 ```{r housing-cluster-miss}
 housing_cls <- add_miss_cluster(housing, n_clusters = 2)
@@ -1166,7 +1169,7 @@ gg_hex(aug_fits, "lm")
 
 ## Summary {#case-study-summary}
 
-The `naniar` and `visdat` packages implement the methods discussed in the paper, building on existing tidy tools and strike a compromise between automation and control, making analysis efficient, readable, but not overly complex. Each tool has clear intent and effects - summarising, plotting or generating data or augmenting data in some way. This not only reduces repetition and typing in an analysis, but most importantly, allows for clear expression of intent, making exploration of missing values fluent.
+The \pkg{naniar} and \pkg{visdat} packages implement the methods discussed in the paper, building on existing tidy tools and strike a compromise between automation and control, making analysis efficient, readable, but not overly complex. Each tool has clear intent and effects - summarising, plotting or generating data or augmenting data in some way. This not only reduces repetition and typing in an analysis, but most importantly, allows for clear expression of intent, making exploration of missing values fluent.
 
 # Discussion {#discussion}
 
@@ -1176,7 +1179,7 @@ This paper has described new methods for exploring, visualizing, and imputing mi
 
 The *nabular* data structures discussed in the paper are simple by design, to promote flexibility. They could be used to create different visualizations than were shown in the paper. The analyst can use the data structures to decide on appropriate visualization for their problem. The data structures could also be used to support interactive graphics, in the manner of MANET and ggobi. Linking the plots (via linked brushing) could facilitate exploration of missingness, and could be implemented with \pkg{plotly} [@plotly] for added interactivity. Animating between different sets of imputed values could also be possible with packages like \pkg{gganimate} [@gganimate].
 
-Other data structures such as spatial data, time series, networks, and longitudinal data would be supported by the inherently tabular, *nabular* data, if they are first structured as wide tidy format. Large data may need special handling, and additional features like efficient storage of purely imputed values and lazy evaluation. Special missing value codes could be improved by creating special classes, or expanding low level representation of `NA` at the source code level.
+Other data structures such as spatial data, time series, networks, and longitudinal data would be supported by the inherently tabular, *nabular* data, if they are first structured as wide tidy format. Large data may need special handling, and additional features like efficient storage of purely imputed values and lazy evaluation. Special missing value codes could be improved by creating special classes, or expanding low level representation of \code{NA} at the source code level.
 
 The methodology described in this paper can be used in conjunction with other approaches to understand multivariate missingness dependencies (e.g., decision trees [@Tierney2015], latent group analysis [@Barnett2017], and PCA [@FactoMineR]). Evaluating imputed values using a testing framework like [@VanBuuren2012] is also supported.
 
@@ -1184,25 +1187,6 @@ The approach meshes with the dynamic nature of data analysis, allowing the analy
 
 # Acknowledgements
 
-The authors would like to thank Miles McBain, for his key contributions and discussions on the `naniar` package, in particular for helping implement `geom_miss_point`, and for his feedback on ideas, implementations, and names. We also thank Colin Fay for his contributions to the `naniar` package, in particular for his assistance with the `replace_with_na` functions. We also thank Earo Wang and Mitchell O'Hara-Wild for the many useful discussions on missing data and package development, and for their assistance with creating elegant approaches that take advantage of the tidy syntax. We would also like to thank those who contributed pull requests and discussions on the `naniar` package, in particular Jim Hester and Romain François for improving the speed of key functions, Ross Gayler for discussion on special missing values, and Luke Smith for helping `naniar` be more compliant with `ggplot2`. We would also like to thank Amelia McNamara for discussions on the paper.
+The authors would like to thank Miles McBain, for his key contributions and discussions on the \pkg{naniar} package, in particular for helping implement \code{geom_miss_point()}, and for his feedback on ideas, implementations, and names. We also thank Colin Fay for his contributions to the \pkg{naniar} package, in particular for his assistance with the \code{replace_with_na()} functions. We also thank Earo Wang and Mitchell O'Hara-Wild for the many useful discussions on missing data and package development, and for their assistance with creating elegant approaches that take advantage of the tidy syntax. We would also like to thank those who contributed pull requests and discussions on the \pkg{naniar} package, in particular Jim Hester and Romain François for improving the speed of key functions, Ross Gayler for discussion on special missing values, and Luke Smith for helping \pkg{naniar} be more compliant with \pkg{ggplot2}. We would also like to thank Amelia McNamara for discussions on the paper.
 
 # References
-
-```{r demonstrate-impute-below, eval = FALSE}
-airquality %>%
-  impute_below_at(vars(Ozone)) %>%
-  select(Ozone, Solar.R) %>%
-  head()
-```
-
-```{r impute-vector, eval = FALSE}
-
-impute_mean(airquality$Ozone) %>% head()
-
-impute_mean_at(airquality, .vars = vars(Ozone)) %>% head()
-
-impute_mean_if(airquality, .predicate = is.integer) %>% head()
-
-impute_mean_all(airquality) %>% head()
-
-```
