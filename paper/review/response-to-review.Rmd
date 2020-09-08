@@ -63,11 +63,11 @@ R> example_model <- lm(response ~ variable1 + variable2 + variable3,
 +    weights = w, data = mydata)
 \end{Sinput}
 
-> I believe this has been resolved with the latest update to rticles
+> I believe this has been resolved with the latest update to rticles.
 
 o If using "e.g." and "i.e." add a comma after the period to keep LaTeX from interpreting them as the end of a sentence, i.e.: "e.g., " and "i.e., ".
 
-> Instances of `e.g.` have been replaced with `e.g.,`. No cases of `i.e.` were found.
+> Instances of `e.g.` have been replaced with `e.g.,`. 
 
 o The rule for capitalizing the starting letters of Figure, Section and Table is as follows: If you are referring to a particular figure/section/table then capitalize the first letter, otherwise use a lower-case first letter. For example, something shown in Section 4 vs. there are three sections in this paper.
 
@@ -75,15 +75,16 @@ o The rule for capitalizing the starting letters of Figure, Section and Table is
 
 o All captions should appear below the corresponding figure/table. The captions should be in sentence style and end with a period.  No additional formatting (such as \emph, f or \it) should be used for the caption.
 
-> I'm not sure it is possible to control the caption output of a kable Table, I will look into this.
+> Captions are below every figure, and for each table these will be moved manually in the LaTeX output.
 
 o All table row/column headers should also be in sentence style. There should not be further footnote-style annotations in tables; these should all be placed in the caption.
 
-> 
+> Need to double check about headings here for tables - Di should I change things like "n_miss" to "Num. Missing" ?
 
 o As a reminder, please make sure that:
 	- \proglang, \pkg and \code have been used for highlighting throughout the paper (including titles and references), except where explicitly escaped.
 
+> This has been done except for titles and references.
 
 References:
 

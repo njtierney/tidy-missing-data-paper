@@ -70,7 +70,7 @@ options(tinytex.verbose = TRUE)
 
 As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analysis workflow. Most analysis and visualization software simply drop missing values when making a plot, although some (\pkg{ggplot2}) provide a warning (Figure \@ref(fig:warning)).
 
-```{r warning, fig.cap = "How ggplot2 behaves when displaying missing values. A warning message is displayed, but missing values are not shown in the plot", fig.height = 4, fig.width = 8, out.width = "75%", warning = FALSE, fig.show = 'hold'}
+```{r warning, fig.cap = "How ggplot2 behaves when displaying missing values. A warning message is displayed, but missing values are not shown in the plot.", fig.height = 4, fig.width = 8, out.width = "75%", warning = FALSE, fig.show = 'hold'}
 p1 <- ggplot(oceanbuoys,
        aes(x = humidity,
            y = air_temp_c)) +
@@ -125,7 +125,7 @@ Visualization tools only have tidy data as their input, as the output is a graph
 
 Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs into a tidy data format for data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
 
-### The tidyverse {#the-tidyverse}
+### The \pkg{tidyverse} {#the-tidyverse}
 
 Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the \pkg{tidyverse} [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
 
@@ -558,7 +558,7 @@ airquality %>%
 
 Parallel coordinate plots can help to visualize missingness beyond two dimensions. They transform variables to the same scale, ranging between 0 and 1. The \code{oceanbuoys} dataset from \pkg{naniar} is used for this visualization, containing measurements of sea and air temperature, humidity, and east west and north south wind speeds. Data was collected in 1993 and 1997, to understand and predict El Niño and El Niña. Figure \@ref(fig:parallel-cord-plot) is a parallel coordinate plot of \code{oceanbuoys}, with missing values imputed to be 10% below the range, and values colored according to whether humidity was missing ("humidity_NA"). Figure \@ref(fig:parallel-cord-plot) shows humidity is missing at low air and sea temperatures, and humidity is missing in one year, and one location.
 
-```{r parallel-cord-plot, fig.width = 8, fig.height = 4, out.width = "100%", echo = FALSE, fig.cap = "Parallel coordinate plot shows missing values imputed 10\\% below range for the oceanbuoys dataset. Values are colored by missingness of humidity. Humidity is missing for low air and sea temperatures, and is missing for one year and one location. "}
+```{r parallel-cord-plot, fig.width = 8, fig.height = 4, out.width = "100%", echo = FALSE, fig.cap = "Parallel coordinate plot shows missing values imputed 10\\% below range for the oceanbuoys dataset. Values are colored by missingness of humidity. Humidity is missing for low air and sea temperatures, and is missing for one year and one location."}
 
 range_01 <- function(x, ...){(x - min(x, ...)) / (max(x, ...) - min(x, ...))}
 
@@ -1101,7 +1101,7 @@ fit_lm_dat_house_lm <- lm(price ~ landsize +
 
 Coefficients of the linear model of log price vary for room for different imputed datasets (Figure \@ref(fig:tidy-coefs)). Notably, complete cases underestimate the impact of room on log price. A partial residual plot (Figure \@ref(fig:partial-resid)) shows there is not much variation amongst the models from the differently imputed datasets.
 
-```{r tidy-coefs, fig.height = 2, fig.width = 7, fig.cap = "The coefficient estimate for the number of rooms varies according to the imputed dataset. Complete case dataset produced lower coefficients, compared to imputed datasets", out.width = "100%"}
+```{r tidy-coefs, fig.height = 2, fig.width = 7, fig.cap = "The coefficient estimate for the number of rooms varies according to the imputed dataset. Complete case dataset produced lower coefficients, compared to imputed datasets.", out.width = "100%"}
 
 tidy_fit_cc <- broom::tidy(fit_lm_dat_house_cc)
 tidy_fit_knn <- broom::tidy(fit_lm_dat_house_knn)
