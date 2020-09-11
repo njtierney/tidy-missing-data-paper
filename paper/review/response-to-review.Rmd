@@ -104,3 +104,13 @@ o See FAQ for specific reference instructions.
 Code:
 
 o Please make sure that the files needed to replicate all code/examples within the manuscript are included in a standalone replication script.
+
+Other notes
+
+- Check references are correctly referred using \pkg and \proglang
+- Check references are correctly referred to in text
+- Read over actual references compiled in the PDF - e.g., Adrian Barnett's article has a random string at the end.
+- Check quotes (" and ') are facing the right way
+- Don't start a sentence with a capital letter for pkgs.
+- Fix tables 4 and 5, ensure all appropriate tables have
+- Check that text overflows correctly.

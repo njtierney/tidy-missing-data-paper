@@ -22,7 +22,7 @@ abstract: >
 keywords:
   # at least one keyword must be supplied
   formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
-  plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, R]
+  plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
 preamble: >
   \usepackage{amsmath}
   \usepackage[english]{babel}
@@ -103,7 +103,7 @@ This paper is organized in the following way. Section (\@ref(background)) provid
 
 ## Tidy data concepts and methods {#tidy-data-concepts}
 
-Features of tidy data were formally described in [@Wickham2014], and were discussed in terms of their importance for data science by [@Donoho2017], and tools for data analysis. Tidy data is defined by [@r4ds] as:
+Features of tidy data were formally described in @Wickham2014, and were discussed in terms of their importance for data science by @Donoho2017, and tools for data analysis. Tidy data is defined by @r4ds as:
 
 > 1.  Each variable must have its own column.
 > 2.  Each observation must have its own row.
@@ -125,7 +125,7 @@ Visualization tools only have tidy data as their input, as the output is a graph
 
 Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs into a tidy data format for data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
 
-### The \pkg{tidyverse} {#the-tidyverse}
+### The tidyverse {#the-tidyverse}
 
 Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the \pkg{tidyverse} [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
 
