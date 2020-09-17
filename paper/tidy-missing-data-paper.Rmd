@@ -23,17 +23,16 @@ keywords:
   # at least one keyword must be supplied
   formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
   plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
-preamble: >
-  \usepackage{amsmath}
-  \usepackage[english]{babel}
 output:
   bookdown::pdf_book:
     base_format: rticles::jss_article
     includes:
-      in_header: header.tex
+      in_preamble: preamble.tex
+     #in_header: header.tex
     keep_tex: yes
-    citation_package: 'natbib'
+    #citation_package: 'natbib'
 bibliography: tidy-missing-data-paper.bib
+cls: jss.cls
 ---
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
@@ -761,7 +760,10 @@ The goal in analyzing this data is to accurately predict Melbourne housing price
 Figure \@ref(fig:housing-miss-case-var)A shows 9 variables with missing values. The most missings are in "building area", followed by "year built", and "land size", with similar amounts of missingness in "Car", "bathroom", "bedroom2", "longitude", and "latitude." Figure \@ref(fig:housing-miss-case-var)B reveals there are up to 50% missing values in cases, and the majority of cases have more than 5% values missing. The variables "building area" and "year built" have more than 50% missing data, and so could perhaps be omitted from subsequent analysis, as imputed values are likely to be spurious. Three missingness clusters are revealed by visualizing missingness in the whole dataset, clustering and arranging the rows and columns of the data (Figure \@ref(fig:applic-vis-miss)).
 
 ```{r housing-miss-case-var, fig.cap = "The amount of missings in variables (A) and cases (B) for Melbourne housing data. (A) Build area and year built have more than 50\\% missing, and car, bathroom, bedroom2 and longitude and latitude have about 25\\% missings. (B) Cases are missing 5 - 50\\% of values. The majority of missingness is in selected cases and variables.", fig.height = 4, fig.width = 8, out.width = "100%"}
+```
 
+
+```{r housing-miss-case-var, fig.cap = "The amount of missings in variables (A) and cases (B) for Melbourne housing data. (A) Build area and year built have more than 50\\% missing, and car, bathroom, bedroom2 and longitude and latitude have about 25\\% missings. (B) Cases are missing 5 - 50\\% of values. The majority of missingness is in selected cases and variables.", fig.height = 4, fig.width = 8, out.width = "100%"}
 q1 <- gg_miss_var(housing, show_pct = TRUE) + labs(tag = "A")
 
 q2 <- gg_miss_case(housing, show_pct = TRUE) + labs(tag = "B")
