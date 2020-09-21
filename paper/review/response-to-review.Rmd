@@ -48,7 +48,7 @@ JSS-specific markup (\proglang, \pkg), and improving the BibTeX file. Some
 aspects of the style are handled incorrectly by "rticles", though (see
 https://github.com/rstudio/rticles/issues/254).
 
-> I have updated to the latest rticles package and checked that the JSS-specific markup has been fixed in the latest submission.
+> I have updated to the latest rticles package and checked that the JSS-specific markup has been fixed in the latest submission. I could not get the heading with "tidyverse" in it to render appropriately from markdown
 
 * Note that the affiliation of the second author is misspelled.
 
