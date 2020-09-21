@@ -23,15 +23,15 @@ keywords:
   # at least one keyword must be supplied
   formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
   plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, R]
-preamble: >	
-  \usepackage{amsmath}	
+preamble: >
+  \usepackage{amsmath}
   \usepackage[english]{babel}
 output:
   bookdown::pdf_book:
     base_format: rticles::jss_article
     includes:
-      in_preamble: preamble.tex
-     #in_header: header.tex
+     # in_preamble: preamble.tex
+      in_header: header.tex
     keep_tex: yes
     citation_package: 'natbib'
 # bibliography: tidy-missing-data-paper.bib
