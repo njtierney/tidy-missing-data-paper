@@ -68,9 +68,9 @@ options(tinytex.verbose = TRUE)
 
 # Introduction {#intro}
 
-As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analysis workflow. Most analysis and visualization software simply drop missing values when making a plot, although some (ggplot2) provide a warning (Figure \@ref(fig:warning)).
+As data science has become a more solid field, theories and principles have developed to describe best practices. One such idea is 'tidy data,' which defines a clean, analysis-ready format that informs workflows converting raw data through a data analysis pipeline [@Wickham2014]. Another idea is the grammar of graphics, describing how to map data values into a visualization [@Wilkinson2012]. These principles have been widely adopted, but do not address the problem of missing data. In particular, there is little guidance on how to handle missing values in a data analysis workflow. Most analysis and visualization software simply drop missing values when making a plot, although some (\pkg{ggplot2}) provide a warning (Figure \@ref(fig:warning)).
 
-```{r warning, fig.cap = "How ggplot2 behaves when displaying missing values. A warning message is displayed, but missing values are not shown in the plot.", fig.height = 4, fig.width = 8, out.width = "75%", warning = FALSE, fig.show = 'hold'}
+```{r warning, fig.cap = "How \\pkg{ggplot2} behaves when displaying missing values. A warning message is displayed, but missing values are not shown in the plot.", fig.height = 4, fig.width = 8, out.width = "75%", warning = FALSE, fig.show = 'hold'}
 p1 <- ggplot(oceanbuoys,
        aes(x = humidity,
            y = air_temp_c)) +
