@@ -22,7 +22,10 @@ abstract: >
 keywords:
   # at least one keyword must be supplied
   formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
-  plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
+  plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, R]
+preamble: >	
+  \usepackage{amsmath}	
+  \usepackage[english]{babel}
 output:
   bookdown::pdf_book:
     base_format: rticles::jss_article
