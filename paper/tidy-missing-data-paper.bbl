@@ -1,4 +1,4 @@
-\begin{thebibliography}{54}
+\begin{thebibliography}{56}
 \newcommand{\enquote}[1]{``#1''}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -15,6 +15,11 @@ Barnett AG, McElwee P, Nathan A, Burton NW, Turrell G (2017).
 \newblock \enquote{Identifying patterns of item missing survey data using
   latent groups: an observational study.}
 \newblock \emph{BMJ open}, \textbf{7}(10), e017284.
+
+\bibitem[{Bilogur(2018)}]{Bilogur2018}
+Bilogur A (2018).
+\newblock \enquote{Missingno: a missing data visualization suite.}
+\newblock \emph{The Journal of Open Source Software}, \textbf{3}(22), 547.
 
 \bibitem[{Broman and Woo(2017)}]{Broman2017}
 Broman KW, Woo KH (2017).
@@ -161,6 +166,15 @@ Pedersen TL, Robinson D (2017).
 \newblock \emph{gganimate: A Grammar of Animated Graphics}.
 \newblock R package version 0.9.9.9999,
   \urlprefix\url{http://github.com/thomasp85/gganimate}.
+
+\bibitem[{Pedregosa \emph{et~al.}(2011)Pedregosa, Varoquaux, Gramfort, Michel,
+  Thirion, Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher, Perrot, and Duchesnay}]{scikit-learn}
+Pedregosa F, Varoquaux G, Gramfort A, Michel V, Thirion B, Grisel O, Blondel M,
+  Prettenhofer P, Weiss R, Dubourg V, Vanderplas J, Passos A, Cournapeau D,
+  Brucher M, Perrot M, Duchesnay E (2011).
+\newblock \enquote{Scikit-learn: Machine Learning in {P}ython.}
+\newblock \emph{Journal of Machine Learning Research}, \textbf{12}, 2825--2830.
 
 \bibitem[{{R Core Team}(2020)}]{rcore}
 {R Core Team} (2020).
