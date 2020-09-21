@@ -31,7 +31,8 @@ output:
      #in_header: header.tex
     keep_tex: yes
     #citation_package: 'natbib'
-bibliography: tidy-missing-data-paper.bib
+# bibliography: tidy-missing-data-paper.bib
+bibliography: "tidy-missing-data-paper-no-jss.bib"
 cls: jss.cls
 ---
 
