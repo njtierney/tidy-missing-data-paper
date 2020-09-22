@@ -26,12 +26,11 @@ keywords:
 preamble: >
   \usepackage{amsmath}
   \usepackage[english]{babel}
+  \usepackage{float}
+  \usepackage{booktabs}
 output:
   bookdown::pdf_book:
     base_format: rticles::jss_article
-    includes:
-     # in_preamble: preamble.tex
-      in_header: header.tex
     keep_tex: yes
     citation_package: 'natbib'
 # bibliography: tidy-missing-data-paper.bib
