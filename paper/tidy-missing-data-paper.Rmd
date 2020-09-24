@@ -18,10 +18,10 @@ title:
   # For running headers, if needed
   short:     "Explore missingness with \\pkg{naniar}"
 abstract: >
-  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as a key part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the R package \pkg{naniar}.
+  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as a key part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the \proglang{R} package \pkg{naniar}.
 keywords:
   # at least one keyword must be supplied
-  formatted: [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, "\\proglang{R}"]
+  formatted: [statistical computing, statistical graphics, data science, data visualization, "\\pkg{tidyverse}", data pipeline, "\\proglang{R}"]
   plain:     [statistical computing, statistical graphics, data science, data visualization, tidyverse, data pipeline, R]
 preamble: >
   \usepackage{amsmath}
@@ -99,7 +99,7 @@ However, something must be known about the missing value structure to produce a 
 
 While there have been many software tools for exploring missing data, they do not work together. The graphics literature provides several solutions for exploring missings visually by incorporating them into the plot in some way. For example, imputing values to be 10% below the minimum to include all observations into a scatter plot [@Cook2007], or treating missing values as an equal category of data [@Unwin1996]. The ideas from the graphics literature need to be translated into tidy data tools to integrate missing data handling in a data analysis pipeline.
 
-This paper is organized in the following way. Section (\@ref(background)) provides the background to tidy data principles and tools (\@ref(tidy-data-concepts)) and missing data representations (\@ref(missing-data-rep-dep)). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). Graphics (\@ref(graphics)) and Numerical summaries (\@ref(num-sum)) of missing values are then discussed. An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
+This paper is organized in the following way. Section \@ref(background) provides the background to tidy data principles and tools \@ref(tidy-data-concepts) and missing data representations (\@ref(missing-data-rep-dep)). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). Graphics (\@ref(graphics)) and Numerical summaries (\@ref(num-sum)) of missing values are then discussed. An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
 
 # Background {#background}
 
@@ -117,7 +117,7 @@ Tidy tools require the same tidy data input and output. This consistency means m
 
 ### Data manipulation {#tidy-data-manip}
 
-Data manipulation is made input- and output-tidy with R packages \pkg{dplyr} and \pkg{tidyr} [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. Data reshaping goes from long to wide formats; sorting arranges rows in a specific order; filtering removes rows based on a condition; transforming, changes existing variables or adds new ones; aggregating creates a single value from many values, say, for example, in computing the minimum, maximum, and mean.
+Data manipulation is made input- and output-tidy with \proglang{R} packages \pkg{dplyr} and \pkg{tidyr} [@dplyr; @tidyr]. These provide the five "verbs" of data manipulation: data reshaping, sorting, filtering, transforming, and aggregating. Data reshaping goes from long to wide formats; sorting arranges rows in a specific order; filtering removes rows based on a condition; transforming, changes existing variables or adds new ones; aggregating creates a single value from many values, say, for example, in computing the minimum, maximum, and mean.
 
 ### Visualizations {#tidy-vis}
 
@@ -125,7 +125,7 @@ Visualization tools only have tidy data as their input, as the output is a graph
 
 ### Modelling {#tidy-model}
 
-Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in R, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs into a tidy data format for data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
+Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in \proglang{R}, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs into a tidy data format for data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
 
 ### The tidyverse {#the-tidyverse}
 
@@ -162,11 +162,11 @@ Methods for exploring, understanding, and imputing missing data are more accessi
 
 ## Imputation {#imputation}
 
-\pkg{VIM} [@VIM] implements well-used imputation methods K nearest neighbors, regression, hot-deck, and iterative robust model-based imputation. These diverse approaches allows for imputing with semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix "_imp". So "Var1" has a sibling column, "Var1_imp", with values TRUE or FALSE indicating imputation. \pkg{VIM} also has a variety of visualization methods, discussed in \@ref(exploration). \pkg{simputation} provides an interface to imputation methods from VIM, in addition providing hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. \pkg{simputation} provides a consistent formula interface for all imputation methods, and always returns a dataframe with the updated imputations. \pkg{Hmisc} [@Hmisc], provides predictive mean matching, \pkg{imputeTS} [@imputeTS], provides time series imputation methods, and \pkg{missMDA} [@missMDA], imputes data using principal components analysis.
+\pkg{VIM} [@VIM] implements well-used imputation methods K nearest neighbors, regression, hot-deck, and iterative robust model-based imputation. These diverse approaches allows for imputing with semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix "\code{_imp}". So, "\code{Var1}" has a sibling column, "\code{Var1_imp}", with values TRUE or FALSE indicating imputation. \pkg{VIM} also has a variety of visualization methods, discussed in \@ref(exploration). \pkg{simputation} provides an interface to imputation methods from \pkg{VIM}, in addition providing hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. \pkg{simputation} provides a consistent formula interface for all imputation methods, and always returns a dataframe with the updated imputations. \pkg{Hmisc} [@Hmisc], provides predictive mean matching, \pkg{imputeTS} [@imputeTS], provides time series imputation methods, and \pkg{missMDA} [@missMDA], imputes data using principal components analysis.
 
 Multiple imputation is often regarded as best practice for imputing values [@Schafer2002], as long as appropriate caution is taken [@Sterne2009]. Popular and robust methods for multiple imputation include the \pkg{mice}, \pkg{Amelia}, and \pkg{mi} packages [@mice; @amelia; @mi]. \pkg{mice} implements the method of chained equations, using a variable-wise algorithm to calculate the posterior distribution of parameters to generate imputed values. The workflow in \pkg{mice} revolves around imputing data, returning completed data, and fitting a model and pooling the results.
 
-\pkg{Amelia} [@amelia] assumes data are multivariate normal, and samples from the posterior, and allows for incorporation of information on the values in a prior. It uses the computationally efficient (and parallelizable) Expectation-Maximization Bootstrap (EMB) algorithm [@Honaker2010]. \pkg{norm} [@norm], provides multiple imputation using EM for multivariate normal data, drawing from methods in the NORM software [@schafer-norm]. \pkg{norm} does not provide a framework for tracking missing values, instead providing tools for making inference from multiple imputation.
+\pkg{Amelia} [@amelia] assumes data are multivariate normal, and samples from the posterior, and allows for incorporation of information on the values in a prior. It uses the computationally efficient (and parallelizable) Expectation-Maximization Bootstrap (EMB) algorithm [@Honaker2010]. \pkg{norm} [@norm], provides multiple imputation using EM for multivariate normal data, drawing from methods in the \proglang{NORM} software [@schafer-norm]. \pkg{norm} does not provide a framework for tracking missing values, instead providing tools for making inference from multiple imputation.
 
 \pkg{mi} [@mi] also uses Bayesian models for imputation, providing better handling of semi-continuous values, and data with structural or perfect correlation. A collection of analysis models are also provided in \pkg{mi}, to work with data it has imputed. These include linear models, generalized linear models, and their corresponding Bayesian components. This approach promotes fluid workflow, with a similar penalty to tidying up model output, which is still messy.
 
@@ -238,7 +238,7 @@ school_scores_all <- bind_rows(
 
 ```
 
-```{r gg-box-na, fig.height = 3, fig.width = 9, out.width = "100%", fig.align = "center", fig.cap = "ggplot2 provides different visualizations depending on what type of data has missing values for data of student test scores in school year. (A) Data is complete; (B) Missings are only in year - an additional 'NA' boxplot is created; (C) Missings only in scores, no additional missingness information is shown; (D) Missings in both scores and year, additional missing information is shown. The missingness category is only shown when there are missings in categorical variables such as year (plots (B) and (D)). In (C), no missingness information is given on the graphic, despite there being missings in score, and a warning message is displayed about the number of missing values omitted.", fig.show = "asis"}
+```{r gg-box-na, fig.height = 3, fig.width = 9, out.width = "100%", fig.align = "center", fig.cap = "\\pkg{ggplot2} provides different visualizations depending on what type of data has missing values for data of student test scores in school year. (A) Data is complete; (B) Missings are only in year - an additional 'NA' boxplot is created; (C) Missings only in scores, no additional missingness information is shown; (D) Missings in both scores and year, additional missing information is shown. The missingness category is only shown when there are missings in categorical variables such as year (plots (B) and (D)). In (C), no missingness information is given on the graphic, despite there being missings in score, and a warning message is displayed about the number of missing values omitted.", fig.show = "asis"}
 
 gg_boxplot <-  function(data){
   ggplot(data,
@@ -266,13 +266,11 @@ Missing data can be explored and visualised in closed source software such as \p
 
 # Tidy framework for missings {#extensions}
 
-Applying tidyverse principles has the potential to clarify missing data exploration, visualization, and imputation. This section discusses how these principles are applied for data structures (\@ref(data-structure)), common operations (verbs) (\@ref(verbs)), graphics (\@ref(graphics)), and data summaries (\@ref(num-sum)). Care has been taken to make the names and design these features intuitive for their purpose, and is discussed throughout.
+Applying \pkg{tidyverse} principles has the potential to clarify missing data exploration, visualization, and imputation. This section discusses how these principles are applied for data structures (\@ref(data-structure)), common operations (verbs) (\@ref(verbs)), graphics (\@ref(graphics)), and data summaries (\@ref(num-sum)). Care has been taken to make the names and design these features intuitive for their purpose, and is discussed throughout.
 
 ## Data structure {#data-structure}
 
 A data structure facilitating exploration of missing data needs to be simple to reason with and to transport with a data analysis, otherwise it will not be used. A useful template common in missing data literature, is the $B$ matrix, where 0 and 1 indicate not missing and missing, respectively. This matrix was used to explore missing values in the interactive graphics library \pkg{XGobi}, called a "missing value shadow", or "shadow matrix", defined as a copy of the original data with indicator values of missingness. The shadow matrix could be interactively linked to the data. However, there are some limitations to the shadow matrix. Namely, the values 0 and 1 can be confusing representations of missing values, since it is not clear if 0 indicates an absence of observation, or the presence of a missing value.
-
-<!-- since 0 and 1 could interchangably indicate the absence (0) of observation, or the presence (1) of a missing value. -->
 
 We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:nabularfig).
 
