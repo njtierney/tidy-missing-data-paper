@@ -99,7 +99,7 @@ However, something must be known about the missing value structure to produce a 
 
 While there have been many software tools for exploring missing data, they do not work together. The graphics literature provides several solutions for exploring missings visually by incorporating them into the plot in some way. For example, imputing values to be 10% below the minimum to include all observations into a scatter plot [@Cook2007], or treating missing values as an equal category of data [@Unwin1996]. The ideas from the graphics literature need to be translated into tidy data tools to integrate missing data handling in a data analysis pipeline.
 
-This paper is organized in the following way. Section \@ref(background) provides the background to tidy data principles and tools \@ref(tidy-data-concepts) and missing data representations (\@ref(missing-data-rep-dep)). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). Graphics (\@ref(graphics)) and Numerical summaries (\@ref(num-sum)) of missing values are then discussed. An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
+This paper is organized in the following way. Section \@ref(background) provides the background to tidy data principles and tools (\@ref(tidy-data-concepts)) and missing data representations (\@ref(missing-data-rep-dep)). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). Graphics (\@ref(graphics)) and Numerical summaries (\@ref(num-sum)) of missing values are then discussed. An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
 
 # Background {#background}
 
@@ -127,7 +127,7 @@ Visualization tools only have tidy data as their input, as the output is a graph
 
 Modelling tools work well with tidy data, as they have a clear mapping from variables in the data to the formula for a model. For example in \proglang{R}, y regressed on x and z is: \code{lm(y ~ x + z)}. Modelling tools are input tidy, but their output is always messy - it is not in the right format for subsequent steps in analysis. For example, estimated coefficients, predictions, and residuals from one model cannot be easily combined with the output of another model. Messy models have been partially addressed with the \pkg{broom} package, which tidies up model outputs into a tidy data format for data analysis, and the developing \pkg{recipes} package, which helps make modelling input- and output-tidy [@recipes].
 
-### The tidyverse {#the-tidyverse}
+### Tidy data and tidy tools {#the-tidyverse}
 
 Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the \pkg{tidyverse} [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
 
@@ -594,12 +594,12 @@ The overall number, proportion, or percent of missing values in a dataset should
 ```{r n-prop-pct-miss-complete, echo = FALSE}
 
 table_of_fun <- tibble::tibble(
-  "Missing Function" = c("n_miss", 
+  "Missing function" = c("n_miss", 
                          "prop_miss", 
                          "pct_miss",
                          "pct_miss_case",
                          "pct_miss_var"),
-  "missing value" = c(n_miss(airquality),
+  "Missing value" = c(n_miss(airquality),
                       prop_miss(airquality),
                       pct_miss(airquality),
                       pct_miss_case(airquality),
@@ -609,7 +609,7 @@ table_of_fun <- tibble::tibble(
                           "pct_complete",
                           "prop_complete_case",
                           "pct_complete_var"),
-  "complete value" = c(n_complete(airquality), 
+  "Complete value" = c(n_complete(airquality), 
                        prop_complete(airquality), 
                        pct_complete(airquality),
                        pct_complete_case(airquality), 
