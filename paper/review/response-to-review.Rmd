@@ -33,7 +33,7 @@ general.
 
 > We have added the following at the end of section 3:
 
-Missing data can be explored and visualised in other software such as \proglang{STATA}, \proglang{SAS}, and \proglang{SPSS}. They provide basic table frequencies of missing data, and basic visualisations on missingness patterns. However, none of these software provide functions to specifically visualise missing values in bivariate or multivariate settings, and it is only possible to visualise missing values after performing data analysis, counting and summarising missingness. Imputation methods from mean to regression, EM, and multiple imputation are all available, with out of the box diagnostics provided to assist comparing imputations. \proglang{python} also provides exploratory data analysis for missing data within \pkg{missingno} [@Bilogur2018], and the \pkg{scikit-learn} package provides imputation methods [@scikit-learn].
+> Missing data can be explored and visualised in other software such as \proglang{STATA}, \proglang{SAS}, and \proglang{SPSS}. They provide basic table frequencies of missing data, and basic visualisations on missingness patterns. However, none of these software provide functions to specifically visualise missing values in bivariate or multivariate settings, and it is only possible to visualise missing values after performing data analysis, counting and summarising missingness. Imputation methods from mean to regression, EM, and multiple imputation are all available, with out of the box diagnostics provided to assist comparing imputations. \proglang{python} also provides exploratory data analysis for missing data within \pkg{missingno} [@Bilogur2018], and the \pkg{scikit-learn} package provides imputation methods [@scikit-learn].
 
 Please provide a plain R script which when run reproduces all results 
 presented in the manuscript. In general purling the Rmd file and editing 
@@ -48,7 +48,7 @@ JSS-specific markup (\proglang, \pkg), and improving the BibTeX file. Some
 aspects of the style are handled incorrectly by "rticles", though (see
 https://github.com/rstudio/rticles/issues/254).
 
-> I have updated to the latest rticles package and checked that the JSS-specific markup has been fixed in the latest submission. I could not get the heading with "tidyverse" in it to render appropriately from markdown
+> I have updated to the latest rticles package and checked that the JSS-specific markup has been fixed in the latest submission. Many instances of \proglang, \pkg, and \code have been used now
 
 * Note that the affiliation of the second author is misspelled.
 
