@@ -33,8 +33,7 @@ output:
     base_format: rticles::jss_article
     keep_tex: yes
     citation_package: 'natbib'
-# bibliography: tidy-missing-data-paper.bib
-bibliography: "tidy-missing-data-paper-no-jss.bib"
+bibliography: "tidy-missing-data-paper.bib"
 cls: jss.cls
 ---
 
@@ -658,7 +657,7 @@ airquality %>%
   miss_var_summary() %>%
   ungroup() %>%
   slice(1:10) %>%
-  knitr::kable(caption = "\\texttt{miss\\char`_var\\char`_summary} combined with \\texttt{group\\char`_by} provides a grouped summary of the missingness in each variable, for each Month of the airquality dataset. Only the first 10 rows are shown. There are more ozone missings in June than May.",
+  knitr::kable(caption = "Output of \\code{airquality \\%>\\% group\\char`_by(Month) \\%>\\% miss\\char`_var\\char`_summary()} provides a grouped summary of the missingness in each variable, for each month of the airquality dataset. Only the first 10 rows are shown. There are more ozone missings in June than May.",
                digits = 1)
                # booktabs = TRUE)
   # kable_styling(latex_options = c("hold_position"))
@@ -792,7 +791,7 @@ t2 <- miss_case_table(housing)
 
 
 knitr::kable(list(t1, t2),
-             caption = "Tabulating missingness for variables (left) and cases (right) to understand missingness patterns. 14 variables have 0 - 3 missings, 6 variables have 6000 - 9000 missings, and 2 variables have 15 - 16,000 missings. About 30\\% of cases have no missings, 45\\% of cases have 1 - 6 missings, and about 23\\% of cases have 8 or more missings. There are different patterns of missingness in variables and cases, but they can be broken down into smaller groups.",
+             caption = "Summary tables to help understand missingness patters. Output of \\code{miss\\_var\\_table(housing)} (left), tabulating missingness for variables, and output of \\code{miss\\_case\\_table(housing)}. There are 14 variables with 0 - 3 missings, 6 variables have 6000 - 9000 missings, and 2 variables have 15 - 16,000 missings. About 30\\% of cases have no missings, 45\\% of cases have 1 - 6 missings, and about 23\\% of cases have 8 or more missings. There are different patterns of missingness in variables and cases, but they can be broken down into smaller groups.",
              digits = 1)
              # booktabs = TRUE)
   # kable_styling(latex_options = c("hold_position"))
@@ -1170,7 +1169,7 @@ The \pkg{naniar} and \pkg{visdat} packages implement the methods discussed in th
 
 This paper has described new methods for exploring, visualizing, and imputing missing data. The work was motivated by recent developments of tidy data, and extends them for better missing value handling. The methods have standard outputs, function arguments, and behavior. This provides consistent workflows centered around data analysis that integrate well with existing imputation methodology, visualization, and modelling.
 
-The *nabular* data structures discussed in the paper are simple by design, to promote flexibility. They could be used to create different visualizations than were shown in the paper. The analyst can use the data structures to decide on appropriate visualization for their problem. The data structures could also be used to support interactive graphics, in the manner of MANET and ggobi. Linking the plots (via linked brushing) could facilitate exploration of missingness, and could be implemented with \pkg{plotly} [@plotly] for added interactivity. Animating between different sets of imputed values could also be possible with packages like \pkg{gganimate} [@gganimate].
+The *nabular* data structures discussed in the paper are simple by design, to promote flexibility. They could be used to create different visualizations than were shown in the paper. The analyst can use the data structures to decide on appropriate visualization for their problem. The data structures could also be used to support interactive graphics, in the manner of \proglang{MANET} and \proglang{ggobi}. Linking the plots (via linked brushing) could facilitate exploration of missingness, and could be implemented with \pkg{plotly} [@plotly] for added interactivity. Animating between different sets of imputed values could also be possible with packages like \pkg{gganimate} [@gganimate].
 
 Other data structures such as spatial data, time series, networks, and longitudinal data would be supported by the inherently tabular, *nabular* data, if they are first structured as wide tidy format. Large data may need special handling, and additional features like efficient storage of purely imputed values and lazy evaluation. Special missing value codes could be improved by creating special classes, or expanding low level representation of \code{NA} at the source code level.
 
