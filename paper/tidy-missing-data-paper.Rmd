@@ -33,7 +33,7 @@ output:
     base_format: rticles::jss_article
     keep_tex: yes
     citation_package: 'natbib'
-bibliography: "tidy-missing-data-paper.bib"
+bibliography: "tidy-missing-data-zotero.bib"
 cls: jss.cls
 ---
 
@@ -128,7 +128,7 @@ Modelling tools work well with tidy data, as they have a clear mapping from vari
 
 ### Tidy data and tidy tools {#the-tidyverse}
 
-Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the \pkg{tidyverse} [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse; @Tidyverse-Manifesto]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
+Defining tidy data and tidy tools has resulted in a growing set of packages known collectively as the \pkg{tidyverse} [@tidyverse]. These are constructed to share similar principles in their design and behavior, and cover the breadth of an analysis - from importing, tidying, transforming, visualizing, modelling, to communicating [@r4ds; @tidyverse]. This has led to more tools for specific parts of analysis - from reading in data with \pkg{readr}, \pkg{readxl}, and \pkg{haven}, to handling character strings with \pkg{stringr}, dates with \pkg{lubridate}, and performing functional programming with \pkg{purrr} [@readr; @readxl; @haven; @stringr; @lubridate; @purrr]. It has also led to a burgeoning of new packages for other fields following similar design principles, creating fluid workflows for new domains. For example, the \pkg{tidytext} [@tidytext] package for text analysis, the \pkg{tsibble} [@wang2020tsibble] package for time series data, and \pkg{tidycensus} [@tidycensus] for working with US census and boundary data.
 
 ### Tidy formats for missing data {#tidy-formats-missing-data}
 
@@ -147,7 +147,7 @@ b_{ij} =\begin{cases}
 \end{cases}
 $$
 
-There are many ways each value can be missing, we adopt the notation used in [@VanBuuren2012]. The information in $B$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $b_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the *missing data model* $Pr(b_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps to precisely define categories of missing values.
+There are many ways each value can be missing, we adopt the notation used in [@vanBuuren2018]. The information in $B$ can be used to arrive at three categories of missing values: Missing completely at random (MCAR), missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $b_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the *missing data model* $Pr(b_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps to precisely define categories of missing values.
 
 **MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}) = Pr(B = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(B = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself. This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena. Visualizations can help assess whether data may be MCAR, MAR or MNAR.
 
@@ -157,7 +157,7 @@ Methods for exploring, understanding, and imputing missing data are more accessi
 
 ## Imputation {#imputation}
 
-\pkg{VIM} [@VIM] implements well-used imputation methods K nearest neighbors, regression, hot-deck, and iterative robust model-based imputation. These diverse approaches allows for imputing with semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix "\code{_imp}". So, "\code{Var1}" has a sibling column, "\code{Var1_imp}", with values TRUE or FALSE indicating imputation. \pkg{VIM} also has a variety of visualization methods, discussed in \@ref(exploration). \pkg{simputation} provides an interface to imputation methods from \pkg{VIM}, in addition providing hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. \pkg{simputation} provides a consistent formula interface for all imputation methods, and always returns a dataframe with the updated imputations. \pkg{Hmisc} [@Hmisc], provides predictive mean matching, \pkg{imputeTS} [@imputeTS], provides time series imputation methods, and \pkg{missMDA} [@missMDA], imputes data using principal components analysis.
+\pkg{VIM} [@VIM] implements well-used imputation methods K nearest neighbors, regression, hot-deck, and iterative robust model-based imputation. These diverse approaches allows for imputing with semi-continuous, continuous, count, and categorical data. VIM identifies imputed cases by adding an indicator variable with a suffix "\code{_imp}". So, "\code{Var1}" has a sibling column, "\code{Var1_imp}", with values TRUE or FALSE indicating imputation. \pkg{VIM} also has a variety of visualization methods, discussed in Section \@ref(exploration). \pkg{simputation} provides an interface to imputation methods from \pkg{VIM}, in addition providing hotdeck imputation, and the EM algorithm [@simputation; @Dempster1977]. \pkg{simputation} provides a consistent formula interface for all imputation methods, and always returns a dataframe with the updated imputations. \pkg{Hmisc} [@Hmisc], provides predictive mean matching, \pkg{imputeTS} [@imputeTS], provides time series imputation methods, and \pkg{missMDA} [@missMDA], imputes data using principal components analysis.
 
 Multiple imputation is often regarded as best practice for imputing values [@Schafer2002], as long as appropriate caution is taken [@Sterne2009]. Popular and robust methods for multiple imputation include the \pkg{mice}, \pkg{Amelia}, and \pkg{mi} packages [@mice; @amelia; @mi]. \pkg{mice} implements the method of chained equations, using a variable-wise algorithm to calculate the posterior distribution of parameters to generate imputed values. The workflow in \pkg{mice} revolves around imputing data, returning completed data, and fitting a model and pooling the results.
 
@@ -171,11 +171,11 @@ Each imputation method provides practical methods for different use cases, but m
 
 ## Exploration {#exploration}
 
-The primary focus of most missing data packages is making inferences, and exploring imputed values, not on exploring relationships in missing values, and identifying possible patterns. Texts covering the exploration phase of missing data have the same problem as with modelling: the input is tidy, but the output does not work with other tools [@VanBuuren2012]; this is inefficient. Methods for exploring missing values are primarily covered in literature on interactive graphics [@Swayne1998; @Unwin1996; @Cook2007], and are picked up again in a discussion of a graphical user interface [@Cheng2015].
+The primary focus of most missing data packages is making inferences, and exploring imputed values, not on exploring relationships in missing values, and identifying possible patterns. Texts covering the exploration phase of missing data have the same problem as with modelling: the input is tidy, but the output does not work with other tools [@vanBuuren2018]; this is inefficient. Methods for exploring missing values are primarily covered in literature on interactive graphics [@Swayne1998; @Unwin1996; @Cook2007], and are picked up again in a discussion of a graphical user interface [@Cheng2015].
 
 The missingness matrix $B$ can be used to assess missing data dependence. It has been used in interactive graphics, dubbed a "shadow matrix", to link missing and imputed values to the data, facilitating their display [@Swayne1998], focusing heavily on multivariate numeric data. This is an idea upon which this new work builds.
 
-The \pkg{MANET} (Missings Are Now Equally Treated) software [@Unwin1996] focussed on multivariate categorical data, with missingness explicitly added as a category. \pkg{MANET} also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The \pkg{MANET} software is no longer maintained and cannot be installed. The approach of [@Swayne1998] in the software \pkg{XGobi}, further developed in \pkg{ggobi} [@Cook2007], focussed on multivariate quantitative data. Missingness is incorporated into plots in \pkg{ggobi} by setting them to be 10% below the minimum value.
+The \proglang{MANET} (Missings Are Now Equally Treated) software [@Unwin1996] focussed on multivariate categorical data, with missingness explicitly added as a category. \proglang{MANET} also provided univariate visualizations of missing data using linked brushing between a reference plot of the missingness for each variable, and a plot of the data as a histogram or barplot. The \proglang{MANET} software is no longer maintained and cannot be installed. The approach of [@Swayne1998] in the software \proglang{XGobi}, further developed in \proglang{ggobi} [@Cook2007], focussed on multivariate quantitative data. Missingness is incorporated into plots in \proglang{ggobi} by setting them to be 10% below the minimum value.
 
 \pkg{MissingDataGUI} provides a Graphical User Interface (GUI) for exploring missing data structure, both numerically and visually. Using a GUI to explore missing data facilitates rapid insight into missingness structures. However, this comes as a trade off, as insights are not captured or recorded with a GUI, making it challenging to incorporate into reproducible analyses. This distracts and breaks analysis workflow, inviting mistakes.
 
@@ -265,7 +265,7 @@ Applying \pkg{tidyverse} principles has the potential to clarify missing data ex
 
 ## Data structure {#data-structure}
 
-A data structure facilitating exploration of missing data needs to be simple to reason with and to transport with a data analysis, otherwise it will not be used. A useful template common in missing data literature, is the $B$ matrix, where 0 and 1 indicate not missing and missing, respectively. This matrix was used to explore missing values in the interactive graphics library \pkg{XGobi}, called a "missing value shadow", or "shadow matrix", defined as a copy of the original data with indicator values of missingness. The shadow matrix could be interactively linked to the data. However, there are some limitations to the shadow matrix. Namely, the values 0 and 1 can be confusing representations of missing values, since it is not clear if 0 indicates an absence of observation, or the presence of a missing value.
+A data structure facilitating exploration of missing data needs to be simple to reason with and to transport with a data analysis, otherwise it will not be used. A useful template common in missing data literature, is the $B$ matrix, where 0 and 1 indicate not missing and missing, respectively. This matrix was used to explore missing values in the interactive graphics library \proglang{XGobi}, called a "missing value shadow", or "shadow matrix", defined as a copy of the original data with indicator values of missingness. The shadow matrix could be interactively linked to the data. However, there are some limitations to the shadow matrix. Namely, the values 0 and 1 can be confusing representations of missing values, since it is not clear if 0 indicates an absence of observation, or the presence of a missing value.
 
 We propose a new form for tidy representation of missing data based on these ideas from past research. Four features are added to the shadow matrix to facilitate analysis of missing data, illustrated in Figure \@ref(fig:nabularfig).
 
@@ -289,7 +289,7 @@ knitr::include_graphics("images/diagram.png")
 
 Although a binary missingness matrix, $B$, could be generated during analysis instead of using a *nabular* data structure, there are key advantages to using *nabular* data. Firstly, missing value labels "NA" and "!NA" are clearer than TRUE or FALSE. Secondly, special missing values cannot be added easily during analysis with a logical matrix. Finally, the logical matrix cannot capture which values are imputed if imputation has already taken place. Imputing values on *nabular* data automatically tracks these imputations.
 
-Using additional columns to represent missingness information follows best practices for data organization, described in [@Ellis2017] and [@Broman2017]: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information can now be represented in the shadow columns as special missing values. Encoding special missing values is achieved by defining logical conditions and suffixes. This is implemented with the \code{recode_shadow()} function in \pkg{naniar} (\@ref(verbs-recode)).
+Using additional columns to represent missingness information follows best practices for data organization, described in [@Ellis2018] and [@Broman2018]: (1) Keep one thing in a cell and (2) Describe additional features of variables in a second column. Here they suggest to indicate censored data with an extra variable called "VariableNameCensored", which would be TRUE if censored, otherwise FALSE. This information can now be represented in the shadow columns as special missing values. Encoding special missing values is achieved by defining logical conditions and suffixes. This is implemented with the \code{recode_shadow()} function in \pkg{naniar} (Discussed in Section \@ref(verbs)).
 
 Special missing values are not a new idea, and have been implemented in other statistical programming languages, \proglang{SPSS}, \proglang{SAS}, and \proglang{STATA}. These typically represent missing values as a full-stop, ".", and record special missing values as ".a" - ".z". These special values from these languages break the tidy principle of one column having one type of value, as they record both the value, and the multivariate missingness state.
 
@@ -366,7 +366,7 @@ nabular(dat_ms) %>%
 
 \pkg{naniar} does not reinvent the wheel for imputation, instead working with existing methods. However, \pkg{naniar} provides a few imputation methods to facilitate exploration and visualization: \code{impute_below()}, \code{impute_mean()}, and \code{impute_median()}. While useful to explore structure in missingness, they are not recommended for use in analysis. \code{impute_below()} imputes values below the minimum value, with some controllable jitter (random noise) to reduce overplotting.
 
-Similar to \pkg{simputation}, each \code{impute_} function returns the data with values imputed. However, \pkg{naniar} does not use a formula syntax, instead each function has "scoped variants" \code{_all}, \code{_at} and \code{_if} as in \@ref(verbs-replace-with). \code{impute_} functions with no scoped variant, (\code{impute_mean()}), will work on a single vector, but not a data.frame. One challenge with this approach is imputed value locations are not tracked. This issue is resolved with *nabular* data covered in Section \@ref(verbs-track).
+Similar to \pkg{simputation}, each \code{impute_} function returns the data with values imputed. However, \pkg{naniar} does not use a formula syntax, instead each function has "scoped variants" \code{_all}, \code{_at} and \code{_if}. \code{impute_} functions with no scoped variant, (\code{impute_mean()}), will work on a single vector, but not a data.frame. One challenge with this approach is imputed value locations are not tracked. This issue is resolved with *nabular* data covered in the following section.
 
 ### track: Shadow and impute missing values {#verbs-track}
 
@@ -435,7 +435,7 @@ aq_imputed %>%
 
 # Graphics {#graphics}
 
-Missing values are often ignored when plotting data - which is why the data visualization software, \pkg{MANET}, was named and is an acronym corresponding to "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to identify the type of missing value patterns, even those of MCAR, MAR or MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make, relative to the *nabular* data structure.
+Missing values are often ignored when plotting data - which is why the data visualization software, \proglang{MANET}, was named and is an acronym corresponding to "Missings Are Now Equally Treated" [@Unwin1996]. However, plots can help to identify the type of missing value patterns, even those of MCAR, MAR or MNAR. Here we summarise how to systematically explore missing patterns visually, and define useful plots to make, relative to the *nabular* data structure.
 
 ## Overviews {#overviews}
 
@@ -629,7 +629,7 @@ These summaries order rows by the number of missings (\code{n_miss()}), to show 
 
 miss_var_summary(airquality) %>% 
   knitr::kable(
-    caption = "\\texttt{miss\\char`_var\\char`_summary} provides the number and percent of missings in each variable in airquality. Only ozone and solar radiation have missing values.",
+    caption = "\\texttt{miss\\char`_var\\char`_summary(airquality)} provides the number and percent of missings in each variable in airquality. Only ozone and solar radiation have missing values.",
     digits = 1)
     # booktabs = TRUE) 
   # kable_styling(latex_options = c("hold_position"))
@@ -881,7 +881,7 @@ node_4 <- data_in %>%
 
 ## Imputation and diagnostics {#case-study-imp-diagnosis}
 
-\pkg{simputation} is used to implement two imputations: simple linear regression and K nearest neighbors. Values are imputed stepwise in ascending order of missingness. The track missings pattern is applied (described in \@ref(verbs-track)), to assess imputed values. Imputed datasets are compared on their performance in a model predicting log house price for 4 variables (Figure \@ref(fig:imputed-by-model)). Compared to KNN imputed values, the linear model imputed values closer to the mean.
+\pkg{simputation} is used to implement two imputations: simple linear regression and K nearest neighbors. Values are imputed stepwise in ascending order of missingness. The track missings pattern is applied (described in \@ref(verbs)), to assess imputed values. Imputed datasets are compared on their performance in a model predicting log house price for 4 variables (Figure \@ref(fig:imputed-by-model)). Compared to KNN imputed values, the linear model imputed values closer to the mean.
 
 ```{r clean-data-for-analysis, include = FALSE, cache = TRUE}
 # add memoise to store the output data for this
@@ -1173,7 +1173,7 @@ The *nabular* data structures discussed in the paper are simple by design, to pr
 
 Other data structures such as spatial data, time series, networks, and longitudinal data would be supported by the inherently tabular, *nabular* data, if they are first structured as wide tidy format. Large data may need special handling, and additional features like efficient storage of purely imputed values and lazy evaluation. Special missing value codes could be improved by creating special classes, or expanding low level representation of \code{NA} at the source code level.
 
-The methodology described in this paper can be used in conjunction with other approaches to understand multivariate missingness dependencies (e.g., decision trees [@Tierney2015], latent group analysis [@Barnett2017], and PCA [@FactoMineR]). Evaluating imputed values using a testing framework like [@VanBuuren2012] is also supported.
+The methodology described in this paper can be used in conjunction with other approaches to understand multivariate missingness dependencies (e.g., decision trees [@Tierney2015], latent group analysis [@Barnett2017], and PCA [@FactoMineR]). Evaluating imputed values using a testing framework like [@vanBuuren2018] is also supported.
 
 The approach meshes with the dynamic nature of data analysis, allowing the analyst to go from raw data to model data in a fluid workflow.
 
