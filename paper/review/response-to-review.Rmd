@@ -48,7 +48,7 @@ JSS-specific markup (\proglang, \pkg), and improving the BibTeX file. Some
 aspects of the style are handled incorrectly by "rticles", though (see
 https://github.com/rstudio/rticles/issues/254).
 
-> I have updated to the latest rticles package and checked that the JSS-specific markup has been fixed in the latest submission. Many instances of \proglang, \pkg, and \code have been used now
+> I have updated to the latest rticles package and checked that the JSS-specific markup has been fixed in the latest submission. Instances of \proglang, \pkg, and \code have been added.
 
 * Note that the affiliation of the second author is misspelled.
 
@@ -63,7 +63,7 @@ R> example_model <- lm(response ~ variable1 + variable2 + variable3,
 +    weights = w, data = mydata)
 \end{Sinput}
 
-> I believe this has been resolved with the latest update to rticles.
+> This has been resolved with the latest update to rticles.
 
 o If using "e.g." and "i.e." add a comma after the period to keep LaTeX from interpreting them as the end of a sentence, i.e.: "e.g., " and "i.e., ".
 
@@ -75,11 +75,11 @@ o The rule for capitalizing the starting letters of Figure, Section and Table is
 
 o All captions should appear below the corresponding figure/table. The captions should be in sentence style and end with a period.  No additional formatting (such as \emph, f or \it) should be used for the caption.
 
-> Captions are below every figure, and for each table these will be moved manually in the LaTeX output.
+> Captions are below every figure, and for each table these have been moved manually in the LaTeX output.
 
 o All table row/column headers should also be in sentence style. There should not be further footnote-style annotations in tables; these should all be placed in the caption.
 
-> Need to double check about headings here for tables - Di should I change things like "n_miss" to "Num. Missing" ?
+> Row/Column headers have been changed to sentence style, where appropriate. Some tables represent the direct output of a function, for example, in Table 2, 4, and 5. This is noted in the table caption that it is the output of a computation.
 
 o As a reminder, please make sure that:
 	- \proglang, \pkg and \code have been used for highlighting throughout the paper (including titles and references), except where explicitly escaped.
@@ -88,16 +88,19 @@ o As a reminder, please make sure that:
 
 References:
 
+o Journal of the Royal Statistical Society B (not: Journal of the Royal Statistical Society, Series B) the EM Algorithm.” 
+o Springer-Verlag (not: Springer) and GGobi. 1st edition. Springer Publishing Company, Incorporated.
 
-o Journal of the Royal Statistical Society B (not: Journal of the Royal Statistical Society, Series B)
-	the EM Algorithm.” Journal of the Royal Statistical Society. Series B
-the EM Algorithm.” Journal of the Royal Statistical Society. Series B
-o Springer-Verlag (not: Springer)
-	and GGobi. 1st edition. Springer Publishing Company, Incorporated.
-
+> These have been fixed.
 
 o Please make sure that all software packages are \cite{}'d properly.
+
+> These have been altered in the .bib file to include the proper \proglang{} and \pkg{} syntax.
+
 o All references should be in title style.
+
+> References are now in title style
+
 o See FAQ for specific reference instructions.
 
 
@@ -105,12 +108,4 @@ Code:
 
 o Please make sure that the files needed to replicate all code/examples within the manuscript are included in a standalone replication script.
 
-Other notes
-
-- Check references are correctly referred using \pkg and \proglang
-- Check references are correctly referred to in text
-- Read over actual references compiled in the PDF - e.g., Adrian Barnett's article has a random string at the end.
-- Check quotes (" and ') are facing the right way
-- Don't start a sentence with a capital letter for pkgs.
-- Fix tables 4 and 5, ensure all appropriate tables have
-- Check that text overflows correctly.
+> This has been provided in the "tidy-missing-data-paper.R" file
