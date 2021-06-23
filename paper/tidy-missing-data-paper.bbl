@@ -1,4 +1,4 @@
-\begin{thebibliography}{55}
+\begin{thebibliography}{56}
 \newcommand{\enquote}[1]{``#1''}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -266,6 +266,13 @@ Pino T, Tierney N (2019).
   Computing}.
 \newblock \proglang{R} Foundation for Statistical Computing, Vienna, Austria.
 \newblock \urlprefix\url{https://www.R-project.org/}.
+
+\bibitem[{Rushworth(2021)}]{inspectdf}
+Rushworth A (2021).
+\newblock \emph{inspectdf: Inspection, Comparison and Visualisation of Data
+  Frames}.
+\newblock R package version 0.0.11,
+  \urlprefix\url{https://CRAN.R-project.org/package=inspectdf}.
 
 \bibitem[{Schafer(1999)}]{schafer-norm}
 Schafer JL (1999).
