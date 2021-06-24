@@ -38,6 +38,9 @@ _targets/
 # html
 *.html
 
+# zip
+*.zip
+
 # tex things
 tidy-missing-data-paper.tex
 tmp-pdfcrop-44731.tex
