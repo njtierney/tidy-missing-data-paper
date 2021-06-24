@@ -43,17 +43,16 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.height = 4, 
                       cache = TRUE)
 options(tinytex.clean = FALSE)
+options(tinytex.verbose = TRUE)
+```
+
+```{r libs}
 library(tidyverse) 
 library(gridExtra)
-# options(kableExtra.latex.load_packages = FALSE)
-# library(kableExtra)
 library(ggthemes)
 library(png)
 library(scales)
 library(simputation)
-# if paper doesn't compile, use development version of naniar
-# install.packages("remotes")
-# remotes::install_github("njtierney/naniar")
 library(naniar) 
 library(knitr)
 library(lubridate)
@@ -61,8 +60,8 @@ library(magick)
 library(rpart)
 library(visdat)
 library(patchwork)
-options(tinytex.verbose = TRUE)
 ```
+
 
 # Introduction {#intro}
 
@@ -283,7 +282,7 @@ We propose a new form for tidy representation of missing data based on these ide
 
 ```{r nabularfig, echo = FALSE, fig.cap = 'The process of creating nabular data. Data transformed to shadow matrix, where values are either not missing or missing: "!NA" or "NA". The shadow matrix can be converted to long form to create missingness summary plots. Nabular data is created by binding the columns of the data and shadow matrix. Special missing values (such as -99) are identified as special missings, and values imputed and tracked. Nabular data can be used to identify imputations and explore data values alongside missings, providing a useful format for missing data exploration and analysis.', out.width = "100%", fig.align = "center"}
 
-knitr::include_graphics("images/diagram.png")
+include_graphics(here("paper/images/diagram.png"))
 
 ```
 
