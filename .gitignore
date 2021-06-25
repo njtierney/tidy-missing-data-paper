@@ -56,3 +56,4 @@ renv/
 # misc
 .DS_Store
 sigfile.png
+review/
