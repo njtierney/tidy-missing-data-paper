@@ -2,11 +2,7 @@
 documentclass: jss
 author:
   - name: Nicholas Tierney
-    affiliation: Monash University, Telethon Kids Institute
-    address: >
-      Department of Econometrics and Business Statistics
-      E774, Menzies Building
-      Monash University, Clayton
+    affiliation: Monash University
     email: \email{nicholas.tierney@gmail.com}
     url: http://www.njtierney.com
   - name: Dianne Cook
