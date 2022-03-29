@@ -18,12 +18,15 @@ tar_plan(
              gg_vis_miss_housing(housing)),
   tar_render(paper, 
              "paper/tidy-missing-data-paper.Rmd"),
+  tar_target(paper_purl,
+             knitr::purl(input = "paper/tidy-missing-data-paper.Rmd",
+                         output = "paper/tidy-missing-data-paper.R")),
   # ideally this would only run if the report has been rendered,
   # not sure how to detect that.
   tar_target(arxiv_paper,
              zip_for_arxiv()),
-  tar_target(rjournal,
-             zip_for_jss())
+  tar_target(jss,
+             zip_for_jss(paper, paper_purl))
   
 
 # tar_target(target2, function_to_make2(arg)) ## targets style

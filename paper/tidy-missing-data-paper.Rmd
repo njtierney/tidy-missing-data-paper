@@ -150,9 +150,9 @@ $$
 
 There are many ways each value can be missing, we adopt the notation used in [@vanBuuren2018]. The information in $B$ can be used to arrive at three categories of missing values: missing completely at random (MCAR), missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $b_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the *missing data model* $Pr(b_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps to precisely define categories of missing values.
 
-**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}) = Pr(B = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(B = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself. This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena. Visualizations can help assess whether data may be MCAR, MAR or MNAR.
+MCAR is where values being missing have no association with observed or unobserved data, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}) = Pr(B = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In MAR, missingness only depends on data observed, not data missing, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(B = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In MNAR, missingness is related to values observed, and unobserved: $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself. This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena. Visualizations can help assess whether data may be MCAR, MAR or MNAR.
 
-# Existing Software {#existing-software}
+# Existing software {#existing-software}
 
 Methods for exploring, understanding, and imputing missing data are more accessible now than they have ever been. Values can be imputed with one value (single imputation), or multiple values (multiple imputation), creating $m$ datasets. This section discusses existing software for single and multiple imputation, and missing data exploration.
 
@@ -300,7 +300,7 @@ Special missing values are not a new idea, and have been implemented in other st
 
 Common missing data operations can be considered verbs, in the tidyverse sense. For missing data, these include: **scan**, **replace**, **add**, **shadow**, **impute**, **track**, and **flag**. Data can be **scanned** to find possible missings not coded as \code{NA}. These values can then be **replaced** with \code{NA}. To facilitate exploration, summaries of missingness can be **added** as a summary column to the original data. The data can be augmented with the **shadow matrix** values, helping explore missing data, as well as facilitating the process of **imputing**, and **tracking**. Finally, unusual or specially coded missing values can be **flagged**.
 
-### scan: searching for common missing value labels {#verbs-search}
+### Scan: searching for common missing value labels {#verbs-search}
 
 This operation is used to search the data for specific conventional representations of missings, such as, "N/A", "MISSING", "-99". This is implemented in the function \code{miss_scan_count()}, which returns a table of occurrences of that value for each variable. A list of common NA values for numbers and characters, can be provided to help check for typical representations of missings. These are implemented in \pkg{naniar} as objects \code{common_na_numbers} and \code{common_na_strings}.
 
@@ -323,11 +323,11 @@ miss_scan_count(data = dat_ms,
   # kable_styling(latex_options = c("hold_position"))
 ```
 
-### replace: replacing values with missing values {#verbs-replace-with}
+### Replace: replacing values with missing values {#verbs-replace-with}
 
 Once possible missing values have been identified, these values can be replaced. For example, a dataset could have the values "-99" meaning a missing value. \pkg{naniar} implements replacement with the function, \code{replace_with_na()}. Values "-99" could be replaced in the "x" column with: \code{replace_with_na(dat_ms, replace = list(x = -99))}. For operating on multiple variables, there are scoped variants for \code{replace_with_na()}: \code{_all}, \code{_if}, and \code{_at}. This means \code{replace_with_na_all()} operates on **all** columns, \code{replace_with_na_at()} operates **at** specific columns, and \code{replace_with_na_if()} makes a conditional change on columns **if** they meet some condition (such as \code{is.numeric()} or \code{is.character()}).
 
-### add: adding missingness summary variables {#verbs-add-cols}
+### Add: adding missingness summary variables {#verbs-add-cols}
 
 Understanding the missingness structure can be improved by adding summary information alongside the data. For example, in [@Tierney2015], the proportion of missings in a row is used as the outcome in a model to identify variables important in predicting missingness structures. \pkg{naniar} implements a series of functions to add these missingness summaries to the data, starting with \code{add_}. These are inspired by the \code{add_count()} function in \pkg{dplyr}, which adds count information for specified groups or conditions. \pkg{naniar} provides operations to add the number or proportion of missingness, the missingness cluster, or the presence of any missings, with: \code{add_n_miss()}, \code{add_prop_miss()}, \code{add_miss_cluster()}, and \code{add_any_miss()}, respectively (Table \@ref(tab:add-missing-info)). There are also functions for adding information about shadow values, and readable labels for any missing values with \code{add_label_shadow()} and \code{add_label_missings()}.
 
@@ -350,7 +350,7 @@ tibble::tibble(
 
 ```
 
-### shadow: creating nabular data {#verbs-nabular}
+### Shadow: creating nabular data {#verbs-nabular}
 
 *Nabular* data has the shadow matrix column-bound to existing data. This facilitates visualization and summaries, and allows for imputed values to be tracked. *Nabular* data can be created with \code{nabular()}:
 
@@ -358,7 +358,7 @@ tibble::tibble(
 nabular(dat_ms)
 ```
 
-### flag: describing different types of missing values {#verbs-recode}
+### Flag: describing different types of missing values {#verbs-recode}
 
 Unusual or spurious data values are often identified and "flagged". For example, there might be special codes to mark an individual dropping out of a study, known instrument failure in weather instruments, or for values censored in analysis. \pkg{naniar} provides tools to encode these special types of missingness in the shadow matrix of *nabular* data, using \code{recode_shadow()}. This requires specifying the variable to contain the flagged value, the condition for flagging, and a suffix. This is then recoded as a new factor level in the shadow matrix, so every column is aware of all possible new values of missingness. For example, -99 could be recoded to indicate a broken machine sensor for the variable "x" with the following:
 
@@ -367,13 +367,13 @@ nabular(dat_ms) %>%
   recode_shadow(x = .where(x == -99 ~ "broken_sensor"))
 ```
 
-### impute: imputing values {#verbs-impute}
+### Impute: imputing values {#verbs-impute}
 
 \pkg{naniar} does not reinvent the wheel by creating the need for customised imputation procedures. Instead, the \code{nabular} format means existing methods using imputation replacement in place now automatically track missing values. \pkg{naniar} provides a few imputation methods to facilitate exploration and visualization: \code{impute_below()}, \code{impute_mean()}, and \code{impute_median()}. While useful to explore structure in missingness, they are not recommended for use in analysis. \code{impute_below()} imputes values below the minimum value, with some controllable jitter (random noise) to reduce overplotting.
 
 Similar to \pkg{simputation}, each \code{impute_} function returns the data with values imputed. However, \pkg{naniar} does not use a formula syntax, instead each function has "scoped variants" \code{_all}, \code{_at} and \code{_if}. \code{impute_} functions with no scoped variant, (\code{impute_mean()}), will work on a single vector, but not a data.frame. One challenge with this approach is imputed value locations are not tracked. This issue is resolved with *nabular* data covered in the following section.
 
-### track: shadow and impute missing values {#verbs-track}
+### Track: shadow and impute missing values {#verbs-track}
 
 To evaluate imputations they need to be tracked. This is achieved by first using *nabular* data, then imputing, and imputed values can then be referred to by their shadow variable, "_NA" (Figure \@ref(fig:track-impute-example)). The code below shows the track pattern, first using \code{nabular()}, then imputing with \code{impute_lm()}. \code{label_shadow()} then adds a label to facilitate identifying missings:
 
@@ -720,8 +720,6 @@ knitr::kable(list(t1, t2),
   # kable_styling(latex_options = c("hold_position"))
 
 ```
-
-
 
 ## Exploring missingness patterns for imputation {#case-study-explore-for-imp}
 

@@ -7,17 +7,12 @@
 ##' @return
 ##' @author Nicholas Tierney
 ##' @export
-zip_for_jss <- function() {
+zip_for_jss <- function(paper, paper_purl) {
   
   dir_create("jss")
   zip_name <- "jss/jss-submission.zip"
-  files_to_zip_all <- dir_ls(path = "paper/",
-                             recurse = TRUE)
   
-  cover_letter <- dir_ls(path = "cover-letter",
-                         regexp = "cover-letter.pdf$")
-  
-  to_ignore <- glue_ignore(c("html", 
+  to_ignore <- glue_ignore(c("html",
                              "aux",
                              "bbl",
                              "blg",
@@ -26,10 +21,14 @@ zip_for_jss <- function() {
                              "brf",
                              "out"))
   
-  files_to_zip <- str_subset(string = c(files_to_zip_all,
-                                        cover_letter),
-                             pattern = paste0("morgue|",to_ignore),
-                             negate = TRUE)
+  files_to_zip <- dir_ls(
+    path = "paper/",
+    recurse = TRUE,
+    regexp = paste0(c("images|diagram|review|*cache|"),
+                    to_ignore),
+    invert = TRUE
+  )
+  
   
   if (file_exists(zip_name)) {
     file_delete(zip_name)
