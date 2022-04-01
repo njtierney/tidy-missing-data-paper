@@ -1,4 +1,4 @@
-## ----setup, include=FALSE, message=FALSE, warning=FALSE-----------------------
+## ----setup, include=FALSE, message=FALSE, warning=FALSE------------------------------
 knitr::opts_chunk$set(echo = FALSE, 
                       message = FALSE, 
                       warning = FALSE, 
@@ -8,9 +8,10 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache = TRUE)
 options(tinytex.clean = FALSE)
 options(tinytex.verbose = TRUE)
+options(xtable.comment = FALSE)
 
 
-## ----libs---------------------------------------------------------------------
+## ----libs----------------------------------------------------------------------------
 library(tidyverse) 
 library(gridExtra)
 library(ggthemes)
@@ -29,7 +30,7 @@ library(here)
 library(targets)
 
 
-## ----tar-load-----------------------------------------------------------------
+## ----tar-load------------------------------------------------------------------------
 with_dir(here(), {
   tar_load(c(housing, vis_miss_housing))
 })
@@ -56,7 +57,7 @@ gp = grid::gpar(fontsize = 14,
   
 
 
-## ----make-school-scores-data, echo = FALSE------------------------------------
+## ----make-school-scores-data, echo = FALSE-------------------------------------------
 
 school_scores <- data.frame(score = c(rnorm(20, 70, 10),
                                  rnorm(20, 85, 7.5),
@@ -134,7 +135,7 @@ include_graphics(here("paper/images/diagram.png"))
 
 
 
-## ----setup-miss-scan-count----------------------------------------------------
+## ----setup-miss-scan-count-----------------------------------------------------------
 
 dat_ms <- tibble::tribble(~x,  ~y,    ~z,
                          1,   "A",   -100,
@@ -144,18 +145,17 @@ dat_ms <- tibble::tribble(~x,  ~y,    ~z,
                          -98, "F",   -1)
 
 
-## ----miss-scan-count, eval = FALSE--------------------------------------------
+## ----miss-scan-count, eval = FALSE---------------------------------------------------
 ## miss_scan_count(data = dat_ms,
 ##                 search = -99) %>%
-##   knitr::kable(
-##     caption = 'Table of the occurrences of the search "-99" in the data, "dat\\_ms". There is one occurrence if -99 in variables x and z.')
-##     # booktabs = TRUE)
-##   # kable_styling(latex_options = c("hold_position"))
+##   xtable::xtable(
+##     caption = 'Table of the occurrences of the search "-99" in the data, "dat\\_ms". There is one occurrence if -99 in variables x and z.',
+##     label = "tab:miss-scan-count"
+##     )
 
 
-## ----add-missing-info---------------------------------------------------------
-
-tibble::tibble(
+## ----add-missing-info, results='asis'------------------------------------------------
+tab_add_missing_info <- tibble::tibble(
   `Function` = c(
     "add_n_miss(data)",
     "add_any_miss(data)",
@@ -168,20 +168,24 @@ tibble::tibble(
     "contains the proportion of missing values in a row",
     "contains the missing value cluster"
   )) %>% 
-    knitr::kable(caption = 'Overview of the "add" functions in naniar')
+    xtable::xtable(
+      caption = 'Overview of the "add" functions in naniar',
+      label = "tab:add-missing-info"
+      )
+
+print(tab_add_missing_info, comment = FALSE, include.rownames = FALSE)
 
 
-
-## ----bind-shadow, echo = TRUE-------------------------------------------------
+## ----bind-shadow, echo = TRUE--------------------------------------------------------
 nabular(dat_ms)
 
 
-## ----recode-shadow, eval = TRUE, echo = TRUE----------------------------------
+## ----recode-shadow, eval = TRUE, echo = TRUE-----------------------------------------
 nabular(dat_ms) %>%
   recode_shadow(x = .where(x == -99 ~ "broken_sensor"))
 
 
-## ----bind-impute-label-example, echo = TRUE-----------------------------------
+## ----bind-impute-label-example, echo = TRUE------------------------------------------
 aq_imputed <- nabular(airquality) %>%
   as.data.frame() %>% 
   simputation::impute_lm(Ozone ~ Temp + Wind) %>%
@@ -225,19 +229,23 @@ ggplot(aq_imputed,
 gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
 
-## ----impute-summary, echo = TRUE, eval = FALSE--------------------------------
+## ----impute-summary, echo = TRUE, eval = FALSE---------------------------------------
 ## aq_imputed %>%
 ##   group_by(any_missing) %>%
 ##   summarise_at(.vars = vars(Ozone),
 ##                .funs = lst(min, mean, median, max))
 
 
-## ----impute-summary-out, echo = FALSE-----------------------------------------
-aq_imputed %>%
+## ----impute-summary-out, echo = FALSE, results='asis'--------------------------------
+tab_impute_summary_out <- aq_imputed %>%
   group_by(any_missing) %>%
   summarise_at(.vars = vars(Ozone),
                .funs = lst(min, mean, median, max))  %>% 
-  kable(caption = 'Output of \\pkg{dplyr} summary statistics of imputed vs non imputed values for the variable "Ozone". The "any\\_missing" column denotes imputed values ("Missing", since they were previously missing), and non-imputed values ("Not Missing"). The mean and median values are similar, but the minimum and maximum values are very different.')
+  xtable::xtable(
+    caption = 'Output of \\pkg{dplyr} summary statistics of imputed vs non imputed values for the variable "Ozone". The "any\\_missing" column denotes imputed values ("Missing", since they were previously missing), and non-imputed values ("Not Missing"). The mean and median values are similar, but the minimum and maximum values are very different.',
+    label = "tab:impute-summary-out"
+    )
+print(tab_impute_summary_out, comment = FALSE, include.rownames = FALSE)
 
 
 ## ----gg-miss-case-var, echo = FALSE, fig.show='hold', fig.cap = "Graphical summaries of missingness in the airquality data. Missings in variables (A) and cases (B), and for an overview of all missingness as a heatmap in (C), and with clustering applied (D). There are missing values in Ozone and Solar.R, with Ozone having more missings. Not many cases have two missings. Most missingness is from cases with one missing value. The default output (C) and ordered by clustering on rows and columns (D). These overviews are made possible using the shadow matrix in long form. There are only missings in ozone and solar radiation, and there appears to be some structure to their missingness.", fig.height = 7, fig.width = 6, out.width = "90%", fig.align="center"----
@@ -317,7 +325,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 
 
-## ----geom-miss-point-impute-shift-long, include = FALSE, out.width = "70%"----
+## ----geom-miss-point-impute-shift-long, include = FALSE, out.width = "70%"-----------
 airquality %>%
   nabular() %>%
   impute_below_all() %>%
@@ -355,7 +363,7 @@ ggplot(dat_paral,
 
 
 
-## ----n-prop-pct-miss-complete, echo = FALSE-----------------------------------
+## ----n-prop-pct-miss-complete, echo = FALSE, results='asis'--------------------------
 
 table_of_fun <- tibble::tibble(
   "Missing function" = c("n_miss", 
@@ -381,47 +389,55 @@ table_of_fun <- tibble::tibble(
 ) %>%
   mutate_if(is.numeric,round,2)
 
-knitr::kable(
+show_table_of_fun <- xtable::xtable(
   table_of_fun, 
   digits = 2,
-  caption = "Single number summaries of missingness and completeness of the airquality dataset. The functions follow consistent naming, making them easy to remember, and their use clear.")
-  # booktabs = TRUE)
-  # kable_styling(latex_options = c("hold_position"))
+  caption = "Single number summaries of missingness and completeness of the airquality dataset. The functions follow consistent naming, making them easy to remember, and their use clear.",
+  label = "tab:n-prop-pct-miss-complete"
+  )
+
+print(show_table_of_fun, comment = FALSE, include.rownames = FALSE)
 
 
 
-## ----miss-var-summary---------------------------------------------------------
-
-miss_var_summary(airquality) %>% 
-  knitr::kable(
+## ----miss-var-summary, results='asis'------------------------------------------------
+tab_miss_var_summary <- miss_var_summary(airquality) %>% 
+  xtable::xtable(
     caption = "\\texttt{miss\\char`_var\\char`_summary(airquality)} provides the number and percent of missings in each variable in airquality. Only ozone and solar radiation have missing values.",
-    digits = 1)
-    # booktabs = TRUE) 
-  # kable_styling(latex_options = c("hold_position"))
+    digits = 1,
+    label = "tab:miss-var-summary"
+    )
+
+print(tab_miss_var_summary, comment = FALSE, include.rownames = FALSE)
 
 
 
-## ----miss-var-table-----------------------------------------------------------
+## ----miss-var-table, results='asis'--------------------------------------------------
 
-miss_var_table(airquality) %>% 
-  knitr::kable(
+tab_miss_var_table <- miss_var_table(airquality) %>% 
+  xtable::xtable(
     caption = "The output of \\code{miss\\char`_var\\char`_table(airquality)}, tabulating the amount of missing data in each variable in airquality. This shows the number of variables with 0, 7, and 37 missings, and the percentage of variables with those amounts of missingness. There are few missingness patterns.",
-    digits = 1)
-    # booktabs = TRUE)
-  # kable_styling(latex_options = c("hold_position"))
+    digits = 1,
+    label = "tab:miss-var-table"
+    )
+
+print(tab_miss_var_table, comment = FALSE, include.rownames = FALSE)
 
 
-## ----group-miss-var-summary---------------------------------------------------
+## ----group-miss-var-summary, results='asis'------------------------------------------
 
-airquality %>%
+tab_group_miss_var_summary <- airquality %>%
   group_by(Month) %>%
   miss_var_summary() %>%
   ungroup() %>%
   slice(1:10) %>%
-  knitr::kable(caption = "Output of \\code{airquality \\%>\\% group\\char`_by(Month) \\%>\\% miss\\char`_var\\char`_summary()} provides a grouped summary of the missingness in each variable, for each month of the airquality dataset. Only the first 10 rows are shown. There are more ozone missings in June than May.",
-               digits = 1)
-               # booktabs = TRUE)
-  # kable_styling(latex_options = c("hold_position"))
+  xtable::xtable(
+    caption = "Output of \\code{airquality \\%>\\% group\\char`_by(Month) \\%>\\% miss\\char`_var\\char`_summary()} provides a grouped summary of the missingness in each variable, for each month of the airquality dataset. Only the first 10 rows are shown. There are more ozone missings in June than May.",
+    digits = 1,
+    label = "tab:group-miss-var-summary"
+    )
+
+print(tab_group_miss_var_summary, comment = FALSE, include.rownames = FALSE)
 
 
 
@@ -449,25 +465,32 @@ gg_miss_upset(housing,
 
 
 
-## ----housing-miss-var-case-table----------------------------------------------
+## ----housing-miss-var-case-table, results='asis'-------------------------------------
 
 t1 <-  miss_var_table(housing) 
 t2 <- miss_case_table(housing)
 
+t3 <- bind_cols(t1,t2)
 
-knitr::kable(list(t1, t2),
-             caption = "Summary tables to help understand missingness patters. Output of \\code{miss\\_var\\_table(housing)} (left), tabulating missingness for variables, and output of \\code{miss\\_case\\_table(housing)}. There are 13 variables with 0-3 missings, 6 variables have 6000-10000 missings, 2 variables have 15000 – 17000 missings. About 30\\% of cases have no missings, 45\\% of cases have 1 - 6 missings, and about 23\\% of cases have 8 or more missings. There are different patterns of missingness in variables and cases, but they can be broken down into smaller groups.",
-             digits = 1)
-             # booktabs = TRUE)
-  # kable_styling(latex_options = c("hold_position"))
+# knitr::kable(list(t1, t2),
+
+tab_housing_miss_var_case_table <- xtable::xtable(
+  t3,
+  caption = "Summary tables to help understand missingness patters. Output of \\code{miss\\_var\\_table(housing)} (left), tabulating missingness for variables, and output of \\code{miss\\_case\\_table(housing)} (right). There are 13 variables with 0-3 missings, 6 variables have 6000-10000 missings, 2 variables have 15000 – 17000 missings. About 30\\% of cases have no missings, 45\\% of cases have 1 - 6 missings, and about 23\\% of cases have 8 or more missings. There are different patterns of missingness in variables and cases, but they can be broken down into smaller groups.",
+  digits = 1,
+  label = "tab:housing-miss-var-case-table",
+  align = "llll||lll"
+  )
+
+print(tab_housing_miss_var_case_table, comment = FALSE, include.rownames = FALSE)
 
 
 
-## ----housing-cluster-miss-----------------------------------------------------
+## ----housing-cluster-miss------------------------------------------------------------
 housing_cls <- add_miss_cluster(housing, n_clusters = 2)
 
 
-## ----rpart-fit-cluster--------------------------------------------------------
+## ----rpart-fit-cluster---------------------------------------------------------------
 
 miss_cls_pre_fit <- housing_cls %>%
   mutate(year = lubridate::year(date),
@@ -538,7 +561,7 @@ node_4 <- data_in %>%
 
 
 
-## ----clean-data-for-analysis, include = FALSE, cache = TRUE-------------------
+## ----clean-data-for-analysis, include = FALSE, cache = TRUE--------------------------
 # add memoise to store the output data for this
 impute_knn <- simputation::impute_knn
 dat_house <- housing_cls %>%
@@ -572,7 +595,7 @@ dat_house_knn <- dat_house %>%
 
 
 
-## ----impute-knn, cache = TRUE-------------------------------------------------
+## ----impute-knn, cache = TRUE--------------------------------------------------------
 
 dat_house_lm <- dat_house %>%
   nabular() %>%
@@ -602,7 +625,7 @@ dat_house_lm <- dat_house %>%
 
 
 
-## ----compare-assess-imputations-----------------------------------------------
+## ----compare-assess-imputations------------------------------------------------------
 
 dat_house_cc <- dat_house %>% nabular() %>% add_label_shadow() %>% na.omit()
 
@@ -675,7 +698,7 @@ cowplot::plot_grid(p1,
 ## 
 
 
-## ----fit-each-model-----------------------------------------------------------
+## ----fit-each-model------------------------------------------------------------------
 
 dat_fit <- dat_house %>%
   mutate_at(vars(car,

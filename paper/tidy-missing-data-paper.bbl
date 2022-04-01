@@ -12,8 +12,8 @@
 \bibitem[{Barnett \emph{et~al.}(2017)Barnett, McElwee, Nathan, Burton, and
   Turrell}]{Barnett2017}
 Barnett AG, McElwee P, Nathan A, Burton NW, Turrell G (2017).
-\newblock \enquote{Identifying patterns of item missing survey data using
-  latent groups: an observational study.}
+\newblock \enquote{Identifying Patterns of Item Missing Survey Data Using
+  Latent Groups: An Observational Study.}
 \newblock \emph{BMJ Open}, \textbf{7}(10), e017284.
 \newblock ISSN 2044-6055, 2044-6055.
 \newblock \doi{10.1136/bmjopen-2017-017284}.
@@ -22,7 +22,7 @@ Barnett AG, McElwee P, Nathan A, Burton NW, Turrell G (2017).
 
 \bibitem[{Bilogur(2018)}]{Bilogur2018}
 Bilogur A (2018).
-\newblock \enquote{\pkg{Missingno}: a missing data visualization suite.}
+\newblock \enquote{\pkg{Missingno}: A Missing Data Visualization Suite.}
 \newblock \emph{Journal of Open Source Software}, \textbf{3}(22), 547.
 \newblock ISSN 2475-9066.
 \newblock \doi{10.21105/joss.00547}.
@@ -70,7 +70,7 @@ Conway JR, Lex A, Gehlenborg N (2017).
 Cook D, Swayne DF (2007).
 \newblock \emph{Interactive and {Dynamic} {Graphics} for {Data} {Analysis}:
   {With} \proglang{R} and \proglang{GGobi}}.
-\newblock Use {R}! Springer, New York.
+\newblock Use {R}! Springer-Verlag, New York.
 \newblock ISBN 978-0-387-71761-6.
 \newblock \doi{10.1007/978-0-387-71762-3}.
 \newblock \urlprefix\url{https://www.springer.com/gp/book/9780387717616}.
@@ -80,8 +80,8 @@ Cook D, Swayne DF (2007).
 Dempster AP, Laird NM, Rubin DB (1977).
 \newblock \enquote{Maximum {Likelihood} from {Incomplete} {Data} {Via} the {EM}
   {Algorithm}.}
-\newblock \emph{Journal of the Royal Statistical Society: Series B
-  (Methodological)}, \textbf{39}(1), 1--22.
+\newblock \emph{Journal of the Royal Statistical Society B (Methodological)},
+  \textbf{39}(1), 1--22.
 \newblock ISSN 2517-6161.
 \newblock \doi{10.1111/j.2517-6161.1977.tb01600.x}.
 \newblock \_eprint:
@@ -231,8 +231,8 @@ Moritz S, Bartz-Beielstein T (2017).
 
 \bibitem[{Novo. and Schafer(2013)}]{norm}
 Novo AA, Schafer JL (2013).
-\newblock \emph{\pkg{norm}: Analysis of multivariate normal datasets with
-  missing values}.
+\newblock \emph{\pkg{norm}: Analysis of Multivariate Normal Datasets With
+  Missing Values}.
 \newblock \proglang{R} package version 1.0-9.5; Ported to \proglang{R} by
   Alvaro A. Novo. Original by Joseph L. Schafer,
   \urlprefix\url{https://CRAN.R-project.org/package=norm}.
@@ -249,7 +249,7 @@ Pedersen TL, Robinson D (2017).
 Pedregosa F, Varoquaux G, Gramfort A, Michel V, Thirion B, Grisel O, Blondel M,
   Prettenhofer P, Weiss R, Dubourg V, Vanderplas J, Passos A, Cournapeau D
   (2011).
-\newblock \enquote{\pkg{Scikit-learn}: Machine learning in \proglang{Python}.}
+\newblock \enquote{\pkg{Scikit-learn}: Machine Learning in \proglang{Python}.}
 \newblock \emph{the Journal of machine Learning research}, \textbf{12},
   2825--2830.
 
@@ -276,13 +276,13 @@ Rushworth A (2021).
 
 \bibitem[{Schafer(1999)}]{schafer-norm}
 Schafer JL (1999).
-\newblock \enquote{\proglang{NORM}: Multiple imputation of incomplete
-  multivariate data under a normal model, version 2.}
+\newblock \enquote{\proglang{NORM}: Multiple Imputation of Incomplete
+  Multivariate Data Under a Normal Model, Version 2.}
 \newblock \emph{software for Windows}, \textbf{95}, 98.
 
 \bibitem[{Schafer and Graham(2002)}]{Schafer2002}
 Schafer JL, Graham JW (2002).
-\newblock \enquote{Missing data: our view of the state of the art.}
+\newblock \enquote{Missing Data: Our View of the State of the Art.}
 \newblock \emph{Psychological Methods}, \textbf{7}(2), 147--177.
 \newblock ISSN 1082-989X.
 
@@ -306,8 +306,8 @@ Silge J, Robinson D (2016).
   Kenward, Wood, and Carpenter}]{Sterne2009}
 Sterne JAC, White IR, Carlin JB, Spratt M, Royston P, Kenward MG, Wood AM,
   Carpenter JR (2009).
-\newblock \enquote{Multiple imputation for missing data in epidemiological and
-  clinical research: potential and pitfalls.}
+\newblock \enquote{Multiple Imputation for Missing Data in Epidemiological and
+  Clinical Research: Potential and Pitfalls.}
 \newblock \emph{BMJ}, \textbf{338}.
 \newblock ISSN 0959-8138, 1468-5833.
 \newblock \doi{10.1136/bmj.b2393}.
@@ -327,8 +327,8 @@ Su YS, Gelman A, Hill J, Yajima M (2011).
 
 \bibitem[{Swayne and Buja(1998)}]{Swayne1998}
 Swayne DF, Buja A (1998).
-\newblock \enquote{Missing data in interactive high-dimensional data
-  visualization.}
+\newblock \enquote{Missing Data in Interactive High-Dimensional Data
+  Visualization.}
 \newblock \emph{Computational Statistics}, \textbf{13}(1), 15--26.
 \newblock Publisher: Heidelberg: Physica-Verlag,[1992-.
 
@@ -349,8 +349,8 @@ Tierney N (2017).
 \bibitem[{Tierney \emph{et~al.}(2015)Tierney, Harden, Harden, and
   Mengersen}]{Tierney2015}
 Tierney NJ, Harden FA, Harden MJ, Mengersen KL (2015).
-\newblock \enquote{Using decision trees to understand structure in missing
-  data.}
+\newblock \enquote{Using Decision Trees to Understand Structure in Missing
+  Data.}
 \newblock \emph{BMJ Open}, \textbf{5}(6), e007450.
 \newblock ISSN 2044-6055, 2044-6055.
 \newblock \doi{10.1136/bmjopen-2014-007450}.
@@ -359,7 +359,7 @@ Tierney NJ, Harden FA, Harden MJ, Mengersen KL (2015).
 
 \bibitem[{Treisman(1985)}]{treisman1985}
 Treisman A (1985).
-\newblock \enquote{Preattentive processing in vision.}
+\newblock \enquote{Preattentive Processing in Vision.}
 \newblock \emph{Computer Vision, Graphics, and Image Processing},
   \textbf{31}(2), 156--177.
 \newblock ISSN 0734-189X.
@@ -381,7 +381,7 @@ Unwin A, Hawkins G, Hofmann H, Siegl B (1996).
 
 \bibitem[{Van~Buuren(2018)}]{vanBuuren2018}
 Van~Buuren S (2018).
-\newblock \emph{Flexible imputation of missing data}.
+\newblock \emph{Flexible Imputation of Missing Data}.
 \newblock CRC press.
 
 \bibitem[{{van der Loo}(2017)}]{simputation}
