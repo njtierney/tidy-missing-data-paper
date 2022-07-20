@@ -40,7 +40,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache = TRUE)
 options(tinytex.clean = FALSE)
 options(tinytex.verbose = TRUE)
-options(xtable.comment = FALSE)
 ```
 
 ```{r libs}
@@ -151,9 +150,9 @@ $$
 
 There are many ways each value can be missing, we adopt the notation used in [@vanBuuren2018]. The information in $B$ can be used to arrive at three categories of missing values: missing completely at random (MCAR), missing at random (MAR), and missing not at random (MNAR). The distribution of missing values in $b_{ij}$ can depend on the entire dataset, represented as $Y = (Y_{obs}, Y_{miss})$. This relationship can be defined by the *missing data model* $Pr(b_{ij} | Y_{obs}, Y_{miss}, \psi)$, the probability of missingness is conditional on data observed, data missing, and some probability parameter of missingness, $\psi$. This helps to precisely define categories of missing values.
 
-MCAR is where values being missing have no association with observed or unobserved data, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}) = Pr(B = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In MAR, missingness only depends on data observed, not data missing, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(B = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In MNAR, missingness is related to values observed, and unobserved: $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself. This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena. Visualizations can help assess whether data may be MCAR, MAR or MNAR.
+**MCAR** is where values being missing have no association with observed or unobserved data, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}) = Pr(B = 1 | \psi)$. Essentially, the probability of an observation being missing is unrelated to anything else, only the parameter $\psi$, the overall probability of missingness. Although a convenient scenario, it is not actually possible to confirm, or clearly distinguish from MAR, as it relies on statements on data unobserved. In **MAR**, missingness only depends on data observed, not data missing, that is, $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi) = Pr(B = 1 | Y_{obs}, \psi)$. Some structure or dependence between missing and observed values is allowed, provided it can be explained by data observed, and some overall probability of missingness. In **MNAR**, missingness is related to values observed, and unobserved: $Pr(B = 1 | Y_{obs}, Y_{miss}, \psi)$. This assumes conditioning on all observations: data goes missing due to some phenomena unobserved, including the structure of the missing data itself. This presents a challenge in analysis, as it is difficult to verify, and implies bias in analysis due to the unobserved phenomena. Visualizations can help assess whether data may be MCAR, MAR or MNAR.
 
-# Existing software {#existing-software}
+# Existing Software {#existing-software}
 
 Methods for exploring, understanding, and imputing missing data are more accessible now than they have ever been. Values can be imputed with one value (single imputation), or multiple values (multiple imputation), creating $m$ datasets. This section discusses existing software for single and multiple imputation, and missing data exploration.
 
@@ -288,7 +287,9 @@ We propose a new form for tidy representation of missing data based on these ide
 
 ```{r nabularfig, echo = FALSE, fig.cap = 'The process of creating nabular data. Data transformed to shadow matrix, where values are either not missing or missing: "!NA" or "NA". The shadow matrix can be converted to long form to create missingness summary plots. Nabular data is created by binding the columns of the data and shadow matrix. Special missing values (such as -99) are identified as special missings, and values imputed and tracked. Nabular data can be used to identify imputations and explore data values alongside missings, providing a useful format for missing data exploration and analysis.', out.width = "100%", fig.align = "center"}
 
-include_graphics(here("paper/images/diagram.png"))
+include_graphics(here::here("paper",
+                            "images",
+                            "diagram.png"))
 
 ```
 
@@ -301,7 +302,7 @@ Special missing values are not a new idea, and have been implemented in other st
 
 Common missing data operations can be considered verbs, in the tidyverse sense. For missing data, these include: **scan**, **replace**, **add**, **shadow**, **impute**, **track**, and **flag**. Data can be **scanned** to find possible missings not coded as \code{NA}. These values can then be **replaced** with \code{NA}. To facilitate exploration, summaries of missingness can be **added** as a summary column to the original data. The data can be augmented with the **shadow matrix** values, helping explore missing data, as well as facilitating the process of **imputing**, and **tracking**. Finally, unusual or specially coded missing values can be **flagged**.
 
-### Scan: searching for common missing value labels {#verbs-search}
+### scan: searching for common missing value labels {#verbs-search}
 
 This operation is used to search the data for specific conventional representations of missings, such as, "N/A", "MISSING", "-99". This is implemented in the function \code{miss_scan_count()}, which returns a table of occurrences of that value for each variable. A list of common NA values for numbers and characters, can be provided to help check for typical representations of missings. These are implemented in \pkg{naniar} as objects \code{common_na_numbers} and \code{common_na_strings}.
 
@@ -318,22 +319,23 @@ dat_ms <- tibble::tribble(~x,  ~y,    ~z,
 ```{r miss-scan-count, eval = FALSE}
 miss_scan_count(data = dat_ms, 
                 search = -99) %>% 
-  xtable::xtable(
-    caption = 'Table of the occurrences of the search "-99" in the data, "dat\\_ms". There is one occurrence if -99 in variables x and z.',
-    label = "tab:miss-scan-count"
-    )
+  knitr::kable(
+    caption = 'Table of the occurrences of the search "-99" in the data, "dat\\_ms". There is one occurrence if -99 in variables x and z.')
+    # booktabs = TRUE) 
+  # kable_styling(latex_options = c("hold_position"))
 ```
 
-### Replace: replacing values with missing values {#verbs-replace-with}
+### replace: replacing values with missing values {#verbs-replace-with}
 
 Once possible missing values have been identified, these values can be replaced. For example, a dataset could have the values "-99" meaning a missing value. \pkg{naniar} implements replacement with the function, \code{replace_with_na()}. Values "-99" could be replaced in the "x" column with: \code{replace_with_na(dat_ms, replace = list(x = -99))}. For operating on multiple variables, there are scoped variants for \code{replace_with_na()}: \code{_all}, \code{_if}, and \code{_at}. This means \code{replace_with_na_all()} operates on **all** columns, \code{replace_with_na_at()} operates **at** specific columns, and \code{replace_with_na_if()} makes a conditional change on columns **if** they meet some condition (such as \code{is.numeric()} or \code{is.character()}).
 
-### Add: adding missingness summary variables {#verbs-add-cols}
+### add: adding missingness summary variables {#verbs-add-cols}
 
 Understanding the missingness structure can be improved by adding summary information alongside the data. For example, in [@Tierney2015], the proportion of missings in a row is used as the outcome in a model to identify variables important in predicting missingness structures. \pkg{naniar} implements a series of functions to add these missingness summaries to the data, starting with \code{add_}. These are inspired by the \code{add_count()} function in \pkg{dplyr}, which adds count information for specified groups or conditions. \pkg{naniar} provides operations to add the number or proportion of missingness, the missingness cluster, or the presence of any missings, with: \code{add_n_miss()}, \code{add_prop_miss()}, \code{add_miss_cluster()}, and \code{add_any_miss()}, respectively (Table \@ref(tab:add-missing-info)). There are also functions for adding information about shadow values, and readable labels for any missing values with \code{add_label_shadow()} and \code{add_label_missings()}.
 
-```{r add-missing-info, results='asis'}
-tab_add_missing_info <- tibble::tibble(
+```{r add-missing-info}
+
+tibble::tibble(
   `Function` = c(
     "add_n_miss(data)",
     "add_any_miss(data)",
@@ -346,15 +348,11 @@ tab_add_missing_info <- tibble::tibble(
     "contains the proportion of missing values in a row",
     "contains the missing value cluster"
   )) %>% 
-    xtable::xtable(
-      caption = 'Overview of the "add" functions in naniar',
-      label = "tab:add-missing-info"
-      )
+    knitr::kable(caption = 'Overview of the "add" functions in naniar')
 
-print(tab_add_missing_info, comment = FALSE, include.rownames = FALSE)
 ```
 
-### Shadow: creating nabular data {#verbs-nabular}
+### shadow: creating nabular data {#verbs-nabular}
 
 *Nabular* data has the shadow matrix column-bound to existing data. This facilitates visualization and summaries, and allows for imputed values to be tracked. *Nabular* data can be created with \code{nabular()}:
 
@@ -362,7 +360,7 @@ print(tab_add_missing_info, comment = FALSE, include.rownames = FALSE)
 nabular(dat_ms)
 ```
 
-### Flag: describing different types of missing values {#verbs-recode}
+### flag: describing different types of missing values {#verbs-recode}
 
 Unusual or spurious data values are often identified and "flagged". For example, there might be special codes to mark an individual dropping out of a study, known instrument failure in weather instruments, or for values censored in analysis. \pkg{naniar} provides tools to encode these special types of missingness in the shadow matrix of *nabular* data, using \code{recode_shadow()}. This requires specifying the variable to contain the flagged value, the condition for flagging, and a suffix. This is then recoded as a new factor level in the shadow matrix, so every column is aware of all possible new values of missingness. For example, -99 could be recoded to indicate a broken machine sensor for the variable "x" with the following:
 
@@ -371,13 +369,13 @@ nabular(dat_ms) %>%
   recode_shadow(x = .where(x == -99 ~ "broken_sensor"))
 ```
 
-### Impute: imputing values {#verbs-impute}
+### impute: imputing values {#verbs-impute}
 
 \pkg{naniar} does not reinvent the wheel by creating the need for customised imputation procedures. Instead, the \code{nabular} format means existing methods using imputation replacement in place now automatically track missing values. \pkg{naniar} provides a few imputation methods to facilitate exploration and visualization: \code{impute_below()}, \code{impute_mean()}, and \code{impute_median()}. While useful to explore structure in missingness, they are not recommended for use in analysis. \code{impute_below()} imputes values below the minimum value, with some controllable jitter (random noise) to reduce overplotting.
 
 Similar to \pkg{simputation}, each \code{impute_} function returns the data with values imputed. However, \pkg{naniar} does not use a formula syntax, instead each function has "scoped variants" \code{_all}, \code{_at} and \code{_if}. \code{impute_} functions with no scoped variant, (\code{impute_mean()}), will work on a single vector, but not a data.frame. One challenge with this approach is imputed value locations are not tracked. This issue is resolved with *nabular* data covered in the following section.
 
-### Track: shadow and impute missing values {#verbs-track}
+### track: shadow and impute missing values {#verbs-track}
 
 To evaluate imputations they need to be tracked. This is achieved by first using *nabular* data, then imputing, and imputed values can then be referred to by their shadow variable, "_NA" (Figure \@ref(fig:track-impute-example)). The code below shows the track pattern, first using \code{nabular()}, then imputing with \code{impute_lm()}. \code{label_shadow()} then adds a label to facilitate identifying missings:
 
@@ -434,16 +432,12 @@ aq_imputed %>%
                .funs = lst(min, mean, median, max)) 
 ```
 
-```{r impute-summary-out, echo = FALSE, results='asis'}
-tab_impute_summary_out <- aq_imputed %>%
+```{r impute-summary-out, echo = FALSE}
+aq_imputed %>%
   group_by(any_missing) %>%
   summarise_at(.vars = vars(Ozone),
                .funs = lst(min, mean, median, max))  %>% 
-  xtable::xtable(
-    caption = 'Output of \\pkg{dplyr} summary statistics of imputed vs non imputed values for the variable "Ozone". The "any\\_missing" column denotes imputed values ("Missing", since they were previously missing), and non-imputed values ("Not Missing"). The mean and median values are similar, but the minimum and maximum values are very different.',
-    label = "tab:impute-summary-out"
-    )
-print(tab_impute_summary_out, comment = FALSE, include.rownames = FALSE)
+  kable(caption = 'Output of \\pkg{dplyr} summary statistics of imputed vs non imputed values for the variable "Ozone". The "any\\_missing" column denotes imputed values ("Missing", since they were previously missing), and non-imputed values ("Not Missing"). The mean and median values are similar, but the minimum and maximum values are very different.')
 ```
 
 # Graphics {#graphics}
@@ -597,7 +591,7 @@ This section describes approaches to summarizing missingness, and an implementat
 
 The overall number, proportion, or percent of missing values in a dataset should be simple to calculate. \pkg{naniar} provides the functions \code{n_miss()}, \code{prop_miss()} and \code{pct_miss()}, as well as their complements. Summaries for variables and cases are made by appending \code{_case} or \code{_var} to these summaries. An overview is shown in Table \@ref(tab:n-prop-pct-miss-complete).
 
-```{r n-prop-pct-miss-complete, echo = FALSE, results='asis'}
+```{r n-prop-pct-miss-complete, echo = FALSE}
 
 table_of_fun <- tibble::tibble(
   "Missing function" = c("n_miss", 
@@ -623,14 +617,12 @@ table_of_fun <- tibble::tibble(
 ) %>%
   mutate_if(is.numeric,round,2)
 
-show_table_of_fun <- xtable::xtable(
+knitr::kable(
   table_of_fun, 
   digits = 2,
-  caption = "Single number summaries of missingness and completeness of the airquality dataset. The functions follow consistent naming, making them easy to remember, and their use clear.",
-  label = "tab:n-prop-pct-miss-complete"
-  )
-
-print(show_table_of_fun, comment = FALSE, include.rownames = FALSE)
+  caption = "Single number summaries of missingness and completeness of the airquality dataset. The functions follow consistent naming, making them easy to remember, and their use clear.")
+  # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
@@ -640,48 +632,42 @@ Presenting the number and percent of missing values for each variable, or case, 
 
 These summaries order rows by the number of missings (\code{n_miss()}), to show the most missings at the top. The number of missings across a repeating span, or finding "runs" or "streaks" of missings in given variables can also be useful for identifying missingness patterns, and are implemented with \code{miss_var_span()}, and \code{miss_var_run()}.
 
-```{r miss-var-summary, results='asis'}
-tab_miss_var_summary <- miss_var_summary(airquality) %>% 
-  xtable::xtable(
-    caption = "\\texttt{miss\\char`_var\\char`_summary(airquality)} provides the number and percent of missings in each variable in airquality. Only ozone and solar radiation have missing values.",
-    digits = 1,
-    label = "tab:miss-var-summary"
-    )
+```{r miss-var-summary}
 
-print(tab_miss_var_summary, comment = FALSE, include.rownames = FALSE)
+miss_var_summary(airquality) %>% 
+  knitr::kable(
+    caption = "\\texttt{miss\\char`_var\\char`_summary(airquality)} provides the number and percent of missings in each variable in airquality. Only ozone and solar radiation have missing values.",
+    digits = 1)
+    # booktabs = TRUE) 
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
-```{r miss-var-table, results='asis'}
+```{r miss-var-table}
 
-tab_miss_var_table <- miss_var_table(airquality) %>% 
-  xtable::xtable(
+miss_var_table(airquality) %>% 
+  knitr::kable(
     caption = "The output of \\code{miss\\char`_var\\char`_table(airquality)}, tabulating the amount of missing data in each variable in airquality. This shows the number of variables with 0, 7, and 37 missings, and the percentage of variables with those amounts of missingness. There are few missingness patterns.",
-    digits = 1,
-    label = "tab:miss-var-table"
-    )
-
-print(tab_miss_var_table, comment = FALSE, include.rownames = FALSE)
+    digits = 1)
+    # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 ```
 
 ## Combining numerical summaries with grouping operations {#num-sum-w-group}
 
 It is useful to explore summaries and tabulations within groups of a dataset. \pkg{naniar} works with \pkg{dplyr}'s \code{group_by()} operator to produce grouped summaries, which work well with the "pipe" operator. Table \@ref(tab:group-miss-var-summary) below shows an example of missing data summaries for airquality, grouped by month.
 
-```{r group-miss-var-summary, results='asis'}
+```{r group-miss-var-summary}
 
-tab_group_miss_var_summary <- airquality %>%
+airquality %>%
   group_by(Month) %>%
   miss_var_summary() %>%
   ungroup() %>%
   slice(1:10) %>%
-  xtable::xtable(
-    caption = "Output of \\code{airquality \\%>\\% group\\char`_by(Month) \\%>\\% miss\\char`_var\\char`_summary()} provides a grouped summary of the missingness in each variable, for each month of the airquality dataset. Only the first 10 rows are shown. There are more ozone missings in June than May.",
-    digits = 1,
-    label = "tab:group-miss-var-summary"
-    )
-
-print(tab_group_miss_var_summary, comment = FALSE, include.rownames = FALSE)
+  knitr::kable(caption = "Output of \\code{airquality \\%>\\% group\\char`_by(Month) \\%>\\% miss\\char`_var\\char`_summary()} provides a grouped summary of the missingness in each variable, for each month of the airquality dataset. Only the first 10 rows are shown. There are more ozone missings in June than May.",
+               digits = 1)
+               # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
 
@@ -723,28 +709,21 @@ gg_miss_upset(housing,
 
 Tabulating the number of missings in variables in Table \@ref(tab:housing-miss-var-case-table) (left) shows three groups of missingness. Tabulating missings in cases (Table \@ref(tab:housing-miss-var-case-table) (right)) shows six patterns of missingness. These overview plots lead to the removal of two variables from with more than 50% missingness from analysis: "building area" and "year built".
 
-
-
-```{r housing-miss-var-case-table, results='asis'}
+```{r housing-miss-var-case-table}
 
 t1 <-  miss_var_table(housing) 
 t2 <- miss_case_table(housing)
 
-t3 <- bind_cols(t1,t2)
 
-# knitr::kable(list(t1, t2),
-
-tab_housing_miss_var_case_table <- xtable::xtable(
-  t3,
-  caption = "Summary tables to help understand missingness patters. Output of \\code{miss\\_var\\_table(housing)} (left), tabulating missingness for variables, and output of \\code{miss\\_case\\_table(housing)} (right). There are 13 variables with 0-3 missings, 6 variables have 6000-10000 missings, 2 variables have 15000 – 17000 missings. About 30\\% of cases have no missings, 45\\% of cases have 1 - 6 missings, and about 23\\% of cases have 8 or more missings. There are different patterns of missingness in variables and cases, but they can be broken down into smaller groups.",
-  digits = 1,
-  label = "tab:housing-miss-var-case-table",
-  align = "llll||lll"
-  )
-
-print(tab_housing_miss_var_case_table, comment = FALSE, include.rownames = FALSE)
+knitr::kable(list(t1, t2),
+             caption = "Summary tables to help understand missingness patters. Output of \\code{miss\\_var\\_table(housing)} (left), tabulating missingness for variables, and output of \\code{miss\\_case\\_table(housing)}. There are 13 variables with 0-3 missings, 6 variables have 6000-10000 missings, 2 variables have 15000 – 17000 missings. About 30\\% of cases have no missings, 45\\% of cases have 1 - 6 missings, and about 23\\% of cases have 8 or more missings. There are different patterns of missingness in variables and cases, but they can be broken down into smaller groups.",
+             digits = 1)
+             # booktabs = TRUE)
+  # kable_styling(latex_options = c("hold_position"))
 
 ```
+
+
 
 ## Exploring missingness patterns for imputation {#case-study-explore-for-imp}
 
