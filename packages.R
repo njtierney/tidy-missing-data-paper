@@ -1,5 +1,6 @@
 ## library() calls go here
 library(conflicted)
+library(cowplot)
 library(dotenv)
 library(fs)
 library(gridExtra)
