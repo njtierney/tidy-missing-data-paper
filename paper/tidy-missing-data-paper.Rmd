@@ -25,7 +25,11 @@ output:
     keep_tex: yes
     citation_package: 'natbib'
     includes:
-      in_header: "preamble.tex"
+      header-includes: 
+        - \usepackage{amsmath}
+        - \usepackage[english]{babel}
+        - \usepackage{float}
+        - \usepackage{booktabs}
 bibliography: "tidy-missing-data-zotero.bib"
 cls: jss.cls
 ---
@@ -67,6 +71,10 @@ with_dir(here(), {
 })
 ```
 
+
+```{r tar-read-housing}
+housing <- readr::read_rds(here::here("paper/housing.rds"))
+```
 
 # Introduction {#intro}
 
@@ -143,8 +151,8 @@ The convention for representing missingness is a **b**inary matrix, $B$, for dat
 
 $$
 b_{ij} =\begin{cases}
-1, & \text{if } y_{ij} \text{ is missing} \\
-0, & \text{if } y_{ij} \text{ is observed}
+  1, & \text{if } y_{ij} \text{ is missing} \\
+  0, & \text{if } y_{ij} \text{ is observed}
 \end{cases}
 $$
 
