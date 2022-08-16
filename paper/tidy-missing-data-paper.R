@@ -128,12 +128,13 @@ cowplot::plot_grid(p1,
           labels = LETTERS[1:4])
 
 
+## ----new-fig------------------------------------------------------------------
+knitr::include_graphics(here::here("paper/images/overview-diagram.png"))
+
+
 ## ----nabularfig, echo = FALSE, fig.cap = 'The process of creating nabular data. Data transformed to shadow matrix, where values are either not missing or missing: "!NA" or "NA". The shadow matrix can be converted to long form to create missingness summary plots. Nabular data is created by binding the columns of the data and shadow matrix. Special missing values (such as -99) are identified as special missings, and values imputed and tracked. Nabular data can be used to identify imputations and explore data values alongside missings, providing a useful format for missing data exploration and analysis.', out.width = "100%", fig.align = "center"----
 
-include_graphics(here::here("paper",
-                            "images",
-                            "diagram.png"))
-
+knitr::include_graphics(here::here("paper/images/overview-diagram.png"))
 
 
 ## ----setup-miss-scan-count----------------------------------------------------
