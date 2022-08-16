@@ -1,6 +1,3 @@
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations
 
 This is the repository for the paper: “Expanding tidy data principles to
@@ -26,8 +23,9 @@ There are three steps to reproduce the paper
 ## Step 1: Install `capsule`
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("milesmcbain/capsule")
+install.packages(
+   "capsule", 
+   repos = c(mm = "https://milesmcbain.r-universe.dev", getOption("repos")))
 ```
 
 ## Step 2: Reproduce the libraries used
