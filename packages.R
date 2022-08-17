@@ -1,4 +1,5 @@
 ## library() calls go here
+library(bookdown)
 library(conflicted)
 library(cowplot)
 library(dotenv)
