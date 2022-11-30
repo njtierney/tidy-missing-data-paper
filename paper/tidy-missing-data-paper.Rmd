@@ -14,7 +14,7 @@ title:
   # For running headers, if needed
   short:     "Explore missingness with \\pkg{naniar}"
 abstract: >
-  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as a key part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the \proglang{R} package \pkg{naniar}.
+  Despite the large body of research on missing value distributions and imputation, there is comparatively little literature with a focus on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with the goal of integrating missing value handling as a key part of data analysis workflows. We define a new data structure, and a suite of new operations. Together, these provide a connected framework for handling, exploring, and imputing missing values. These methods are available in the \proglang{R} package \pkg{naniar} \citep{pkg:naniar}, available from the Comprehensive \proglang{R} Archive Network (CRAN) at \url{https://CRAN.R-project.org/package=naniar}.
 keywords:
   # at least one keyword must be supplied
   formatted: [statistical computing, statistical graphics, data science, data visualization, "\\pkg{tidyverse}", data pipeline, "\\proglang{R}"]
@@ -105,7 +105,7 @@ The imputation literature focuses on ensuring valid statistical inference is mad
 
 However, something must be known about the missing value structure to produce a complete dataset for analysis, whether by case- or variable-deletion, or with imputation. Decision tree models or latent group analysis can reveal structures or patterns of missingness [@Tierney2015; @Barnett2017], but are not definitive. While there are times where the missing data mechanism is obvious, determining this is typically not straightforward. A straightforward case is where missing values are encoded in the data in a non standard format that still indicates missingness, such as "N.A.", "N/A", or "missing". However, identifying these amongst all data can be problematic as it is hard to know what you are looking for, like finding a needle in a haystack. A more challenging case is where missing values arise due to the increasing or decreasing values of other variables (including themselves). For example, in weather data, temperature values might go missing due to their own high temperature. Or similarly, other measurements go missing due to high temperatures. Identifying this requires exploring the data, and the analysis path to take is obvious, as missing values are often omitted from plots and other statistical summaries. To understand their structure and possible mechanisms, the analyst must explore the data with visualizations, summaries, and modelling, in an iterative fashion.
 
-While there have been many software tools for exploring missing data, they do not work together. The graphics literature provides several solutions for exploring missings visually by incorporating them into the plot in some way. For example, imputing values to be 10% below the minimum to include all observations into a scatter plot [@Cook2007], or treating missing values as an equal category of data [@Unwin1996]. The ideas from the graphics literature need to be translated into tidy data tools to integrate missing data handling in a data analysis pipeline.
+While there have been many software tools for exploring missing data, they do not work together. The graphics literature provides several solutions for exploring missings visually by incorporating them into the plot in some way. For example, imputing values to be 10% below the minimum to include all observations into a scatter plot [@Cook2007], or treating missing values as an equal category of data [@Unwin1996]. The ideas from the graphics literature need to be translated into tidy data tools to integrate missing data handling in a data analysis pipeline. We have implemented these tools for exploring missing data into the \proglang{R} package \pkg{naniar} \citep{pkg:naniar}, available from the Comprehensive \proglang{R} Archive Network (CRAN) at \url{https://CRAN.R-project.org/package=naniar}.
 
 This paper is organized in the following way. Section \@ref(background) provides the background to tidy data principles and tools (\@ref(tidy-data-concepts)) and missing data representations (\@ref(missing-data-rep-dep)). Section \@ref(existing-software) summarises existing software for handling missing data. The new work extending the tidy tools to facilitate exploring, visualizing, and imputing missing data is discussed in Section \@ref(extensions). Graphics (\@ref(graphics)) and Numerical summaries (\@ref(num-sum)) of missing values are then discussed. An application illustrating the use of the new methods is shown in Section \@ref(case-study). Section \@ref(discussion) discusses strengths, limitations, and future directions.
 
@@ -150,9 +150,9 @@ Taking existing methods from the missing data graphics literature, and translati
 The convention for representing missingness is a **b**inary matrix, $B$, for data $y$ with $i$ rows and $j$ columns:
 
 $$
-b_{ij} =\begin{cases}
-  1, & \text{if } y_{ij} \text{ is missing} \\
-  0, & \text{if } y_{ij} \text{ is observed}
+b_{ij} = \begin{cases}
+  1, \text{if } y_{ij} \text{ is missing} \\
+  0, \text{if } y_{ij} \text{ is observed}
 \end{cases}
 $$
 
@@ -195,7 +195,7 @@ The \pkg{inspectdf} package provides tools for summarising, comparing, and visua
 \pkg{ggplot2} removes missing values with a warning (Figure \@ref(fig:warning)), and only incorporates missingness into visualizations when mapping a discrete variable with missings to a graph aesthetic. This has some limitations, shown in Figure \@ref(fig:gg-box-na), a boxplot visualization of school grade and test scores. If there are missings in a continuous variable like test score, \pkg{ggplot2} omits the missings and prints a warning message. However, if a discrete variable like school year has missing values, an NA category is created for school year, where scores are placed.
 
 ```{r make-school-scores-data, echo = FALSE}
-
+set.seed(2022-11-29)
 school_scores <- data.frame(score = c(rnorm(20, 70, 10),
                                  rnorm(20, 85, 7.5),
                                  rnorm(20, 95, 5),
