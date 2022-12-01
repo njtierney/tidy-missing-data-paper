@@ -1,0 +1,32 @@
+
+############################
+# JSS 4108: naniar package #
+############################
+
+Dear Nick, 
+
+Many thanks for your reply and updates. Before sending it to publishing,
+I would appreciate if you could address the following points :
+
+- please add a sentence to the paper similar to:
+"Package  \pkg{naniar} \citep{pkg:naniar} is available from the Comprehensive \proglang{R}
+Archive Network (CRAN) at \url{https://CRAN.R-project.org/package=naniar}."
+
+> This has now been added at the end of the abstract and also in the second last paragraph of the introduction
+
+- Discrepancies in Figure 2: Thanks for the clarification.
+If the missing is added randomly, we would like to ask you to set a seed, such that the results are 
+_exactly_ reproducible (please update the results in the paper accordingly).
+
+> A seed has now been set for this
+
+- Discrepancies Figure 15/16 (knn): Would you know where this discrepancies are stemming from. We do aim that, if possible the results are exactly reproducible. 
+[Ainesh] Check in re-run of Ainesh
+
+- Please also add an email address in the affilation.
+
+
+
+Many thanks. Best, 
+Sandra
+
