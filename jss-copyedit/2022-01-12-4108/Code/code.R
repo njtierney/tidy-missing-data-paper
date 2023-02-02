@@ -728,7 +728,7 @@ tidy_fits %>%
   guides(colour = guide_legend(title = "Model"))
 
 
-## ----partial-resid, fig.cap = "Partial residual plot for each data set, complete cases (cc), and imputed with KNN (knn) or linear model (lm). These are plotted as hex bins, colored according to the number of points in a given hexagon. Brighter colors mean more points. Compared to complete cases, imputed data has more points clustered around zero.", fig.width = 9, fig.height = 3, out.width = "100%"----
+## ----partial-resid, fig.cap = "Partial residual plot for each data set, complete cases (cc), and imputed with KNN (knn) or linear model (lm). These are plotted as two dimensional filled density plots with 7 bins estimated. The bins are colored according to concentration of points in that area - brighter colors indicated higher concentration. Compared to complete cases, imputed data has more points clustered closer to 0 for residuals, and and around 6 fitted values.", fig.width = 9, fig.height = 3, out.width = "100%"----
 aug_fit_cc <-  broom::augment(fit_lm_dat_house_cc) %>% as_tibble()
 aug_fit_knn <- broom::augment(fit_lm_dat_house_knn) %>% as_tibble()
 aug_fit_lm <-  broom::augment(fit_lm_dat_house_lm)%>% as_tibble()
@@ -738,21 +738,19 @@ aug_fits <- bind_rows(cc =  aug_fit_cc,
                       lm =  aug_fit_lm,
                       .id = "model")
 
-gg_hex <- function(data,
-                   subset){
+ggplot(aug_fits, aes(x = .fitted,
+                     y = .resid)) + 
+  stat_density_2d(
+    geom = "polygon",
+    contour = TRUE,
+    aes(fill = after_stat(level)),
+    bins = 7
+  ) +
+  facet_wrap(vars(model)) +
+  scale_fill_viridis_c() + 
+  theme_bw() +
+  scale_x_continuous(n.breaks = 4) +
+  scale_y_continuous(n.breaks = 4) +
+  theme(legend.position = "none",
+        aspect.ratio = 1)
   
-  data_subset <- data %>% 
-    filter(model == subset)
-  
-    ggplot(data_subset, aes(x = .fitted,
-               y = .resid)) + 
-    geom_hex() + 
-    scale_fill_viridis_c() +
-    theme(legend.position = "bottom",
-          aspect.ratio = 1) +
-      labs(tag = subset)
-}
-
-gg_hex(aug_fits, "cc") +
-gg_hex(aug_fits, "knn") +
-gg_hex(aug_fits, "lm")

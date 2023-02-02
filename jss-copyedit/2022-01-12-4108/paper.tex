@@ -1352,14 +1352,9 @@ lower coefficients, compared to imputed datasets.}\label{fig:tidy-coefs}
 \begin{figure}
 \centering
 \includegraphics[width=1\linewidth]{partial-resid-1}
-\caption[Partial residual plot for each data set, complete cases (cc), and
-imputed with KNN (knn) or linear model (lm)]{Partial residual plot for each
-data set, complete cases (cc), and imputed with KNN (knn) or linear model
-(lm).  These are plotted as hex bins, colored according to the number of
-points in a given hexagon.  Brighter colors mean more points.  Compared to
-complete cases, imputed data has more points clustered around
-zero.}\label{fig:partial-resid}
+\caption[Partial residual plot for each data set, complete cases (cc), and imputed with KNN (knn) or linear model (lm). These are plotted as two dimensional filled density plots with 7 bins estimated. The bins are colored according to concentration of points in that area - brighter colors indicated higher concentration. Compared to complete cases, imputed data has more points clustered closer to 0 for residuals, and and around 6 fitted values.}\label{fig:partial-resid}
 \end{figure}
+
 
 \hypertarget{case-study-summary}{%
 \subsection{Summary}\label{case-study-summary}}

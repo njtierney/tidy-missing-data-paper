@@ -23,7 +23,11 @@ _exactly_ reproducible (please update the results in the paper accordingly).
 - Discrepancies Figure 15/16 (knn): Would you know where this discrepancies are stemming from. We do aim that, if possible the results are exactly reproducible. 
 [Ainesh] Check in re-run of Ainesh
 
+> I have added a seed in the relevant parts of the knn imputation parts of the model, I believe that this resolves this issue.
+
 - Please also add an email address in the affilation.
+
+> This has now been added
 
 
 
